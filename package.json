@@ -1,0 +1,12 @@
+{
+    "name": "jsonthing",
+    "private": true,
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "engines": {
+        "node": "20.x",
+        "pnpm": "9.x"
+    },
+    "packageManager": "pnpm@9.9.0"
+}
