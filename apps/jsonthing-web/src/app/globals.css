@@ -18,10 +18,11 @@ body {
     color: var(--foreground);
     background: var(--background);
     font-synthesis: none;
+    font-family: var(--font-geist-sans);
 }
 
 @layer base {
-  :root {
+    :root {
         --radius: 0.5rem;
     }
 }
