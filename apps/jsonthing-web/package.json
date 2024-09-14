@@ -36,6 +36,7 @@
         "postcss": "^8",
         "prettier": "3.3.3",
         "prettier-2": "npm:prettier@^2",
+        "prettier-plugin-tailwindcss": "^0.6.6",
         "tailwindcss": "^3.4.1",
         "ts-node": "^10.9.2",
         "typescript": "^5"
