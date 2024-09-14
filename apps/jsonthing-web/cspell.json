@@ -5,9 +5,5 @@
     "dictionaries": [],
     "ignoreWords": [],
     "import": [],
-    "words": [
-        "jsonthing",
-        "Parens",
-        "tailwindcss"
-    ]
+    "words": ["jsonthing", "nextjs", "Parens", "tailwindcss", "trpc"]
 }
