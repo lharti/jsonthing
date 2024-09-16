@@ -5,5 +5,12 @@
     "dictionaries": [],
     "ignoreWords": [],
     "import": [],
-    "words": ["jsonthing", "nextjs", "Parens", "tailwindcss", "trpc"]
+    "words": [
+        "jsonthing",
+        "nextjs",
+        "Parens",
+        "tailwindcss",
+        "testid",
+        "trpc"
+    ]
 }
