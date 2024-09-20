@@ -1,3 +1,4 @@
+import { Navbar } from '@/components/Navbar'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
@@ -31,7 +32,11 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                   ${geistMono.variable}
                 `}
             >
-                <ClerkProvider>{children}</ClerkProvider>
+                <ClerkProvider>
+                    <Navbar />
+
+                    {children}
+                </ClerkProvider>
             </body>
         </html>
     )
