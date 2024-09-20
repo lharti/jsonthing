@@ -1,26 +1,16 @@
-import { Button } from '@/components/ui/Button'
+import { Button, ButtonProps } from '@/components/ui/Button'
 import { SignInButton as ClerkSignInButton } from '@clerk/nextjs'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { SignInButton } from './SignInButton'
 
 jest.mock('@/components/ui/Button')
 jest.mock('@clerk/nextjs')
 
-const ButtonMock = jest.mocked(Button)
 const ClerkSignInButtonMock = jest.mocked(ClerkSignInButton)
+const ButtonMock = jest.mocked(Button)
 
 describe('<SignInButton />', () => {
-    it('should use <ClerkSignInButton />', () => {
-        expect.assertions(1)
-
-        const ClerkSignInButtonMock = jest.mocked(ClerkSignInButton)
-
-        render(<SignInButton />)
-
-        expect(ClerkSignInButtonMock).toHaveBeenCalledOnce()
-    })
-
-    it('should render custom sign-in button', () => {
+    it('should render custom sign in button', () => {
         expect.assertions(1)
 
         ButtonMock.mockImplementation(({ children, ...otherProps }) => (
@@ -28,24 +18,40 @@ describe('<SignInButton />', () => {
         ))
 
         ClerkSignInButtonMock.mockImplementation(({ children }) => (
-            <div data-testid="root-element">{children}</div>
+            <>{children}</>
         ))
 
-        render(<SignInButton />)
+        const { container } = render(<SignInButton />)
 
-        const rootElement = screen.getByTestId('root-element')
-
-        expect(rootElement).toMatchInlineSnapshot(`
-            <div
-              data-testid="root-element"
-            >
+        expect(container).toMatchInlineSnapshot(`
+            <div>
               <button
-                class="mr-2"
                 variant="ghost"
               >
                 Sign in
               </button>
             </div>
         `)
+    })
+
+    it('should pass props to <Button />', () => {
+        expect.assertions(1)
+
+        ClerkSignInButtonMock.mockImplementation(({ children }) => (
+            <>{children}</>
+        ))
+
+        const buttonProps: ButtonProps = {
+            className: 'm-2 ms-5 bg-red-50',
+            disabled: true,
+            onClick: jest.fn(),
+        }
+
+        render(<SignInButton {...buttonProps} />)
+
+        expect(ButtonMock).toHaveBeenCalledWith(
+            expect.objectContaining(buttonProps),
+            undefined,
+        )
     })
 })

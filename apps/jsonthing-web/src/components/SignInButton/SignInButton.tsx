@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/Button'
+import { Button, ButtonProps } from '@/components/ui/Button'
 import { SignInButton as ClerkSignInButton } from '@clerk/nextjs'
 import React from 'react'
 
-export const SignInButton: React.FC = () => {
+export const SignInButton: React.FC<ButtonProps> = props => {
     return (
         <ClerkSignInButton>
-            <Button className="mr-2" variant="ghost">
+            <Button variant="ghost" {...props}>
                 {'Sign in'}
             </Button>
         </ClerkSignInButton>
