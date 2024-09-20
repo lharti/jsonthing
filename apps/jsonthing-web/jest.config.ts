@@ -9,7 +9,7 @@ const createJestConfig = nextJest({
 })
 
 const config: Config = {
-    clearMocks: true,
+    resetMocks: true,
 
     coverageProvider: 'v8',
     testEnvironment: 'jsdom',
