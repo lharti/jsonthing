@@ -14,7 +14,7 @@
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx}": [
-            "pnpm run lint:fix",
+            "pnpm exec eslint . --fix",
             "pnpm jest --bail --findRelatedTests --passWithNoTests"
         ],
         "*.{js,jsx,json,ts,tsx,yaml,yml,md,html}": [
