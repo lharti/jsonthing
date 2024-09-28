@@ -1,0 +1,317 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`codemirrorLight should return light theme: codemirror light theme 1`] = `
+[
+  [
+    FacetProvider {
+      "dependencies": [],
+      "facet": Facet {
+        "combine": [Function],
+        "compare": [Function],
+        "compareInput": [Function],
+        "default": "",
+        "extensions": undefined,
+        "id": 32,
+        "isStatic": false,
+      },
+      "id": 100,
+      "type": 0,
+      "value": "ͼo",
+    },
+    FacetProvider {
+      "dependencies": [],
+      "facet": Facet {
+        "combine": [Function],
+        "compare": [Function],
+        "compareInput": [Function],
+        "default": [],
+        "extensions": undefined,
+        "id": 31,
+        "isStatic": false,
+      },
+      "id": 101,
+      "type": 0,
+      "value": StyleModule {
+        "rules": [
+          ".ͼo .cm-gutters {background-color: #FAFAFA; color: #90A4AE; border-right-color: transparent;}",
+          ".ͼo {background-color: #FAFAFA; color: #90A4AE; font-size: 14px;}",
+          ".ͼo.cm-editor .cm-scroller {font-family: var(--font-geist-mono);}",
+          ".ͼo .cm-content {caret-color: #272727;}",
+          ".ͼo .cm-cursor, .ͼo .cm-dropCursor {border-left-color: #272727;}",
+          ".ͼo .cm-activeLine {background-color: #CCD7DA50;}",
+          ".ͼo .cm-activeLineGutter {background-color: #CCD7DA50;}",
+          ".ͼo.cm-focused .cm-selectionBackground, .ͼo .cm-line::selection, .ͼo .cm-selectionLayer .cm-selectionBackground, .ͼo .cm-content ::selection {background: #80CBC440 !important;}",
+          ".ͼo .cm-selectionMatch {background-color: #80CBC440;}",
+        ],
+      },
+    },
+  ],
+  [
+    PrecExtension {
+      "inner": ViewPlugin {
+        "create": [Function],
+        "domEventHandlers": undefined,
+        "domEventObservers": undefined,
+        "extension": [
+          FacetProvider {
+            "dependencies": [],
+            "facet": Facet {
+              "combine": [Function],
+              "compare": [Function],
+              "compareInput": [Function],
+              "default": [],
+              "extensions": undefined,
+              "id": 23,
+              "isStatic": false,
+            },
+            "id": 90,
+            "type": 0,
+            "value": [Circular],
+          },
+          FacetProvider {
+            "dependencies": [],
+            "facet": Facet {
+              "combine": [Function],
+              "compare": [Function],
+              "compareInput": [Function],
+              "default": [],
+              "extensions": undefined,
+              "id": 26,
+              "isStatic": false,
+            },
+            "id": 91,
+            "type": 0,
+            "value": [Function],
+          },
+        ],
+        "id": 12,
+      },
+      "prec": 1,
+    },
+    FacetProvider {
+      "dependencies": [],
+      "facet": Facet {
+        "combine": [Function],
+        "compare": [Function],
+        "compareInput": [Function],
+        "default": [],
+        "extensions": undefined,
+        "id": 31,
+        "isStatic": false,
+      },
+      "id": 102,
+      "type": 0,
+      "value": StyleModule {
+        "rules": [
+          ".ͼp {color: #90A4AE; font-weight: bolder;}",
+          ".ͼq {color: #6182B8;}",
+          ".ͼr {color: #91B859;}",
+          ".ͼs {color: #F76D47;}",
+          ".ͼt {color: #91B859; font-weight: bold;}",
+        ],
+      },
+    },
+    FacetProvider {
+      "dependencies": [],
+      "facet": Facet {
+        "combine": [Function],
+        "compare": [Function],
+        "compareInput": [Function],
+        "default": [],
+        "extensions": undefined,
+        "id": 88,
+        "isStatic": false,
+      },
+      "id": 103,
+      "type": 0,
+      "value": HighlightStyle {
+        "module": StyleModule {
+          "rules": [
+            ".ͼp {color: #90A4AE; font-weight: bolder;}",
+            ".ͼq {color: #6182B8;}",
+            ".ͼr {color: #91B859;}",
+            ".ͼs {color: #F76D47;}",
+            ".ͼt {color: #91B859; font-weight: bold;}",
+          ],
+        },
+        "scope": undefined,
+        "specs": [
+          {
+            "color": "#90A4AE",
+            "fontWeight": "bolder",
+            "tag": [
+              Tag {
+                "base": null,
+                "id": 12,
+                "modified": [],
+                "name": "bracket",
+                "set": [
+                  [Circular],
+                  Tag {
+                    "base": null,
+                    "id": 11,
+                    "modified": [],
+                    "name": "punctuation",
+                    "set": [
+                      [Circular],
+                    ],
+                  },
+                ],
+              },
+              Tag {
+                "base": null,
+                "id": 56,
+                "modified": [],
+                "name": "brace",
+                "set": [
+                  [Circular],
+                  Tag {
+                    "base": null,
+                    "id": 12,
+                    "modified": [],
+                    "name": "bracket",
+                    "set": [
+                      [Circular],
+                      Tag {
+                        "base": null,
+                        "id": 11,
+                        "modified": [],
+                        "name": "punctuation",
+                        "set": [
+                          [Circular],
+                        ],
+                      },
+                    ],
+                  },
+                  Tag {
+                    "base": null,
+                    "id": 11,
+                    "modified": [],
+                    "name": "punctuation",
+                    "set": [
+                      [Circular],
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "color": "#6182B8",
+            "tag": [
+              Tag {
+                "base": null,
+                "id": 3,
+                "modified": [],
+                "name": "propertyName",
+                "set": [
+                  [Circular],
+                  Tag {
+                    "base": null,
+                    "id": 1,
+                    "modified": [],
+                    "name": "name",
+                    "set": [
+                      [Circular],
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "color": "#91B859",
+            "tag": [
+              Tag {
+                "base": null,
+                "id": 5,
+                "modified": [],
+                "name": "string",
+                "set": [
+                  [Circular],
+                  Tag {
+                    "base": null,
+                    "id": 4,
+                    "modified": [],
+                    "name": "literal",
+                    "set": [
+                      [Circular],
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "color": "#F76D47",
+            "tag": [
+              Tag {
+                "base": null,
+                "id": 6,
+                "modified": [],
+                "name": "number",
+                "set": [
+                  [Circular],
+                  Tag {
+                    "base": null,
+                    "id": 4,
+                    "modified": [],
+                    "name": "literal",
+                    "set": [
+                      [Circular],
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "color": "#91B859",
+            "fontWeight": "bold",
+            "tag": [
+              Tag {
+                "base": null,
+                "id": 29,
+                "modified": [],
+                "name": "bool",
+                "set": [
+                  [Circular],
+                  Tag {
+                    "base": null,
+                    "id": 4,
+                    "modified": [],
+                    "name": "literal",
+                    "set": [
+                      [Circular],
+                    ],
+                  },
+                ],
+              },
+              Tag {
+                "base": null,
+                "id": 35,
+                "modified": [],
+                "name": "null",
+                "set": [
+                  [Circular],
+                  Tag {
+                    "base": null,
+                    "id": 9,
+                    "modified": [],
+                    "name": "keyword",
+                    "set": [
+                      [Circular],
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        "style": [Function],
+        "themeType": undefined,
+      },
+    },
+  ],
+]
+`;
