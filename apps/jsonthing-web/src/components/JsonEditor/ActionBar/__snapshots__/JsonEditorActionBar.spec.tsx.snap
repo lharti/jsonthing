@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<JsonEditorActionBar /> should render: <JsonEditorActionBar /> 1`] = `
+<div>
+  <div>
+    <button
+      class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 border border-gray-200 shadow-sm dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 hover:bg-gray-100 hover:text-gray-900 my-2 h-6 rounded-none bg-transparent p-0 px-2"
+    >
+      Prettify
+    </button>
+  </div>
+</div>
+`;
