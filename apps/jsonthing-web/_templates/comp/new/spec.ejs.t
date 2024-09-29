@@ -11,7 +11,7 @@ describe('<<%= name %> />', () => {
 
         const title = 'Hello from Test!'
 
-        const { container } = render(<Test title={title} />)
+        const { container } = render(<<%= name%> title={title} />)
 
         expect(container).toMatchInlineSnapshot(`
             <div>
