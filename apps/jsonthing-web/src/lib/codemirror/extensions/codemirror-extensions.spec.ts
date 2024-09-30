@@ -65,6 +65,10 @@ describe('codeMirrorExtensions', () => {
             '.cm-gutterElement.cm-activeLineGutter': {
                 backgroundColor: 'transparent',
             },
+
+            '.cm-cursor': {
+                borderLeftWidth: '2px',
+            },
         })
     })
 
