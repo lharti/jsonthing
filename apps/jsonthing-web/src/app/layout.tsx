@@ -1,4 +1,4 @@
-import { Navbar } from '@/components/Navbar'
+import { TooltipProvider } from '@/components/ui/Tooltip'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
@@ -33,9 +33,11 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                 `}
             >
                 <ClerkProvider>
-                    <Navbar />
-
-                    {children}
+                    <TooltipProvider>
+                        <div className="container mx-auto max-w-screen-md">
+                            {children}
+                        </div>
+                    </TooltipProvider>
                 </ClerkProvider>
             </body>
         </html>
