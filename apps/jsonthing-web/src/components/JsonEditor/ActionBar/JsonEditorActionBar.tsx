@@ -1,6 +1,12 @@
-import { Button } from '@/components/ui/Button'
 import { prettifyJson } from '@/lib/prettify-json'
+import { cn } from '@/lib/utils'
+import {
+    IconClipboardCopy,
+    IconDeviceFloppy,
+    IconWand,
+} from '@tabler/icons-react'
 import React from 'react'
+import { JsonEditorActionBarBtn } from '../ActionBarBtn'
 
 export interface JsonEditorActionBarProps {
     className?: string
@@ -15,19 +21,35 @@ export const JsonEditorActionBar: React.FC<JsonEditorActionBarProps> = ({
     editorContent,
     setEditorContent,
 }) => {
-    return (
-        <div className={className}>
-            <Button
-                variant="outline"
-                className="my-2 h-6 rounded-none bg-transparent p-0 px-2"
-                onClick={() => {
-                    const prettyEditorContent = prettifyJson(editorContent)
+    const handlePrettify = () => {
+        setEditorContent(prettifyJson(editorContent))
+    }
 
-                    setEditorContent(prettyEditorContent)
-                }}
-            >
-                {'Prettify'}
-            </Button>
+    const handleCopyToClipboard = () => {
+        navigator.clipboard.writeText(editorContent)
+    }
+
+    return (
+        <div className={cn('flex', className)}>
+            <JsonEditorActionBarBtn
+                iconOnly
+                label="Prettify"
+                Icon={IconWand}
+                onClick={handlePrettify}
+            />
+
+            <JsonEditorActionBarBtn
+                iconOnly
+                label="Copy"
+                Icon={IconClipboardCopy}
+                onClick={handleCopyToClipboard}
+            />
+            <JsonEditorActionBarBtn
+                variant="outline"
+                label="Save"
+                Icon={IconDeviceFloppy}
+                onClick={handleCopyToClipboard}
+            />
         </div>
     )
 }

@@ -29,7 +29,9 @@ describe('<JsonEditor />', () => {
 
         expect(container).toMatchInlineSnapshot(`
             <div>
-              <div>
+              <div
+                class="flex flex-col"
+              >
                 <div>
                   JsonEditorActionBar
                 </div>
@@ -81,6 +83,7 @@ describe('<JsonEditor />', () => {
         expect(JsonEditorActionBarMock).toHaveBeenCalledExactlyOnceWith({
             editorContent,
             setEditorContent,
+            className: 'self-end',
         })
     })
 })
