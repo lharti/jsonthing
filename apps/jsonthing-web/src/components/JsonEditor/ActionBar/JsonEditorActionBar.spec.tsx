@@ -1,19 +1,27 @@
 import { Button } from '@/components/ui/Button'
+import { IconClipboardCopy, IconWand } from '@tabler/icons-react'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
+import { JsonEditorActionBarBtn } from '../ActionBarBtn'
 import { JsonEditorActionBar } from './JsonEditorActionBar'
 
-// eslint-disable-next-line jest/no-untyped-mock-factory
-jest.mock('../ActionBarBtn', () => ({
-    // @ts-expect-error - mom said it's okay
-    JsonEditorActionBarBtn: ({ onClick, label }) => (
-        <Button role="button" aria-label={label} onClick={onClick} />
-    ),
-}))
+jest.mock('../ActionBarBtn')
+const JsonEditorActionBarBtnMock = jest.mocked(JsonEditorActionBarBtn)
+
+const mockActionBarBtn = () => {
+    return JsonEditorActionBarBtnMock.mockImplementation(
+        ({ onClick, label }) => (
+            <Button role="button" aria-label={label} onClick={onClick} />
+        ),
+    )
+}
 
 describe('<JsonEditorActionBar />', () => {
     it('should render', () => {
         expect.assertions(1)
+
+        mockActionBarBtn()
 
         const { container } = render(
             <JsonEditorActionBar
@@ -25,36 +33,117 @@ describe('<JsonEditorActionBar />', () => {
         expect(container).toMatchSnapshot('<JsonEditorActionBar />')
     })
 
-    it('should prettify editor content', () => {
-        expect.assertions(1)
+    describe('prettify button', () => {
+        it('should be setup correctly', () => {
+            expect.assertions(1)
 
-        const setEditorContent = jest.fn(value => value)
+            const ActionBtnMock = mockActionBarBtn()
 
-        const uglyJson = `
+            render(
+                <JsonEditorActionBar
+                    editorContent="{}"
+                    setEditorContent={jest.fn()}
+                />,
+            )
+
+            expect(ActionBtnMock).toHaveBeenCalledWith(
+                {
+                    iconOnly: true,
+                    label: 'Prettify',
+                    Icon: IconWand,
+                    onClick: expect.any(Function),
+                },
+
+                undefined,
+            )
+        })
+
+        it('should prettify editor content when clicked', () => {
+            expect.assertions(1)
+
+            mockActionBarBtn()
+
+            const uglyJson = `
             {"a":1,"b":2,
             "c": 3}`
 
-        render(
-            <JsonEditorActionBar
-                editorContent={uglyJson}
-                setEditorContent={setEditorContent}
-            />,
-        )
+            const setEditorContent = jest.fn(value => value)
 
-        screen
-            .getByRole('button', {
+            render(
+                <JsonEditorActionBar
+                    editorContent={uglyJson}
+                    setEditorContent={setEditorContent}
+                />,
+            )
+
+            const prettifyBtn = screen.getByRole('button', {
                 name: 'Prettify',
             })
-            .click()
 
-        const newEditorContent = setEditorContent.mock.results[0].value
+            prettifyBtn.click()
 
-        expect(newEditorContent).toMatchInlineSnapshot(`
-            "{
-              "a": 1,
-              "b": 2,
-              "c": 3
-            }"
-        `)
+            const newEditorContent = setEditorContent.mock.results[0].value
+
+            expect(newEditorContent).toMatchInlineSnapshot(`
+                            "{
+                              "a": 1,
+                              "b": 2,
+                              "c": 3
+                            }"
+                    `)
+        })
+    })
+
+    describe('copy button', () => {
+        it('should be setup correctly', () => {
+            expect.assertions(1)
+
+            const ActionBtnMock = mockActionBarBtn()
+
+            render(
+                <JsonEditorActionBar
+                    editorContent="{}"
+                    setEditorContent={jest.fn()}
+                />,
+            )
+
+            expect(ActionBtnMock).toHaveBeenCalledWith(
+                {
+                    iconOnly: true,
+                    label: 'Copy',
+                    Icon: IconClipboardCopy,
+                    onClick: expect.any(Function),
+                },
+
+                undefined,
+            )
+        })
+
+        it('should copy editor content to clipboard', async () => {
+            expect.assertions(1)
+
+            userEvent.setup()
+
+            mockActionBarBtn()
+
+            const editorContent = `{"random": ${Math.random()}`
+
+            render(
+                <JsonEditorActionBar
+                    editorContent={editorContent}
+                    setEditorContent={jest.fn()}
+                />,
+            )
+
+            const copyBtn = screen.getByRole('button', {
+                name: 'Copy',
+            })
+
+            copyBtn.click()
+
+            const clipboardText = await navigator.clipboard.readText()
+
+            expect(clipboardText).toStrictEqual(editorContent)
+        })
     })
 })
