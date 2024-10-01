@@ -11,7 +11,12 @@ module.exports = {
     overrides: [
         {
             files: ['*.test.ts', '*.spec.ts'],
+
             extends: ['plugin:jest/all', 'plugin:jest-extended/all'],
+
+            rules: {
+                'jest/prefer-importing-jest-globals': 'off',
+            },
         },
     ],
 
@@ -34,6 +39,8 @@ module.exports = {
         ],
 
         'require-await': [2],
+
+        '@typescript-eslint/no-extraneous-class': 'off',
     },
 
     parser: '@typescript-eslint/parser',

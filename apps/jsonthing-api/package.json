@@ -16,10 +16,11 @@
         "test:watch": "jest src --watch",
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-        "test:e2e": "jest test"
+        "test:e2e": "jest test",
+        "pre-commit": "lint-staged"
     },
     "lint-staged": {
-        "*.{ts}": [
+        "*.ts": [
             "pnpm exec eslint . --fix",
             "pnpm jest --bail --findRelatedTests --passWithNoTests"
         ],
