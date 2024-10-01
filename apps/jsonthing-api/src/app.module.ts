@@ -1,11 +1,16 @@
+import { DatabaseModule } from '@/database.module'
+import { DocsModule } from '@/routes/docs'
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
-    imports: [],
-    controllers: [AppController],
-    providers: [AppService],
+    imports: [
+        ConfigModule.forRoot(),
+
+        DatabaseModule,
+
+        // API ROUTES
+        DocsModule,
+    ],
 })
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class AppModule {}
