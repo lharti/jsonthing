@@ -1,17 +1,17 @@
-import { databaseConfig } from '@/config/database.config'
+import { AppConfig } from '@/config/app.config'
 import { Module } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigService } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 
 @Module({
     imports: [
         MongooseModule.forRootAsync({
-            imports: [ConfigModule.forFeature(databaseConfig)],
-
-            useFactory: databaseConfig => ({
-                uri: databaseConfig.get('uri'),
-                dbName: databaseConfig.get('name'),
-            }),
+            useFactory: (configService: ConfigService<AppConfig>) => {
+                return {
+                    uri: configService.get('DB_URI'),
+                    dbName: configService.get('DB_NAME'),
+                }
+            },
 
             inject: [ConfigService],
         }),
