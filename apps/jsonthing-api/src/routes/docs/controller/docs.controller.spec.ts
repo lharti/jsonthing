@@ -1,6 +1,9 @@
 import { DatabaseError } from '@/common/errors/database.error'
 import { DocsService } from '@/routes/docs/service'
-import { InternalServerErrorException } from '@nestjs/common'
+import {
+    InternalServerErrorException,
+    NotFoundException,
+} from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import mongoose from 'mongoose'
 import { errAsync, okAsync } from 'neverthrow'
@@ -16,6 +19,15 @@ const testingModuleMetadata = {
                     okAsync({
                         ...payload,
                         _id: new mongoose.Types.ObjectId(),
+                    }),
+                ),
+
+                tryGetDocById: jest.fn(docId =>
+                    okAsync({
+                        _id: docId.toString(),
+                        name: 'test',
+                        content: 'test',
+                        type: 'JSON',
                     }),
                 ),
             },
@@ -94,6 +106,63 @@ describe('docsController', () => {
             await expect(docsController.createDoc()).rejects.toThrow(
                 internalException,
             )
+        })
+    })
+
+    describe('getDoc', () => {
+        it('should get a doc by id', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            const result = await docsController.getDoc(targetDocId)
+
+            expect(result).toStrictEqual({
+                _id: targetDocId,
+                name: 'test',
+                content: 'test',
+                type: 'JSON',
+            })
+        })
+
+        it('should throw NotFoundException if doc not found', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            docsService.tryGetDocById.mockImplementation(() =>
+                okAsync(null),
+            )
+
+            const notFoundException = new NotFoundException(
+                'Doc not found',
+            )
+
+            await expect(
+                docsController.getDoc(targetDocId),
+            ).rejects.toThrow(notFoundException)
+        })
+
+        it('should throw InternalServiceErrorException if doc retrieval failed', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            docsService.tryGetDocById.mockImplementation(() =>
+                errAsync(new Error('something went wrong')),
+            )
+
+            const internalException =
+                new InternalServerErrorException(
+                    'Failed to get doc: Error',
+                )
+
+            await expect(
+                docsController.getDoc(targetDocId),
+            ).rejects.toThrow(internalException)
         })
     })
 })

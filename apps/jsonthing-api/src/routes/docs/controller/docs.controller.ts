@@ -2,9 +2,13 @@
 import {
     Body,
     Controller,
+    Get,
     InternalServerErrorException,
+    NotFoundException,
+    Param,
     Post,
 } from '@nestjs/common'
+import mongoose from 'mongoose'
 import { CreateDocDto } from '../dtos'
 import { DocsService } from '../service'
 
@@ -22,6 +26,27 @@ export class DocsController {
             err => {
                 throw new InternalServerErrorException(
                     `Failed to create doc: ${err.name}`,
+                )
+            },
+        )
+    }
+
+    @Get(':id')
+    getDoc(@Param('id') docId: string) {
+        const queryId = new mongoose.Types.ObjectId(docId)
+
+        const result = this.docsService.tryGetDocById(queryId)
+
+        return result.match(
+            doc => {
+                if (!doc) {
+                    throw new NotFoundException('Doc not found')
+                } else return doc
+            },
+
+            err => {
+                throw new InternalServerErrorException(
+                    `Failed to get doc: ${err.name}`,
                 )
             },
         )

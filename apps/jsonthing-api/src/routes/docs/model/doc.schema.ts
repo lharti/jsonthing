@@ -3,12 +3,15 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import mongoose from 'mongoose'
 import { ResultAsync } from 'neverthrow'
 import { DocType } from '../constants'
-import { DocsModel, TryCreate } from './doc.types'
+import {
+    DocDocument,
+    DocsModel,
+    TryCreate,
+    TryFindById,
+} from './doc.types'
 
 @Schema()
 export class Doc {
-    _id?: mongoose.Types.ObjectId
-
     @Prop({
         required: true,
         minlength: 1,
@@ -46,8 +49,26 @@ const tryCreate: TryCreate = function (docPayload: Doc) {
     )
 }
 
+const tryFindById: TryFindById = function (id) {
+    type SafeFindByIdParams = Parameters<TryFindById>
+
+    const safeFindById = ResultAsync.fromThrowable<
+        SafeFindByIdParams,
+        DocDocument | null,
+        DatabaseError
+    >(this.findById.bind(this))
+
+    return safeFindById(id)
+        .map(result => result)
+        .mapErr(
+            (error: mongoose.Error) =>
+                new DatabaseError('Failed to find Doc', error),
+        )
+}
+
 DocSchema.static({
     tryCreate,
+    tryFindById,
 })
 // Static methods end
 
