@@ -12,7 +12,7 @@ const config: Config = {
         '^.+\\.(t|j)s$': 'ts-jest',
     },
 
-    collectCoverageFrom: ['**/*.(t|j)s'],
+    collectCoverageFrom: ['src/**/*.(t|j)s'],
 
     coverageDirectory: '<rootDir>/coverage',
 
