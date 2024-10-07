@@ -8,6 +8,7 @@ import {
     DocsModel,
     TryCreate,
     TryFindById,
+    TryFindByIdAndUpdate,
 } from './doc.types'
 
 @Schema()
@@ -66,9 +67,33 @@ const tryFindById: TryFindById = function (id) {
         )
 }
 
+const tryFindByIdAndUpdate: TryFindByIdAndUpdate = function (
+    id,
+    updatePayload,
+
+    options = { new: true },
+) {
+    type SafeFindByIdAndUpdateParams =
+        Parameters<TryFindByIdAndUpdate>
+
+    const safeFindByIdAndUpdate = ResultAsync.fromThrowable<
+        SafeFindByIdAndUpdateParams,
+        DocDocument | null,
+        DatabaseError
+    >(this.findByIdAndUpdate.bind(this))
+
+    return safeFindByIdAndUpdate(id, updatePayload, options)
+        .map(result => result)
+        .mapErr(
+            (error: mongoose.Error) =>
+                new DatabaseError('Failed to find Doc', error),
+        )
+}
+
 DocSchema.static({
     tryCreate,
     tryFindById,
+    tryFindByIdAndUpdate,
 })
 // Static methods end
 

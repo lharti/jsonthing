@@ -32,6 +32,16 @@ const testingModuleMetadata = {
                         type: DocType.JSON,
                     }),
                 ),
+
+                tryFindByIdAndUpdate: jest.fn((id, updatePayload) =>
+                    okAsync({
+                        _id: id,
+                        name: 'test',
+                        content: 'test',
+                        type: DocType.JSON,
+                        ...updatePayload,
+                    }),
+                ),
             },
         },
     ],
@@ -156,6 +166,54 @@ describe('docsService', () => {
 
             const result = await docsService
                 .tryGetDocById(new mongoose.Types.ObjectId())
+                .match(
+                    doc => doc,
+                    error => error,
+                )
+
+            expect(result).toStrictEqual(databaseError)
+        })
+    })
+
+    describe('tryUpdateDoc', () => {
+        it('should update a doc by id', async () => {
+            expect.assertions(1)
+
+            const targetDoc = {
+                _id: new mongoose.Types.ObjectId(),
+                name: 'test',
+                content: 'test',
+                type: DocType.JSON,
+            }
+
+            const updatePayload = {
+                name: 'updated',
+            }
+
+            const result = await docsService
+                .tryUpdateDoc(targetDoc._id, updatePayload)
+                .unwrapOr(null)
+
+            expect(result).toStrictEqual({
+                ...targetDoc,
+                ...updatePayload,
+            })
+        })
+
+        it('should return DatabaseError if the doc update fails', async () => {
+            expect.assertions(1)
+
+            const databaseError = new DatabaseError(
+                'Failed to update Doc',
+                new mongoose.Error('something went wrong'),
+            )
+
+            docsModel.tryFindByIdAndUpdate.mockImplementationOnce(
+                () => errAsync(databaseError),
+            )
+
+            const result = await docsService
+                .tryUpdateDoc(new mongoose.Types.ObjectId(), {})
                 .match(
                     doc => doc,
                     error => error,
