@@ -38,6 +38,7 @@ describe('docSchema', () => {
         expect(DocSchema.statics).toMatchInlineSnapshot(`
             {
               "tryCreate": [Function],
+              "tryFindById": [Function],
             }
         `)
     })
@@ -120,6 +121,51 @@ describe('docSchema', () => {
 
             expect(tryCreateResult).toStrictEqual(
                 new DatabaseError('Failed to create Doc', saveError),
+            )
+        })
+    })
+
+    describe('tryFindById', () => {
+        it('should find a doc by id', async () => {
+            expect.assertions(1)
+
+            const targetDoc = {
+                _id: new mongoose.Types.ObjectId(),
+                name: 'test',
+                content: 'test',
+                type: DocType.JSON,
+            }
+            mockingoose(docsModel).toReturn(targetDoc, 'findOne')
+
+            const queryId = new mongoose.Types.ObjectId()
+
+            const result = await docsModel.tryFindById(queryId).match(
+                doc => doc?.toJSON(),
+                error => error,
+            )
+
+            expect(result).toStrictEqual(targetDoc)
+        })
+
+        it('should return DatabaseError when findOne fails', async () => {
+            expect.assertions(1)
+
+            const queryId = new mongoose.Types.ObjectId()
+
+            const findError = new mongoose.MongooseError(
+                'Failed to find Doc',
+            )
+            mockingoose(docsModel).toReturn(findError, 'findOne')
+
+            const tryFindByIdResult = await docsModel
+                .tryFindById(queryId)
+                .match(
+                    doc => doc,
+                    error => error,
+                )
+
+            expect(tryFindByIdResult).toStrictEqual(
+                new DatabaseError('Failed to find Doc', findError),
             )
         })
     })

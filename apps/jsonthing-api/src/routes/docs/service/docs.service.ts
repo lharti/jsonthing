@@ -2,6 +2,7 @@ import { DatabaseError } from '@/common/errors/database.error'
 import { CreateDocDto } from '@/routes/docs/dtos'
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
+import mongoose from 'mongoose'
 import { ResultAsync } from 'neverthrow'
 import {
     DEFAULT_DOC_CONTENT,
@@ -33,6 +34,18 @@ export class DocsService {
         }
 
         return this.Docs.tryCreate(docPayload)
+            .mapErr(error => {
+                this.logger.error(error)
+
+                return error
+            })
+            .map(doc => doc)
+    }
+
+    public tryGetDocById(
+        docId: mongoose.Types.ObjectId,
+    ): SafeDatabaseResult<Doc | null> {
+        return this.Docs.tryFindById(docId)
             .mapErr(error => {
                 this.logger.error(error)
 

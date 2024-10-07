@@ -23,6 +23,15 @@ const testingModuleMetadata = {
                         ...tryCreatePayload,
                     }),
                 ),
+
+                tryFindById: jest.fn(docId =>
+                    okAsync({
+                        _id: docId,
+                        name: 'test',
+                        content: 'test',
+                        type: DocType.JSON,
+                    }),
+                ),
             },
         },
     ],
@@ -110,6 +119,47 @@ describe('docsService', () => {
                 doc => doc,
                 error => error,
             )
+
+            expect(result).toStrictEqual(databaseError)
+        })
+    })
+
+    describe('tryGetDocById', () => {
+        it('should return a doc by id', async () => {
+            expect.assertions(1)
+
+            const docId = new mongoose.Types.ObjectId()
+
+            const result = await docsService
+                .tryGetDocById(docId)
+                .unwrapOr(null)
+
+            expect(result).toStrictEqual({
+                _id: docId,
+                name: 'test',
+                content: 'test',
+                type: DocType.JSON,
+            })
+        })
+
+        it('should return DatabaseError if the doc retrieval fails', async () => {
+            expect.assertions(1)
+
+            const databaseError = new DatabaseError(
+                'Failed to find Doc',
+                new mongoose.Error('something went wrong'),
+            )
+
+            docsModel.tryFindById.mockImplementationOnce(() =>
+                errAsync(databaseError),
+            )
+
+            const result = await docsService
+                .tryGetDocById(new mongoose.Types.ObjectId())
+                .match(
+                    doc => doc,
+                    error => error,
+                )
 
             expect(result).toStrictEqual(databaseError)
         })
