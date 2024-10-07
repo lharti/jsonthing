@@ -1,138 +1,115 @@
 import { DatabaseError } from '@/common/errors/database.error'
+import {
+    DEFAULT_DOC_CONTENT,
+    DEFAULT_DOC_NAME,
+    DocType,
+} from '@/routes/docs/constants'
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
 import mongoose from 'mongoose'
 import { errAsync, okAsync } from 'neverthrow'
-import { Doc } from '../model'
+import { Doc, DocsModel } from '../model'
 import { DocsService } from './docs.service'
 
-const docsModelMock = {
-    tryCreate: jest.fn(),
-}
-
-const setupServiceTest = async () => {
-    const moduleMetadata = {
-        providers: [
-            DocsService,
-            {
-                provide: getModelToken(Doc.name),
-                useValue: docsModelMock,
+const testingModuleMetadata = {
+    providers: [
+        DocsService,
+        {
+            provide: getModelToken(Doc.name),
+            useValue: {
+                tryCreate: jest.fn(tryCreatePayload =>
+                    okAsync({
+                        _id: new mongoose.Types.ObjectId(),
+                        ...tryCreatePayload,
+                    }),
+                ),
             },
-        ],
-    }
-
-    const testingModule: TestingModule =
-        await Test.createTestingModule(moduleMetadata).compile()
-
-    const docsService = testingModule.get<DocsService>(DocsService)
-
-    return { docsService } as const
-}
-
-const createdDoc = {
-    name: 'doc-name',
-    content: 'doc-content',
-    _id: 'id',
-    type: 'json',
+        },
+    ],
 }
 
 describe('docsService', () => {
+    let testingModule: TestingModule
+    let docsService: DocsService
+    let docsModel: jest.Mocked<DocsModel>
+
+    beforeAll(async () => {
+        testingModule = await Test.createTestingModule(
+            testingModuleMetadata,
+        ).compile()
+
+        docsService = testingModule.get<DocsService>(DocsService)
+
+        docsModel = testingModule.get(getModelToken(Doc.name))
+    })
+
+    afterAll(async () => {
+        await testingModule.close()
+    })
+
     describe('tryCreateDoc', () => {
-        const createDocPayloadCase = [
-            {
-                tryCreateDocPayload: {
-                    name: 'CUSTOM_NAME',
-                    content: '{CUSTOM_CONTENT}',
-                },
-
-                expectedTryCreatePayload: {
-                    name: 'CUSTOM_NAME',
-                    content: '{CUSTOM_CONTENT}',
-                    type: 'json',
-                },
-            },
-
-            {
-                tryCreateDocPayload: undefined,
-
-                expectedTryCreatePayload: {
-                    name: 'Untitled',
-                    content: '{}',
-                    type: 'json',
-                },
-            },
-        ]
-
-        it.each(createDocPayloadCase)(
-            'should create a new json doc',
-            async ({
-                tryCreateDocPayload,
-                expectedTryCreatePayload,
-            }) => {
-                expect.assertions(1)
-
-                const { docsService } = await setupServiceTest()
-
-                docsModelMock.tryCreate.mockImplementation(() =>
-                    okAsync(createdDoc),
-                )
-
-                docsService
-                    .tryCreateDoc(tryCreateDocPayload)
-                    .unwrapOr(null)
-
-                expect(
-                    docsModelMock.tryCreate,
-                ).toHaveBeenCalledExactlyOnceWith(
-                    expectedTryCreatePayload,
-                )
-            },
-        )
-
-        it('should return the created doc', async () => {
+        it('should create a new doc with payload data', async () => {
             expect.assertions(1)
 
-            const { docsService } = await setupServiceTest()
-
-            docsModelMock.tryCreate.mockImplementation(() =>
-                okAsync(createdDoc),
-            )
-
             const createDocPayload = {
-                name: 'doc-name',
-                content: 'doc-content',
+                name: `${Math.random}-name`,
+                content: `${Math.random}-content`,
             }
-            const result = docsService
+
+            const result = await docsService
                 .tryCreateDoc(createDocPayload)
                 .unwrapOr(null)
 
-            await expect(result).resolves.toStrictEqual(createdDoc)
+            expect(result).toStrictEqual(
+                expect.objectContaining({
+                    _id: expect.any(mongoose.Types.ObjectId),
+
+                    ...createDocPayload,
+
+                    type: DocType.JSON,
+                }),
+            )
+        })
+
+        it('should create a new doc without providing payload', async () => {
+            expect.assertions(1)
+
+            const result = await docsService
+                .tryCreateDoc({})
+                .unwrapOr(null)
+
+            const defaultDocValues = {
+                name: DEFAULT_DOC_NAME,
+                content: DEFAULT_DOC_CONTENT,
+            }
+
+            expect(result).toStrictEqual(
+                expect.objectContaining({
+                    _id: expect.any(mongoose.Types.ObjectId),
+
+                    ...defaultDocValues,
+
+                    type: DocType.JSON,
+                }),
+            )
         })
 
         it('should return DatabaseError if the doc creation fails', async () => {
             expect.assertions(1)
 
-            const { docsService } = await setupServiceTest()
-
             const databaseError = new DatabaseError(
                 'Failed to create Doc',
                 new mongoose.Error('something went wrong'),
             )
-            docsModelMock.tryCreate.mockImplementation(() =>
+
+            docsModel.tryCreate.mockImplementationOnce(() =>
                 errAsync(databaseError),
             )
 
-            const createDocPayload = {
-                name: 'doc-name',
-                content: 'doc-content',
-            }
-
-            const result = await docsService
-                .tryCreateDoc(createDocPayload)
-                .match(
-                    doc => doc,
-                    error => error,
-                )
+            const result = await docsService.tryCreateDoc().match(
+                doc => doc,
+                error => error,
+            )
 
             expect(result).toStrictEqual(databaseError)
         })
