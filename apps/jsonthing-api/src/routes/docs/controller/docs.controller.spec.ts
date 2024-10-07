@@ -1,7 +1,7 @@
 import { DatabaseError } from '@/common/errors/database.error'
 import { DocsService } from '@/routes/docs/service'
 import { InternalServerErrorException } from '@nestjs/common'
-import { Test } from '@nestjs/testing'
+import { Test, TestingModule } from '@nestjs/testing'
 import mongoose from 'mongoose'
 import { errAsync, okAsync } from 'neverthrow'
 import { DocType } from '../constants'
@@ -15,11 +15,12 @@ const createdDoc = {
 }
 
 describe('docsController', () => {
+    let testingModule: TestingModule
     let docsService: jest.Mocked<DocsService>
     let docsController: DocsController
 
     beforeAll(async () => {
-        const testingModule = await Test.createTestingModule({
+        testingModule = await Test.createTestingModule({
             controllers: [DocsController],
             providers: [
                 {
@@ -34,6 +35,10 @@ describe('docsController', () => {
         docsService = testingModule.get(DocsService)
 
         docsController = testingModule.get(DocsController)
+    })
+
+    afterAll(() => {
+        testingModule.close()
     })
 
     describe('createDoc', () => {
