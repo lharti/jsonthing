@@ -1,4 +1,4 @@
-import { appConfigValidationSchema } from '@/config/app.config'
+import { AppModule } from '@/app.module'
 import { DatabaseModule } from '@/database.module'
 import { DocsModule } from '@/routes/docs'
 import { ConfigModule } from '@nestjs/config'
@@ -12,13 +12,9 @@ describe('appModule', () => {
     let appModule: TestingModule
 
     beforeAll(async () => {
-        await jest.isolateModulesAsync(async () => {
-            const { AppModule } = await import('./app.module')
-
-            appModule = await Test.createTestingModule({
-                imports: [AppModule],
-            }).compile()
-        })
+        appModule = await Test.createTestingModule({
+            imports: [AppModule],
+        }).compile()
     })
 
     afterAll(() => {
@@ -28,29 +24,33 @@ describe('appModule', () => {
     it('should setup ConfigModule', async () => {
         expect.assertions(1)
 
-        const configForRootMethod = jest.spyOn(
-            ConfigModule,
-            'forRoot',
-        )
+        let configForRootMethod: jest.SpyInstance
 
-        await import('./app.module')
+        await jest.isolateModulesAsync(async () => {
+            configForRootMethod = jest.spyOn(ConfigModule, 'forRoot')
 
-        expect(configForRootMethod).toHaveBeenCalledExactlyOnceWith({
-            isGlobal: true,
-            cache: true,
+            const { appConfigValidationSchema } = await import(
+                '@/config/app.config'
+            )
 
-            validationSchema: appConfigValidationSchema,
+            await import('./app.module')
+
+            expect(
+                configForRootMethod,
+            ).toHaveBeenCalledExactlyOnceWith({
+                isGlobal: true,
+                cache: true,
+                validationSchema: appConfigValidationSchema,
+            })
         })
     })
 
     it('should import ConfigModule', () => {
         expect.assertions(1)
 
-        const configModule = appModule.get(DocsModule)
+        const configModule = appModule.get(ConfigModule)
 
-        expect(configModule).toBeInstanceOf(DocsModule)
-
-        appModule.close()
+        expect(configModule).toBeInstanceOf(ConfigModule)
     })
 
     it('should import DatabaseModule', () => {
