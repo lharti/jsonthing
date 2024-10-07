@@ -11,5 +11,6 @@ import { Doc, DocSchema } from './doc.schema'
             },
         ]),
     ],
+    exports: [MongooseModule],
 })
 export class DocsModelModule {}

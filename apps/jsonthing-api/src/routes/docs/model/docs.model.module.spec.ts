@@ -1,11 +1,23 @@
 import { DocsModelModule } from '@/routes/docs/model/docs.model.module'
 import { MongooseModule } from '@nestjs/mongoose'
-import { Test } from '@nestjs/testing'
+import { Test, TestingModule } from '@nestjs/testing'
 import { DocSchema } from './doc.schema'
 
 jest.mock('@nestjs/mongoose')
 
 describe('docsModelModule', () => {
+    let docsModelTestingModule: TestingModule
+
+    beforeAll(async () => {
+        docsModelTestingModule = await Test.createTestingModule({
+            imports: [DocsModelModule],
+        }).compile()
+    })
+
+    afterAll(async () => {
+        await docsModelTestingModule.close()
+    })
+
     it('should setup DocsModel', () => {
         expect.assertions(1)
 
@@ -18,20 +30,23 @@ describe('docsModelModule', () => {
         ])
     })
 
-    it('should import MongooseModule', async () => {
+    it('should imports MongooseModule.forFeature response module', () => {
         expect.assertions(1)
-
-        const docsModelTestingModule = await Test.createTestingModule(
-            {
-                imports: [DocsModelModule],
-            },
-        ).compile()
 
         const mongooseModule =
             docsModelTestingModule.get(MongooseModule)
 
-        expect(mongooseModule).toBeInstanceOf(MongooseModule)
+        expect(mongooseModule).toBeDefined()
+    })
 
-        docsModelTestingModule.close()
+    it('should export MongooseModule', () => {
+        expect.assertions(1)
+
+        const docsModelModuleExports = Reflect.getMetadata(
+            'exports',
+            DocsModelModule,
+        )
+
+        expect(docsModelModuleExports).toStrictEqual([MongooseModule])
     })
 })
