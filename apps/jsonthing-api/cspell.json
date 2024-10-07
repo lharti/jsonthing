@@ -3,7 +3,14 @@
     "ignorePaths": [],
     "dictionaryDefinitions": [],
     "dictionaries": [],
-    "words": ["jsonthing", "nestjs", "Parens"],
+    "words": [
+        "dtos",
+        "jsonthing",
+        "mockingoose",
+        "nestjs",
+        "neverthrow",
+        "Parens"
+    ],
     "ignoreWords": [],
     "import": []
 }
