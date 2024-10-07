@@ -4,14 +4,23 @@ import { InternalServerErrorException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import mongoose from 'mongoose'
 import { errAsync, okAsync } from 'neverthrow'
-import { DocType } from '../constants'
 import { DocsController } from './docs.controller'
 
-const createdDoc = {
-    name: 'doc-name',
-    content: 'doc-content',
-    _id: new mongoose.Types.ObjectId(),
-    type: DocType.JSON,
+const testingModuleMetadata = {
+    controllers: [DocsController],
+    providers: [
+        {
+            provide: DocsService,
+            useValue: {
+                tryCreateDoc: jest.fn(payload =>
+                    okAsync({
+                        ...payload,
+                        _id: new mongoose.Types.ObjectId(),
+                    }),
+                ),
+            },
+        },
+    ],
 }
 
 describe('docsController', () => {
@@ -20,17 +29,9 @@ describe('docsController', () => {
     let docsController: DocsController
 
     beforeAll(async () => {
-        testingModule = await Test.createTestingModule({
-            controllers: [DocsController],
-            providers: [
-                {
-                    provide: DocsService,
-                    useValue: {
-                        tryCreateDoc: jest.fn(),
-                    },
-                },
-            ],
-        }).compile()
+        testingModule = await Test.createTestingModule(
+            testingModuleMetadata,
+        ).compile()
 
         docsService = testingModule.get(DocsService)
 
@@ -50,10 +51,6 @@ describe('docsController', () => {
                 content: 'doc-content',
             }
 
-            docsService.tryCreateDoc.mockImplementation(() =>
-                okAsync(createdDoc),
-            )
-
             await docsController.createDoc(createDocPayload)
 
             expect(
@@ -64,13 +61,17 @@ describe('docsController', () => {
         it('should return the created doc', async () => {
             expect.assertions(1)
 
-            docsService.tryCreateDoc.mockImplementation(() =>
-                okAsync(createdDoc),
-            )
+            const createDocPayload = {
+                name: `doc-${Math.random()}`,
+                content: `doc-content-${Math.random()}`,
+            }
+            const result =
+                await docsController.createDoc(createDocPayload)
 
-            const result = await docsController.createDoc()
-
-            expect(result).toBe(createdDoc)
+            expect(result).toStrictEqual({
+                _id: expect.any(mongoose.Types.ObjectId),
+                ...createDocPayload,
+            })
         })
 
         it('should throw InternalServiceErrorException if doc creation failed', async () => {
