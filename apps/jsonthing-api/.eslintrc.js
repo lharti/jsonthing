@@ -5,6 +5,8 @@ module.exports = {
         'plugin:@typescript-eslint/strict',
         'plugin:@typescript-eslint/stylistic',
 
+        'standard',
+
         'plugin:prettier/recommended',
     ],
 
@@ -16,11 +18,18 @@ module.exports = {
 
             rules: {
                 'jest/prefer-importing-jest-globals': 'off',
+                'jest/no-hooks': 'off',
             },
         },
     ],
 
-    plugins: ['@typescript-eslint', 'jest', 'jest-extended'],
+    plugins: [
+        '@typescript-eslint',
+        'jest',
+        'jest-extended',
+        'neverthrow',
+        '@stylistic',
+    ],
 
     rules: {
         'jest/prefer-importing-jest-globals': 'off',
@@ -41,6 +50,12 @@ module.exports = {
         'require-await': [2],
 
         '@typescript-eslint/no-extraneous-class': 'off',
+
+        'neverthrow/must-use-result': 'error',
+
+        '@stylistic/newline-per-chained-call': 'error',
+
+        'no-useless-constructor': 'off',
     },
 
     parser: '@typescript-eslint/parser',
