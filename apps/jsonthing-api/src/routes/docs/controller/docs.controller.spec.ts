@@ -30,6 +30,16 @@ const testingModuleMetadata = {
                         type: 'JSON',
                     }),
                 ),
+
+                tryUpdateDoc: jest.fn((id, update) =>
+                    okAsync({
+                        _id: id.toString(),
+                        name: 'test',
+                        content: 'test',
+                        type: 'JSON',
+                        ...update,
+                    }),
+                ),
             },
         },
     ],
@@ -162,6 +172,70 @@ describe('docsController', () => {
 
             await expect(
                 docsController.getDoc(targetDocId),
+            ).rejects.toThrow(internalException)
+        })
+    })
+
+    describe('updateDoc', () => {
+        it('should update a doc by id', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            const updatePayload = {
+                name: 'updated',
+            }
+
+            const result = await docsController.updateDoc(
+                targetDocId,
+                updatePayload,
+            )
+
+            expect(result).toStrictEqual({
+                _id: targetDocId,
+                content: 'test',
+                type: 'JSON',
+                ...updatePayload,
+            })
+        })
+
+        it('should throw NotFoundException if doc not found', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            docsService.tryUpdateDoc.mockImplementation(() =>
+                okAsync(null),
+            )
+
+            const notFoundException = new NotFoundException(
+                'Doc not found',
+            )
+
+            await expect(
+                docsController.updateDoc(targetDocId, {}),
+            ).rejects.toThrow(notFoundException)
+        })
+
+        it('should throw InternalServiceErrorException if doc update failed', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            docsService.tryUpdateDoc.mockImplementation(() =>
+                errAsync(new Error('something went wrong')),
+            )
+
+            const internalException =
+                new InternalServerErrorException(
+                    'Failed to update doc: Error',
+                )
+
+            await expect(
+                docsController.updateDoc(targetDocId, {}),
             ).rejects.toThrow(internalException)
         })
     })

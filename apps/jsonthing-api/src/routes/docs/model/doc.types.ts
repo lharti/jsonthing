@@ -11,7 +11,14 @@ export type TryFindById = (
     docId: mongoose.Types.ObjectId,
 ) => ResultAsync<DocDocument | null, DatabaseError>
 
+export type TryFindByIdAndUpdate = (
+    id: mongoose.Types.ObjectId,
+    updatePayload: Partial<Doc>,
+    options?: { new: boolean },
+) => ResultAsync<DocDocument | null, DatabaseError>
+
 export interface DocsModel extends Model<Doc> {
     tryCreate: TryCreate
     tryFindById: TryFindById
+    tryFindByIdAndUpdate: TryFindByIdAndUpdate
 }

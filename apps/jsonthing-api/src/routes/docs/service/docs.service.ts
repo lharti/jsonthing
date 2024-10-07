@@ -53,4 +53,17 @@ export class DocsService {
             })
             .map(doc => doc)
     }
+
+    public tryUpdateDoc(
+        docId: mongoose.Types.ObjectId,
+        updateDocPayload: Partial<Doc>,
+    ): SafeDatabaseResult<Doc | null> {
+        return this.Docs.tryFindByIdAndUpdate(docId, updateDocPayload)
+            .mapErr(error => {
+                this.logger.error(error)
+
+                return error
+            })
+            .map(doc => doc)
+    }
 }

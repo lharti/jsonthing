@@ -7,6 +7,10 @@ import { Doc, DocSchema, docsModel } from './doc.schema'
 const mockingoose = require('mockingoose')
 
 describe('docSchema', () => {
+    beforeEach(() => {
+        mockingoose.resetAll()
+    })
+
     it('should define schema object', () => {
         expect.assertions(1)
 
@@ -39,6 +43,7 @@ describe('docSchema', () => {
             {
               "tryCreate": [Function],
               "tryFindById": [Function],
+              "tryFindByIdAndUpdate": [Function],
             }
         `)
     })
@@ -166,6 +171,72 @@ describe('docSchema', () => {
 
             expect(tryFindByIdResult).toStrictEqual(
                 new DatabaseError('Failed to find Doc', findError),
+            )
+        })
+    })
+
+    describe('tryFindByIdAndUpdate', () => {
+        it('should update a doc by id', async () => {
+            expect.assertions(1)
+
+            const targetDoc = {
+                _id: new mongoose.Types.ObjectId(),
+                name: 'test',
+                content: 'test',
+                type: DocType.JSON,
+            }
+
+            mockingoose(docsModel).toReturn(
+                (query: { _update: object }) => {
+                    return {
+                        ...targetDoc,
+                        ...query._update,
+                    }
+                },
+
+                'findOneAndUpdate',
+            )
+
+            const updatePayload = {
+                name: 'updated',
+            }
+
+            const result = await docsModel
+                .tryFindByIdAndUpdate(targetDoc?._id, updatePayload)
+                .match(
+                    doc => doc?.toJSON(),
+                    error => error,
+                )
+
+            expect(result).toStrictEqual({
+                ...targetDoc,
+                ...updatePayload,
+            })
+        })
+
+        it('should return DatabaseError when findOneAndUpdate fails', async () => {
+            expect.assertions(1)
+
+            mockingoose(docsModel).toReturn(
+                new Error('something wrong'),
+                'findOneAndUpdate',
+            )
+
+            const targetId = new mongoose.Types.ObjectId()
+
+            const tryFindByIdAndUpdateResult = await docsModel
+                .tryFindByIdAndUpdate(targetId, {})
+                .match(
+                    doc => doc,
+                    error => error,
+                )
+
+            expect(tryFindByIdAndUpdateResult).toStrictEqual(
+                new DatabaseError(
+                    'Failed to find Doc',
+
+                    new Error('something wrong'),
+                ),
             )
         })
     })
