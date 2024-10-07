@@ -6,7 +6,7 @@ import { compilerOptions } from './tsconfig.json'
 const config: Config = {
     preset: 'ts-jest',
 
-    resetMocks: true,
+    clearMocks: true,
 
     transform: {
         '^.+\\.(t|j)s$': 'ts-jest',
