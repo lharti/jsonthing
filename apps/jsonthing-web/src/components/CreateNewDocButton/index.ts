@@ -1,0 +1,1 @@
+export { CreateNewDocButton } from './CreateNewDocButton'

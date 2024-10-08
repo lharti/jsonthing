@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import React from 'react'
 import './globals.css'
+import { ReactQueryProvider } from '@/components/ReactQueryProvider'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -34,9 +35,9 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
             >
                 <ClerkProvider>
                     <TooltipProvider>
-                        <div className="container mx-auto max-w-screen-md">
-                            {children}
-                        </div>
+                        <ReactQueryProvider>
+                            <div className="">{children}</div>
+                        </ReactQueryProvider>
                     </TooltipProvider>
                 </ClerkProvider>
             </body>
