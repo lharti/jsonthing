@@ -1,25 +1,35 @@
-import { JsonEditor } from '@/components/JsonEditor'
+import { DocView } from '@/components/views/DocView'
+import { apiClient } from '@/lib/api-client'
+import {
+    dehydrate,
+    HydrationBoundary,
+    QueryClient,
+} from '@tanstack/react-query'
 import React from 'react'
 
-const Doc = () => {
-    const initialContent = JSON.stringify(
-        {
-            JsonThing: '🚀 in progress JSON thing',
-            features: [
-                '⚡ JSON thing this',
-                '💻 JSON thing that',
-                '🧪 JSON thing everything',
-            ],
-        },
-        null,
-        2,
-    )
+interface DocPageProps {
+    params: {
+        id: string
+    }
+}
+
+const DocPage = async ({ params }: DocPageProps) => {
+    const queryClient = new QueryClient()
+
+    await queryClient.prefetchQuery({
+        queryKey: ['doc', params.id],
+
+        queryFn: () =>
+            apiClient.get(`/docs/${params.id}`).then(res => {
+                return res.data
+            }),
+    })
 
     return (
-        <div>
-            <JsonEditor initialContent={initialContent} />
-        </div>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+            <DocView id={params.id} />
+        </HydrationBoundary>
     )
 }
 
-export default Doc
+export default DocPage

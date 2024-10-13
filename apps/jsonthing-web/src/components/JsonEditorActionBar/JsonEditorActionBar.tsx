@@ -1,3 +1,4 @@
+import { useUpdateDoc } from '@/hooks/useUpdateDoc'
 import { prettifyJson } from '@/lib/prettify-json'
 import { cn } from '@/lib/utils'
 import {
@@ -5,14 +6,15 @@ import {
     IconDeviceFloppy,
     IconWand,
 } from '@tabler/icons-react'
+import { useParams } from 'next/navigation'
 import React from 'react'
-import { JsonEditorActionBarBtn } from '../ActionBarBtn'
+import { JsonEditorActionBarBtn } from './ActionBarBtn'
 
 export interface JsonEditorActionBarProps {
     className?: string
 
     editorContent: string
-    setEditorContent: (value: string) => void
+    setEditorContent: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const JsonEditorActionBar: React.FC<JsonEditorActionBarProps> = ({
@@ -21,12 +23,26 @@ export const JsonEditorActionBar: React.FC<JsonEditorActionBarProps> = ({
     editorContent,
     setEditorContent,
 }) => {
-    const handlePrettify = () => {
+    const prettifyContent = () => {
         setEditorContent(prettifyJson(editorContent))
     }
 
-    const handleCopyToClipboard = () => {
+    const copyToClipboard = () => {
         navigator.clipboard.writeText(editorContent)
+    }
+
+    const { id } = useParams()
+
+    const { updateDoc } = useUpdateDoc()
+
+    const save = () => {
+        updateDoc({
+            id: id as string,
+
+            payload: {
+                content: editorContent,
+            },
+        })
     }
 
     return (
@@ -35,20 +51,20 @@ export const JsonEditorActionBar: React.FC<JsonEditorActionBarProps> = ({
                 iconOnly
                 label="Prettify"
                 Icon={IconWand}
-                onClick={handlePrettify}
+                onClick={() => prettifyContent()}
             />
 
             <JsonEditorActionBarBtn
                 iconOnly
                 label="Copy"
                 Icon={IconClipboardCopy}
-                onClick={handleCopyToClipboard}
+                onClick={() => copyToClipboard()}
             />
             <JsonEditorActionBarBtn
                 variant="outline"
                 label="Save"
                 Icon={IconDeviceFloppy}
-                onClick={handleCopyToClipboard}
+                onClick={() => save()}
             />
         </div>
     )

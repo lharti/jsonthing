@@ -1,12 +1,17 @@
 import { Button } from '@/components/ui/Button'
-import { IconClipboardCopy, IconWand } from '@tabler/icons-react'
+import { useUpdateDoc } from '@/hooks/useUpdateDoc'
+import {
+    IconClipboardCopy,
+    IconDeviceFloppy,
+    IconWand,
+} from '@tabler/icons-react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { JsonEditorActionBarBtn } from '../ActionBarBtn'
+import { JsonEditorActionBarBtn } from './ActionBarBtn'
 import { JsonEditorActionBar } from './JsonEditorActionBar'
 
-jest.mock('../ActionBarBtn')
+jest.mock('./ActionBarBtn')
 const JsonEditorActionBarBtnMock = jest.mocked(JsonEditorActionBarBtn)
 
 const mockActionBarBtn = () => {
@@ -16,6 +21,17 @@ const mockActionBarBtn = () => {
         ),
     )
 }
+
+// eslint-disable-next-line jest/no-untyped-mock-factory
+jest.mock('next/navigation', () => ({
+    useParams: jest.fn(() => ({ id: 'DOC_ID' })),
+}))
+
+jest.mock('@/hooks/useUpdateDoc')
+// @ts-expect-error no need to define all properties
+const useUpdateDocMock = jest.mocked(useUpdateDoc).mockReturnValue({
+    updateDoc: jest.fn(),
+})
 
 describe('<JsonEditorActionBar />', () => {
     it('should render', () => {
@@ -144,6 +160,66 @@ describe('<JsonEditorActionBar />', () => {
             const clipboardText = await navigator.clipboard.readText()
 
             expect(clipboardText).toStrictEqual(editorContent)
+        })
+    })
+
+    describe('save button', () => {
+        it('should be setup correctly', () => {
+            expect.assertions(1)
+
+            const ActionBtnMock = mockActionBarBtn()
+
+            render(
+                <JsonEditorActionBar
+                    editorContent="{}"
+                    setEditorContent={jest.fn()}
+                />,
+            )
+
+            expect(ActionBtnMock).toHaveBeenCalledWith(
+                {
+                    variant: 'outline',
+                    label: 'Save',
+                    Icon: IconDeviceFloppy,
+                    onClick: expect.any(Function),
+                },
+
+                undefined,
+            )
+        })
+
+        it('should save editor content', () => {
+            expect.assertions(1)
+
+            const updateDoc = jest.fn()
+
+            // @ts-expect-error no need to define all properties
+            useUpdateDocMock.mockReturnValue({
+                updateDoc,
+            })
+
+            const editorContent = Math.random().toString()
+
+            render(
+                <JsonEditorActionBar
+                    editorContent={editorContent}
+                    setEditorContent={jest.fn()}
+                />,
+            )
+
+            const saveBtn = screen.getByRole('button', {
+                name: 'Save',
+            })
+
+            saveBtn.click()
+
+            expect(updateDoc).toHaveBeenCalledExactlyOnceWith({
+                id: 'DOC_ID',
+
+                payload: {
+                    content: editorContent,
+                },
+            })
         })
     })
 })
