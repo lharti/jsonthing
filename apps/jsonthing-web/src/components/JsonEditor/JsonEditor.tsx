@@ -1,11 +1,11 @@
 'use client'
 
+import { JsonEditorActionBar } from '@/components/JsonEditorActionBar'
 import { initCodeMirrorExtensions } from '@/lib/codemirror/extensions'
 import { lightTheme } from '@/lib/codemirror/themes'
 import { cn } from '@/lib/utils'
 import CodeMirror from '@uiw/react-codemirror'
 import React from 'react'
-import { JsonEditorActionBar } from './ActionBar'
 
 export interface JsonEditorProps {
     className?: string
@@ -17,7 +17,7 @@ export const JsonEditor: React.FC<JsonEditorProps> = ({
     initialContent,
 }) => {
     const [editorContent, setEditorContent] = React.useState(
-        initialContent ?? '',
+        initialContent || '',
     )
 
     return (

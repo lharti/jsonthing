@@ -1,4 +1,4 @@
-import { JsonEditorActionBar } from '@/components/JsonEditor/ActionBar'
+import { JsonEditorActionBar } from '@/components/JsonEditorActionBar'
 import { initCodeMirrorExtensions } from '@/lib/codemirror/extensions'
 import { lightTheme } from '@/lib/codemirror/themes'
 import { render } from '@testing-library/react'
@@ -12,19 +12,22 @@ const CodeMirrorMock = jest.mocked(CodeMirror)
 jest.mock('@/lib/codemirror/extensions')
 const initCodeMirrorExtensionsMock = jest.mocked(initCodeMirrorExtensions)
 
-jest.mock('./ActionBar')
+jest.mock('@/components/JsonEditorActionBar')
 const JsonEditorActionBarMock = jest.mocked(JsonEditorActionBar)
+
+const useStateSpy = jest.spyOn(React, 'useState')
 
 describe('<JsonEditor />', () => {
     it('should render', () => {
         expect.assertions(1)
+
+        useStateSpy.mockReturnValue(['', jest.fn()])
 
         CodeMirrorMock.mockReturnValue(<div>{'CodeMirror'}</div>)
 
         JsonEditorActionBarMock.mockReturnValue(
             <div>{'JsonEditorActionBar'}</div>,
         )
-
         const { container } = render(<JsonEditor />)
 
         expect(container).toMatchInlineSnapshot(`
@@ -46,14 +49,12 @@ describe('<JsonEditor />', () => {
     it('should setup codemirror editor', () => {
         expect.assertions(1)
 
-        const codeMirrorExtensions = ['CODE_MIRROR_EXTENSIONS']
-        // @ts-expect-error: we are just mocking
-        initCodeMirrorExtensionsMock.mockReturnValue(codeMirrorExtensions)
+        const editorContent = Math.random()
 
-        const useStateSpy = jest.spyOn(React, 'useState')
-
-        const editorContent = '{"key": "value"}'
         useStateSpy.mockReturnValue([editorContent, jest.fn()])
+
+        // @ts-expect-error just a mock
+        initCodeMirrorExtensionsMock.mockReturnValue('CODEMIRROR_EXTENSIONS')
 
         render(<JsonEditor />)
 
@@ -64,16 +65,32 @@ describe('<JsonEditor />', () => {
             onChange: expect.any(Function),
 
             theme: lightTheme,
-            extensions: [codeMirrorExtensions],
+            extensions: ['CODEMIRROR_EXTENSIONS'],
         })
+    })
+
+    it("should update editor content on CodeMirror's change", () => {
+        expect.assertions(1)
+
+        const setEditorContent = jest.fn()
+        useStateSpy.mockReturnValue(['content', setEditorContent])
+
+        render(<JsonEditor />)
+
+        // eslint-disable-next-line jest/unbound-method
+        const codeMirrorOnChange = CodeMirrorMock.mock.calls[0][0].onChange
+
+        const newContent = Math.random()
+        // @ts-expect-error: no need to pass viewUpdate
+        codeMirrorOnChange(newContent)
+
+        expect(setEditorContent).toHaveBeenCalledExactlyOnceWith(newContent)
     })
 
     it('should setup JsonEditorActionBar', () => {
         expect.assertions(1)
 
-        const useStateSpy = jest.spyOn(React, 'useState')
-
-        const editorContent = '{"key": "value"}'
+        const editorContent = Math.random()
         const setEditorContent = jest.fn()
 
         useStateSpy.mockReturnValue([editorContent, setEditorContent])
