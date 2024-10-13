@@ -1,10 +1,9 @@
+import { ReactQueryProvider } from '@/components/ReactQueryProvider'
 import { TooltipProvider } from '@/components/ui/Tooltip'
-import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import React from 'react'
 import './globals.css'
-import { ReactQueryProvider } from '@/components/ReactQueryProvider'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -33,13 +32,11 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                   ${geistMono.variable}
                 `}
             >
-                <ClerkProvider>
-                    <TooltipProvider>
-                        <ReactQueryProvider>
-                            <div className="">{children}</div>
-                        </ReactQueryProvider>
-                    </TooltipProvider>
-                </ClerkProvider>
+                <TooltipProvider>
+                    <ReactQueryProvider>
+                        <div className="">{children}</div>
+                    </ReactQueryProvider>
+                </TooltipProvider>
             </body>
         </html>
     )
