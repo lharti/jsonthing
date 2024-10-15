@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/Button'
-import { useUpdateDoc } from '@/hooks/useUpdateDoc'
 import {
     IconClipboardCopy,
     IconDeviceFloppy,
@@ -9,7 +8,9 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { JsonEditorActionBarBtn } from './ActionBarBtn'
+import { SaveStatus } from './constants'
 import { JsonEditorActionBar } from './JsonEditorActionBar'
+import { useSaveContent } from './useSaveContent'
 
 jest.mock('./ActionBarBtn')
 const JsonEditorActionBarBtnMock = jest.mocked(JsonEditorActionBarBtn)
@@ -27,10 +28,11 @@ jest.mock('next/navigation', () => ({
     useParams: jest.fn(() => ({ id: 'DOC_ID' })),
 }))
 
-jest.mock('@/hooks/useUpdateDoc')
-// @ts-expect-error no need to define all properties
-const useUpdateDocMock = jest.mocked(useUpdateDoc).mockReturnValue({
-    updateDoc: jest.fn(),
+jest.mock('./useSaveContent')
+
+const useSaveContentMock = jest.mocked(useSaveContent).mockReturnValue({
+    save: jest.fn(),
+    status: SaveStatus.SAVED,
 })
 
 describe('<JsonEditorActionBar />', () => {
@@ -47,6 +49,28 @@ describe('<JsonEditorActionBar />', () => {
         )
 
         expect(container).toMatchSnapshot('<JsonEditorActionBar />')
+    })
+
+    it('should setup useSaveContent', () => {
+        expect.assertions(1)
+
+        render(
+            <JsonEditorActionBar
+                editorContent="{}"
+                setEditorContent={jest.fn()}
+            />,
+        )
+
+        expect(useSaveContentMock).toHaveBeenCalledWith(
+            {
+                id: 'DOC_ID',
+                content: '{}',
+            },
+
+            {
+                onError: expect.any(Function),
+            },
+        )
     })
 
     describe('prettify button', () => {
@@ -179,23 +203,27 @@ describe('<JsonEditorActionBar />', () => {
             expect(ActionBtnMock).toHaveBeenCalledWith(
                 {
                     variant: 'outline',
-                    label: 'Save',
+                    label: 'Saved',
                     Icon: IconDeviceFloppy,
+
                     onClick: expect.any(Function),
+
+                    isLoading: false,
+                    disabled: true,
                 },
 
                 undefined,
             )
         })
 
-        it('should save editor content', () => {
+        it('should save content onClick', () => {
             expect.assertions(1)
 
-            const updateDoc = jest.fn()
+            const saveMock = jest.fn()
 
-            // @ts-expect-error no need to define all properties
-            useUpdateDocMock.mockReturnValue({
-                updateDoc,
+            useSaveContentMock.mockReturnValue({
+                save: saveMock,
+                status: SaveStatus.IDLE,
             })
 
             const editorContent = Math.random().toString()
@@ -213,13 +241,7 @@ describe('<JsonEditorActionBar />', () => {
 
             saveBtn.click()
 
-            expect(updateDoc).toHaveBeenCalledExactlyOnceWith({
-                id: 'DOC_ID',
-
-                payload: {
-                    content: editorContent,
-                },
-            })
+            expect(saveMock).toHaveBeenCalledOnce()
         })
     })
 })
