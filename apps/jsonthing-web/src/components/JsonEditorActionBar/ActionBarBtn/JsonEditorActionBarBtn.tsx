@@ -4,7 +4,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/Tooltip'
-import { IconProps } from '@tabler/icons-react'
+import { IconLoader, IconProps } from '@tabler/icons-react'
 import React from 'react'
 
 export interface JsonEditorActionBarBtnProps extends ButtonProps {
@@ -15,29 +15,46 @@ export interface JsonEditorActionBarBtnProps extends ButtonProps {
     onClick: () => void
 
     iconOnly?: boolean
+
+    isLoading?: boolean
+
+    isSuccess?: boolean
+
+    isError?: boolean
 }
 
 export const JsonEditorActionBarBtn: React.FC<JsonEditorActionBarBtnProps> = ({
     label,
     Icon,
+    variant,
 
     onClick,
 
     iconOnly,
+    isLoading,
+
     ...buttonProps
 }) => {
+    const ButtonIcon = () =>
+        isLoading ? (
+            <IconLoader className="mr-1 animate-spin" />
+        ) : (
+            <Icon className="mr-1" />
+        )
+
     return (
         <Tooltip>
             <TooltipTrigger asChild>
                 <Button
-                    variant="ghost"
+                    variant={variant || 'ghost'}
                     size="sm"
                     role="button"
                     aria-label={label}
                     onClick={onClick}
                     {...buttonProps}
                 >
-                    <Icon className="mr-1" />
+                    <ButtonIcon />
+
                     {iconOnly ? '' : label}
                 </Button>
             </TooltipTrigger>

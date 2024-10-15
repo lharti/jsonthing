@@ -1,4 +1,3 @@
-import { useUpdateDoc } from '@/hooks/useUpdateDoc'
 import { prettifyJson } from '@/lib/prettify-json'
 import { cn } from '@/lib/utils'
 import {
@@ -9,6 +8,8 @@ import {
 import { useParams } from 'next/navigation'
 import React from 'react'
 import { JsonEditorActionBarBtn } from './ActionBarBtn'
+import { SAVE_BTN_LABELS, SaveStatus } from './constants'
+import { useSaveContent } from './useSaveContent'
 
 export interface JsonEditorActionBarProps {
     className?: string
@@ -33,17 +34,18 @@ export const JsonEditorActionBar: React.FC<JsonEditorActionBarProps> = ({
 
     const { id } = useParams()
 
-    const { updateDoc } = useUpdateDoc()
-
-    const save = () => {
-        updateDoc({
+    const { save, status: saveStatus } = useSaveContent(
+        {
+            content: editorContent,
             id: id as string,
+        },
 
-            payload: {
-                content: editorContent,
+        {
+            onError: () => {
+                alert('Failed to save document')
             },
-        })
-    }
+        },
+    )
 
     return (
         <div className={cn('flex', className)}>
@@ -60,10 +62,13 @@ export const JsonEditorActionBar: React.FC<JsonEditorActionBarProps> = ({
                 Icon={IconClipboardCopy}
                 onClick={() => copyToClipboard()}
             />
+
             <JsonEditorActionBarBtn
                 variant="outline"
-                label="Save"
+                label={SAVE_BTN_LABELS[saveStatus]}
                 Icon={IconDeviceFloppy}
+                isLoading={saveStatus === SaveStatus.PENDING}
+                disabled={saveStatus !== SaveStatus.IDLE}
                 onClick={() => save()}
             />
         </div>
