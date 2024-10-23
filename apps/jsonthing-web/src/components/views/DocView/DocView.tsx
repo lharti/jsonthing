@@ -13,7 +13,11 @@ export const DocView: React.FC<DocViewProps> = ({ id }) => {
 
     return (
         <div>
-            <JsonEditor initialContent={data?.content} />
+            <JsonEditor
+                initialContent={data?.content}
+                initialTitle={data?.name}
+                docId={id}
+            />
         </div>
     )
 }

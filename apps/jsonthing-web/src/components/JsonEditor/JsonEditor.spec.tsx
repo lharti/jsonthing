@@ -1,3 +1,4 @@
+import { DocTitleEditor } from '@/components/DocTitleEditor'
 import { JsonEditorActionBar } from '@/components/JsonEditorActionBar'
 import { initCodeMirrorExtensions } from '@/lib/codemirror/extensions'
 import { lightTheme } from '@/lib/codemirror/themes'
@@ -15,6 +16,9 @@ const initCodeMirrorExtensionsMock = jest.mocked(initCodeMirrorExtensions)
 jest.mock('@/components/JsonEditorActionBar')
 const JsonEditorActionBarMock = jest.mocked(JsonEditorActionBar)
 
+jest.mock('@/components/DocTitleEditor')
+const DocTitleEditorMock = jest.mocked(DocTitleEditor)
+
 const useStateSpy = jest.spyOn(React, 'useState')
 
 describe('<JsonEditor />', () => {
@@ -28,15 +32,27 @@ describe('<JsonEditor />', () => {
         JsonEditorActionBarMock.mockReturnValue(
             <div>{'JsonEditorActionBar'}</div>,
         )
-        const { container } = render(<JsonEditor />)
+
+        DocTitleEditorMock.mockReturnValue(<div>{'DocTitleEditor'}</div>)
+
+        const { container } = render(
+            <JsonEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />,
+        )
 
         expect(container).toMatchInlineSnapshot(`
             <div>
               <div
                 class="flex flex-col"
               >
-                <div>
-                  JsonEditorActionBar
+                <div
+                  class="mb-2 flex items-end justify-between"
+                >
+                  <div>
+                    DocTitleEditor
+                  </div>
+                  <div>
+                    JsonEditorActionBar
+                  </div>
                 </div>
                 <div>
                   CodeMirror
@@ -56,7 +72,7 @@ describe('<JsonEditor />', () => {
         // @ts-expect-error just a mock
         initCodeMirrorExtensionsMock.mockReturnValue('CODEMIRROR_EXTENSIONS')
 
-        render(<JsonEditor />)
+        render(<JsonEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
 
         expect(CodeMirrorMock).toHaveBeenCalledExactlyOnceWith({
             autoFocus: true,
@@ -75,7 +91,7 @@ describe('<JsonEditor />', () => {
         const setEditorContent = jest.fn()
         useStateSpy.mockReturnValue(['content', setEditorContent])
 
-        render(<JsonEditor />)
+        render(<JsonEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
 
         // eslint-disable-next-line jest/unbound-method
         const codeMirrorOnChange = CodeMirrorMock.mock.calls[0][0].onChange
@@ -95,12 +111,25 @@ describe('<JsonEditor />', () => {
 
         useStateSpy.mockReturnValue([editorContent, setEditorContent])
 
-        render(<JsonEditor />)
+        render(<JsonEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
 
         expect(JsonEditorActionBarMock).toHaveBeenCalledExactlyOnceWith({
             editorContent,
             setEditorContent,
-            className: 'self-end',
+        })
+    })
+
+    it('should setup DocTitleEditor', () => {
+        expect.assertions(1)
+
+        const initialTitle = Math.random().toString()
+        const docId = Math.random().toString()
+
+        render(<JsonEditor initialTitle={initialTitle} docId={docId} />)
+
+        expect(DocTitleEditorMock).toHaveBeenCalledExactlyOnceWith({
+            initialTitle,
+            docId,
         })
     })
 })
