@@ -8,26 +8,28 @@ import {
 import React from 'react'
 
 interface DocPageProps {
-    params: {
+    params: Promise<{
         id: string
-    }
+    }>
 }
 
 const DocPage = async ({ params }: DocPageProps) => {
+    const { id } = await params
+
     const queryClient = new QueryClient()
 
     await queryClient.prefetchQuery({
-        queryKey: ['doc', params.id],
+        queryKey: ['doc', id],
 
         queryFn: () =>
-            apiClient.get(`/docs/${params.id}`).then(res => {
+            apiClient.get(`/docs/${id}`).then(res => {
                 return res.data
             }),
     })
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <DocView id={params.id} />
+            <DocView id={id} />
         </HydrationBoundary>
     )
 }
