@@ -1,5 +1,6 @@
 'use client'
 
+import { DocTitleEditor } from '@/components/DocTitleEditor'
 import { JsonEditorActionBar } from '@/components/JsonEditorActionBar'
 import { initCodeMirrorExtensions } from '@/lib/codemirror/extensions'
 import { lightTheme } from '@/lib/codemirror/themes'
@@ -10,11 +11,17 @@ import React from 'react'
 export interface JsonEditorProps {
     className?: string
     initialContent?: string
+    initialTitle: string
+
+    docId: string
 }
 
 export const JsonEditor: React.FC<JsonEditorProps> = ({
     className,
     initialContent,
+    initialTitle,
+
+    docId,
 }) => {
     const [editorContent, setEditorContent] = React.useState(
         initialContent || '',
@@ -22,11 +29,14 @@ export const JsonEditor: React.FC<JsonEditorProps> = ({
 
     return (
         <div className={cn(`flex flex-col`, className)}>
-            <JsonEditorActionBar
-                editorContent={editorContent}
-                setEditorContent={setEditorContent}
-                className="self-end"
-            />
+            <div className="mb-2 flex items-end justify-between">
+                <DocTitleEditor initialTitle={initialTitle} docId={docId} />
+
+                <JsonEditorActionBar
+                    editorContent={editorContent}
+                    setEditorContent={setEditorContent}
+                />
+            </div>
 
             <CodeMirror
                 autoFocus

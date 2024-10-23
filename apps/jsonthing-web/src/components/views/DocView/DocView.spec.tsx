@@ -2,7 +2,7 @@ import { JsonEditor } from '@/components/JsonEditor'
 import { useGetDoc } from '@/hooks/useGetDoc'
 import { render } from '@testing-library/react'
 import React from 'react'
-import { DocView } from './DocView'
+import { DocView } from './index'
 
 jest.mock('@/hooks/useGetDoc')
 const useGetDocMock = jest.mocked(useGetDoc)
@@ -51,7 +51,7 @@ describe('<DocView />', () => {
         expect(useGetDocMock).toHaveBeenCalledExactlyOnceWith(docId)
     })
 
-    it('should pass doc content to JsonEditor', () => {
+    it('should pass doc data to JsonEditor', () => {
         expect.assertions(1)
 
         const docContent = Math.random().toString()
@@ -61,6 +61,7 @@ describe('<DocView />', () => {
             {
                 data: {
                     content: docContent,
+                    name: 'DOC_NAME',
                 },
             },
         )
@@ -69,6 +70,8 @@ describe('<DocView />', () => {
 
         expect(JsonEditorMock).toHaveBeenCalledExactlyOnceWith({
             initialContent: docContent,
+            initialTitle: 'DOC_NAME',
+            docId: 'DOC_ID',
         })
     })
 })
