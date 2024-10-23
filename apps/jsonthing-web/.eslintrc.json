@@ -15,14 +15,12 @@
         "plugin:tailwindcss/recommended",
 
         "plugin:react/recommended",
-        "plugin:react-hooks/recommended",
 
         "plugin:@tanstack/query/recommended"
     ],
 
     "plugins": [
         "react",
-        "react-hooks",
 
         "jest",
         "jest-extended",
@@ -109,5 +107,7 @@
         "react": {
             "version": "detect"
         }
-    }
+    },
+
+    "ignorePatterns": ["coverage"]
 }
