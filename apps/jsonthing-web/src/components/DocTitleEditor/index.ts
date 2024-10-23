@@ -1,0 +1,1 @@
+export { DocTitleEditor } from './DocTitleEditor'
