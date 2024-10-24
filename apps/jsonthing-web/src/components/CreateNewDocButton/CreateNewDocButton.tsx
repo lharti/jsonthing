@@ -1,18 +1,21 @@
 'use client'
 
-import { Button } from '@/components/ui/Button'
+import { Button, ButtonProps } from '@/components/ui/Button'
 import { useCreateDoc } from '@/hooks/useCreateDoc'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-export const CreateNewDocButton: React.FC = () => {
+type CreateNewDocButtonProps = ButtonProps
+
+export const CreateNewDocButton: React.FC<CreateNewDocButtonProps> = ({
+    ...buttonProps
+}) => {
     const { createDoc } = useCreateDoc()
 
     const router = useRouter()
 
     return (
         <Button
-            className="my-3 ml-auto"
             onClick={() => {
                 createDoc(undefined, {
                     onSuccess: ({ data }) => {
@@ -20,6 +23,7 @@ export const CreateNewDocButton: React.FC = () => {
                     },
                 })
             }}
+            {...buttonProps}
         >
             {'New Doc'}
         </Button>
