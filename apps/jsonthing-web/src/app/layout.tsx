@@ -33,9 +33,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                 `}
             >
                 <TooltipProvider>
-                    <ReactQueryProvider>
-                        <div className="">{children}</div>
-                    </ReactQueryProvider>
+                    <ReactQueryProvider>{children}</ReactQueryProvider>
                 </TooltipProvider>
             </body>
         </html>
