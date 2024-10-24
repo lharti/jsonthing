@@ -1,11 +1,11 @@
+import { DocEditorActionBar } from '@/components/DocEditorActionBar'
 import { DocTitleEditor } from '@/components/DocTitleEditor'
-import { JsonEditorActionBar } from '@/components/JsonEditorActionBar'
 import { initCodeMirrorExtensions } from '@/lib/codemirror/extensions'
 import { lightTheme } from '@/lib/codemirror/themes'
 import { render } from '@testing-library/react'
 import CodeMirror from '@uiw/react-codemirror'
 import React from 'react'
-import { JsonEditor } from './JsonEditor'
+import { DocEditor } from './DocEditor'
 
 jest.mock('@uiw/react-codemirror')
 const CodeMirrorMock = jest.mocked(CodeMirror)
@@ -13,15 +13,15 @@ const CodeMirrorMock = jest.mocked(CodeMirror)
 jest.mock('@/lib/codemirror/extensions')
 const initCodeMirrorExtensionsMock = jest.mocked(initCodeMirrorExtensions)
 
-jest.mock('@/components/JsonEditorActionBar')
-const JsonEditorActionBarMock = jest.mocked(JsonEditorActionBar)
+jest.mock('@/components/DocEditorActionBar')
+const DocEditorActionBarMock = jest.mocked(DocEditorActionBar)
 
 jest.mock('@/components/DocTitleEditor')
 const DocTitleEditorMock = jest.mocked(DocTitleEditor)
 
 const useStateSpy = jest.spyOn(React, 'useState')
 
-describe('<JsonEditor />', () => {
+describe('<DocEditor />', () => {
     it('should render', () => {
         expect.assertions(1)
 
@@ -29,14 +29,14 @@ describe('<JsonEditor />', () => {
 
         CodeMirrorMock.mockReturnValue(<div>{'CodeMirror'}</div>)
 
-        JsonEditorActionBarMock.mockReturnValue(
-            <div>{'JsonEditorActionBar'}</div>,
+        DocEditorActionBarMock.mockReturnValue(
+            <div>{'DocEditorActionBar'}</div>,
         )
 
         DocTitleEditorMock.mockReturnValue(<div>{'DocTitleEditor'}</div>)
 
         const { container } = render(
-            <JsonEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />,
+            <DocEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />,
         )
 
         expect(container).toMatchInlineSnapshot(`
@@ -51,7 +51,7 @@ describe('<JsonEditor />', () => {
                     DocTitleEditor
                   </div>
                   <div>
-                    JsonEditorActionBar
+                    DocEditorActionBar
                   </div>
                 </div>
                 <div>
@@ -72,7 +72,7 @@ describe('<JsonEditor />', () => {
         // @ts-expect-error just a mock
         initCodeMirrorExtensionsMock.mockReturnValue('CODEMIRROR_EXTENSIONS')
 
-        render(<JsonEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
+        render(<DocEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
 
         expect(CodeMirrorMock).toHaveBeenCalledExactlyOnceWith({
             autoFocus: true,
@@ -91,7 +91,7 @@ describe('<JsonEditor />', () => {
         const setEditorContent = jest.fn()
         useStateSpy.mockReturnValue(['content', setEditorContent])
 
-        render(<JsonEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
+        render(<DocEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
 
         // eslint-disable-next-line jest/unbound-method
         const codeMirrorOnChange = CodeMirrorMock.mock.calls[0][0].onChange
@@ -103,7 +103,7 @@ describe('<JsonEditor />', () => {
         expect(setEditorContent).toHaveBeenCalledExactlyOnceWith(newContent)
     })
 
-    it('should setup JsonEditorActionBar', () => {
+    it('should setup DocEditorActionBar', () => {
         expect.assertions(1)
 
         const editorContent = Math.random()
@@ -111,9 +111,9 @@ describe('<JsonEditor />', () => {
 
         useStateSpy.mockReturnValue([editorContent, setEditorContent])
 
-        render(<JsonEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
+        render(<DocEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
 
-        expect(JsonEditorActionBarMock).toHaveBeenCalledExactlyOnceWith({
+        expect(DocEditorActionBarMock).toHaveBeenCalledExactlyOnceWith({
             editorContent,
             setEditorContent,
         })
@@ -125,7 +125,7 @@ describe('<JsonEditor />', () => {
         const initialTitle = Math.random().toString()
         const docId = Math.random().toString()
 
-        render(<JsonEditor initialTitle={initialTitle} docId={docId} />)
+        render(<DocEditor initialTitle={initialTitle} docId={docId} />)
 
         expect(DocTitleEditorMock).toHaveBeenCalledExactlyOnceWith({
             initialTitle,

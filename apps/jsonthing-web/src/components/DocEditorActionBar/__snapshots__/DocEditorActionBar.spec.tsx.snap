@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<JsonEditorActionBar /> should render: <JsonEditorActionBar /> 1`] = `
+exports[`<DocEditorActionBar /> should render: <DocEditorActionBar /> 1`] = `
 <div>
   <div
     class="flex"

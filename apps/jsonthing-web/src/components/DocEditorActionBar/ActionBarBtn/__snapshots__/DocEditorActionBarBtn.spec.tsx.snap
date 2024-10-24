@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<JsonEditorActionBarBtn /> should render with icon only when used with iconOnly prop: <JsonEditorActionBarBtn iconOnly/> 1`] = `
+exports[`<DocEditorActionBarBtn /> should render with icon only when used with iconOnly prop: <DocEditorActionBarBtn iconOnly/> 1`] = `
 <div>
   <button
     aria-label="action btn"
@@ -37,7 +37,7 @@ exports[`<JsonEditorActionBarBtn /> should render with icon only when used with 
 </div>
 `;
 
-exports[`<JsonEditorActionBarBtn /> should render: <JsonEditorActionBarBtn /> 1`] = `
+exports[`<DocEditorActionBarBtn /> should render: <DocEditorActionBarBtn /> 1`] = `
 <div>
   <button
     aria-label="action btn"

@@ -7,18 +7,18 @@ import {
 } from '@tabler/icons-react'
 import { useParams } from 'next/navigation'
 import React from 'react'
-import { JsonEditorActionBarBtn } from './ActionBarBtn'
+import { DocEditorActionBarBtn } from './ActionBarBtn'
 import { SAVE_BTN_LABELS, SaveStatus } from './constants'
 import { useSaveContent } from './useSaveContent'
 
-export interface JsonEditorActionBarProps {
+export interface DocEditorActionBarProps {
     className?: string
 
     editorContent: string
     setEditorContent: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const JsonEditorActionBar: React.FC<JsonEditorActionBarProps> = ({
+export const DocEditorActionBar: React.FC<DocEditorActionBarProps> = ({
     className,
 
     editorContent,
@@ -49,21 +49,21 @@ export const JsonEditorActionBar: React.FC<JsonEditorActionBarProps> = ({
 
     return (
         <div className={cn('flex', className)}>
-            <JsonEditorActionBarBtn
+            <DocEditorActionBarBtn
                 iconOnly
                 label="Prettify"
                 Icon={IconWand}
                 onClick={() => prettifyContent()}
             />
 
-            <JsonEditorActionBarBtn
+            <DocEditorActionBarBtn
                 iconOnly
                 label="Copy"
                 Icon={IconClipboardCopy}
                 onClick={() => copyToClipboard()}
             />
 
-            <JsonEditorActionBarBtn
+            <DocEditorActionBarBtn
                 variant="outline"
                 label={SAVE_BTN_LABELS[saveStatus]}
                 Icon={IconDeviceFloppy}

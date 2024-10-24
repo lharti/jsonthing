@@ -1,14 +1,14 @@
 'use client'
 
+import { DocEditorActionBar } from '@/components/DocEditorActionBar'
 import { DocTitleEditor } from '@/components/DocTitleEditor'
-import { JsonEditorActionBar } from '@/components/JsonEditorActionBar'
 import { initCodeMirrorExtensions } from '@/lib/codemirror/extensions'
 import { lightTheme } from '@/lib/codemirror/themes'
 import { cn } from '@/lib/utils'
 import CodeMirror from '@uiw/react-codemirror'
 import React from 'react'
 
-export interface JsonEditorProps {
+export interface DocEditorProps {
     className?: string
     initialContent?: string
     initialTitle: string
@@ -16,7 +16,7 @@ export interface JsonEditorProps {
     docId: string
 }
 
-export const JsonEditor: React.FC<JsonEditorProps> = ({
+export const DocEditor: React.FC<DocEditorProps> = ({
     className,
     initialContent,
     initialTitle,
@@ -32,7 +32,7 @@ export const JsonEditor: React.FC<JsonEditorProps> = ({
             <div className="mb-2 flex items-end justify-between">
                 <DocTitleEditor initialTitle={initialTitle} docId={docId} />
 
-                <JsonEditorActionBar
+                <DocEditorActionBar
                     editorContent={editorContent}
                     setEditorContent={setEditorContent}
                 />

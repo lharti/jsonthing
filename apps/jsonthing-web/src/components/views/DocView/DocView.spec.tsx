@@ -1,4 +1,4 @@
-import { JsonEditor } from '@/components/JsonEditor'
+import { DocEditor } from '@/components/DocEditor'
 import { useGetDoc } from '@/hooks/useGetDoc'
 import { render } from '@testing-library/react'
 import React from 'react'
@@ -7,8 +7,8 @@ import { DocView } from './index'
 jest.mock('@/hooks/useGetDoc')
 const useGetDocMock = jest.mocked(useGetDoc)
 
-jest.mock('@/components/JsonEditor')
-const JsonEditorMock = jest.mocked(JsonEditor)
+jest.mock('@/components/DocEditor')
+const DocEditorMock = jest.mocked(DocEditor)
 
 describe('<DocView />', () => {
     it('should render', () => {
@@ -21,14 +21,14 @@ describe('<DocView />', () => {
             },
         )
 
-        JsonEditorMock.mockReturnValue('JSON_EDITOR')
+        DocEditorMock.mockReturnValue('DOC_EDITOR')
 
         const { container } = render(<DocView id="DOC_ID" />)
 
         expect(container).toMatchInlineSnapshot(`
             <div>
               <div>
-                JSON_EDITOR
+                DOC_EDITOR
               </div>
             </div>
         `)
@@ -51,7 +51,7 @@ describe('<DocView />', () => {
         expect(useGetDocMock).toHaveBeenCalledExactlyOnceWith(docId)
     })
 
-    it('should pass doc data to JsonEditor', () => {
+    it('should pass doc data to DocEditor', () => {
         expect.assertions(1)
 
         const docContent = Math.random().toString()
@@ -68,7 +68,7 @@ describe('<DocView />', () => {
 
         render(<DocView id="DOC_ID" />)
 
-        expect(JsonEditorMock).toHaveBeenCalledExactlyOnceWith({
+        expect(DocEditorMock).toHaveBeenCalledExactlyOnceWith({
             initialContent: docContent,
             initialTitle: 'DOC_NAME',
             docId: 'DOC_ID',

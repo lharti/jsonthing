@@ -3,18 +3,18 @@ import { IconWand } from '@tabler/icons-react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { PropsWithChildren } from 'react'
-import { JsonEditorActionBarBtn } from './JsonEditorActionBarBtn'
+import { DocEditorActionBarBtn } from './DocEditorActionBarBtn'
 
 const TooltipProviderWrapper: React.FC<PropsWithChildren> = ({ children }) => (
     <TooltipProvider>{children}</TooltipProvider>
 )
 
-describe('<JsonEditorActionBarBtn />', () => {
+describe('<DocEditorActionBarBtn />', () => {
     it('should render', () => {
         expect.assertions(1)
 
         const { container } = render(
-            <JsonEditorActionBarBtn
+            <DocEditorActionBarBtn
                 label="action btn"
                 Icon={IconWand}
                 onClick={jest.fn()}
@@ -25,14 +25,14 @@ describe('<JsonEditorActionBarBtn />', () => {
             },
         )
 
-        expect(container).toMatchSnapshot('<JsonEditorActionBarBtn />')
+        expect(container).toMatchSnapshot('<DocEditorActionBarBtn />')
     })
 
     it('should render with icon only when used with iconOnly prop', () => {
         expect.assertions(1)
 
         const { container } = render(
-            <JsonEditorActionBarBtn
+            <DocEditorActionBarBtn
                 iconOnly
                 label="action btn"
                 Icon={IconWand}
@@ -44,7 +44,7 @@ describe('<JsonEditorActionBarBtn />', () => {
             },
         )
 
-        expect(container).toMatchSnapshot('<JsonEditorActionBarBtn iconOnly/>')
+        expect(container).toMatchSnapshot('<DocEditorActionBarBtn iconOnly/>')
     })
 
     it('should show tooltip on hover', async () => {
@@ -55,7 +55,7 @@ describe('<JsonEditorActionBarBtn />', () => {
         const user = userEvent.setup()
 
         const { getByRole } = render(
-            <JsonEditorActionBarBtn
+            <DocEditorActionBarBtn
                 label="action btn"
                 Icon={IconWand}
                 onClick={jest.fn()}
@@ -82,7 +82,7 @@ describe('<JsonEditorActionBarBtn />', () => {
         const onClick = jest.fn(() => "I'm clicked")
 
         render(
-            <JsonEditorActionBarBtn
+            <DocEditorActionBarBtn
                 label="click me"
                 Icon={IconWand}
                 onClick={() => {

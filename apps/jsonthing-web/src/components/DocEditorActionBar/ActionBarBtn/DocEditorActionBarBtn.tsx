@@ -7,7 +7,7 @@ import {
 import { IconLoader, IconProps } from '@tabler/icons-react'
 import React from 'react'
 
-export interface JsonEditorActionBarBtnProps extends ButtonProps {
+export interface DocEditorActionBarBtnProps extends ButtonProps {
     label: string
 
     Icon: React.ComponentType<IconProps>
@@ -23,7 +23,7 @@ export interface JsonEditorActionBarBtnProps extends ButtonProps {
     isError?: boolean
 }
 
-export const JsonEditorActionBarBtn: React.FC<JsonEditorActionBarBtnProps> = ({
+export const DocEditorActionBarBtn: React.FC<DocEditorActionBarBtnProps> = ({
     label,
     Icon,
     variant,

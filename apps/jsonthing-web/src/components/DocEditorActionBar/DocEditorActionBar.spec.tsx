@@ -7,16 +7,16 @@ import {
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { JsonEditorActionBarBtn } from './ActionBarBtn'
+import { DocEditorActionBarBtn } from './ActionBarBtn'
 import { SaveStatus } from './constants'
-import { JsonEditorActionBar } from './JsonEditorActionBar'
+import { DocEditorActionBar } from './DocEditorActionBar'
 import { useSaveContent } from './useSaveContent'
 
 jest.mock('./ActionBarBtn')
-const JsonEditorActionBarBtnMock = jest.mocked(JsonEditorActionBarBtn)
+const DocEditorActionBarBtnMock = jest.mocked(DocEditorActionBarBtn)
 
 const mockActionBarBtn = () => {
-    return JsonEditorActionBarBtnMock.mockImplementation(
+    return DocEditorActionBarBtnMock.mockImplementation(
         ({ onClick, label }) => (
             <Button role="button" aria-label={label} onClick={onClick} />
         ),
@@ -35,27 +35,27 @@ const useSaveContentMock = jest.mocked(useSaveContent).mockReturnValue({
     status: SaveStatus.SAVED,
 })
 
-describe('<JsonEditorActionBar />', () => {
+describe('<DocEditorActionBar />', () => {
     it('should render', () => {
         expect.assertions(1)
 
         mockActionBarBtn()
 
         const { container } = render(
-            <JsonEditorActionBar
+            <DocEditorActionBar
                 editorContent="{}"
                 setEditorContent={jest.fn()}
             />,
         )
 
-        expect(container).toMatchSnapshot('<JsonEditorActionBar />')
+        expect(container).toMatchSnapshot('<DocEditorActionBar />')
     })
 
     it('should setup useSaveContent', () => {
         expect.assertions(1)
 
         render(
-            <JsonEditorActionBar
+            <DocEditorActionBar
                 editorContent="{}"
                 setEditorContent={jest.fn()}
             />,
@@ -80,7 +80,7 @@ describe('<JsonEditorActionBar />', () => {
             const ActionBtnMock = mockActionBarBtn()
 
             render(
-                <JsonEditorActionBar
+                <DocEditorActionBar
                     editorContent="{}"
                     setEditorContent={jest.fn()}
                 />,
@@ -110,7 +110,7 @@ describe('<JsonEditorActionBar />', () => {
             const setEditorContent = jest.fn(value => value)
 
             render(
-                <JsonEditorActionBar
+                <DocEditorActionBar
                     editorContent={uglyJson}
                     setEditorContent={setEditorContent}
                 />,
@@ -141,7 +141,7 @@ describe('<JsonEditorActionBar />', () => {
             const ActionBtnMock = mockActionBarBtn()
 
             render(
-                <JsonEditorActionBar
+                <DocEditorActionBar
                     editorContent="{}"
                     setEditorContent={jest.fn()}
                 />,
@@ -169,7 +169,7 @@ describe('<JsonEditorActionBar />', () => {
             const editorContent = `{"random": ${Math.random()}`
 
             render(
-                <JsonEditorActionBar
+                <DocEditorActionBar
                     editorContent={editorContent}
                     setEditorContent={jest.fn()}
                 />,
@@ -194,7 +194,7 @@ describe('<JsonEditorActionBar />', () => {
             const ActionBtnMock = mockActionBarBtn()
 
             render(
-                <JsonEditorActionBar
+                <DocEditorActionBar
                     editorContent="{}"
                     setEditorContent={jest.fn()}
                 />,
@@ -229,7 +229,7 @@ describe('<JsonEditorActionBar />', () => {
             const editorContent = Math.random().toString()
 
             render(
-                <JsonEditorActionBar
+                <DocEditorActionBar
                     editorContent={editorContent}
                     setEditorContent={jest.fn()}
                 />,
