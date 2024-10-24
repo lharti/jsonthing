@@ -1,4 +1,4 @@
-import { DocView } from '@/components/views/DocView'
+import { DocPage } from '@/components/pages/DocPage'
 import { apiClient } from '@/lib/api-client'
 import {
     dehydrate,
@@ -7,13 +7,13 @@ import {
 } from '@tanstack/react-query'
 import React from 'react'
 
-interface DocPageProps {
+interface DocProps {
     params: Promise<{
         id: string
     }>
 }
 
-const DocPage = async ({ params }: DocPageProps) => {
+const Doc = async ({ params }: DocProps) => {
     const { id } = await params
 
     const queryClient = new QueryClient()
@@ -29,9 +29,9 @@ const DocPage = async ({ params }: DocPageProps) => {
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <DocView id={id} />
+            <DocPage id={id} />
         </HydrationBoundary>
     )
 }
 
-export default DocPage
+export default Doc
