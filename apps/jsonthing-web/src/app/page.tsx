@@ -1,4 +1,4 @@
-import { JsonEditor } from '@/components/JsonEditor'
+import { DocEditor } from '@/components/DocEditor'
 import React from 'react'
 
 const Home: React.FC = () => {
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 
     return (
         <div className="mt-8">
-            <JsonEditor initialContent={initialContent} />
+            <DocEditor initialContent={initialContent} />
         </div>
     )
 }

@@ -1,0 +1,1 @@
+export { DocEditorActionBar } from './DocEditorActionBar'
