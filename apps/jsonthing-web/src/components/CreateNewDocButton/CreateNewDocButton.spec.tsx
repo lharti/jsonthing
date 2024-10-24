@@ -26,7 +26,7 @@ describe('<CreateNewDocButton />', () => {
         expect(container).toMatchInlineSnapshot(`
             <div>
               <button
-                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 bg-gray-900 text-gray-50 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 hover:bg-gray-900/90 h-9 px-4 py-2 my-3 ml-auto"
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 bg-gray-900 text-gray-50 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 hover:bg-gray-900/90 h-9 px-4 py-2"
               >
                 New Doc
               </button>
