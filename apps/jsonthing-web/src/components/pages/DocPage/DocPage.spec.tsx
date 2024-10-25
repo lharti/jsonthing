@@ -1,5 +1,6 @@
 import { CreateNewDocButton } from '@/components/CreateNewDocButton'
 import { DocEditor } from '@/components/DocEditor'
+import { DocEndpoint } from '@/components/DocEndpoint'
 import { useGetDoc } from '@/hooks/useGetDoc'
 import { render } from '@testing-library/react'
 import React from 'react'
@@ -14,6 +15,9 @@ const DocEditorMock = jest.mocked(DocEditor)
 jest.mock('@/components/CreateNewDocButton')
 const CreateNewDocButtonMock = jest.mocked(CreateNewDocButton)
 
+jest.mock('@/components/DocEndpoint')
+const DocEndpointMock = jest.mocked(DocEndpoint)
+
 describe('<DocPage />', () => {
     it('should render', () => {
         expect.assertions(1)
@@ -26,8 +30,8 @@ describe('<DocPage />', () => {
         )
 
         DocEditorMock.mockReturnValue('{DOC_EDITOR}')
-
         CreateNewDocButtonMock.mockReturnValue('{CREATE_NEW_DOC_BUTTON}')
+        DocEndpointMock.mockReturnValue('{DOC_ENDPOINT}')
 
         const { container } = render(<DocPage id="DOC_ID" />)
 
@@ -35,14 +39,15 @@ describe('<DocPage />', () => {
             <div>
               <article
                 class="
-                          container mx-auto max-w-screen-md px-4
+                          mx-auto max-w-screen-md px-4
 
                           md:px-2
                         "
               >
                 <header
-                  class="mb-12 mt-3 flex"
+                  class="mb-12 mt-3 flex flex-wrap-reverse"
                 >
+                  {DOC_ENDPOINT}
                   {CREATE_NEW_DOC_BUTTON}
                 </header>
                 <main>
@@ -91,6 +96,22 @@ describe('<DocPage />', () => {
             initialContent: docContent,
             initialTitle: 'DOC_NAME',
             docId: 'DOC_ID',
+        })
+    })
+
+    it('should setup DocEndpoint', () => {
+        expect.assertions(1)
+
+        render(<DocPage id="DOC_ID" />)
+
+        expect(DocEndpointMock).toHaveBeenCalledExactlyOnceWith({
+            docId: 'DOC_ID',
+
+            className: `
+                      mt-4 w-full
+
+                      sm:mt-0 sm:w-auto
+                    `,
         })
     })
 })
