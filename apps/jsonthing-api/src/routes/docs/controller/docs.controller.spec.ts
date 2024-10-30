@@ -70,7 +70,9 @@ describe('docsController', () => {
 
             const createDocPayload = {
                 name: 'doc-name',
-                content: 'doc-content',
+                content: {
+                    value: 'doc-content',
+                },
             }
 
             await docsController.createDoc(createDocPayload)
@@ -85,8 +87,11 @@ describe('docsController', () => {
 
             const createDocPayload = {
                 name: `doc-${Math.random()}`,
-                content: `doc-content-${Math.random()}`,
+                content: {
+                    value: `doc-content-${Math.random()}`,
+                },
             }
+
             const result =
                 await docsController.createDoc(createDocPayload)
 
