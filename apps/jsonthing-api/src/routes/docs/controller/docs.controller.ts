@@ -1,4 +1,3 @@
-/* eslint-disable n/handle-callback-err */
 import {
     Body,
     Controller,
@@ -75,6 +74,27 @@ export class DocsController {
             err => {
                 throw new InternalServerErrorException(
                     `Failed to update doc: ${err.name}`,
+                )
+            },
+        )
+    }
+
+    @Get(':id/content')
+    getDocContent(@Param('id') docId: string): object {
+        const queryId = new mongoose.Types.ObjectId(docId)
+
+        const result = this.docsService.tryGetDocById(queryId)
+
+        return result.match(
+            doc => {
+                if (!doc) {
+                    throw new NotFoundException('Doc not found')
+                } else return doc.content
+            },
+
+            err => {
+                throw new InternalServerErrorException(
+                    `Failed to get doc: ${err.name}`,
                 )
             },
         )

@@ -244,4 +244,71 @@ describe('docsController', () => {
             ).rejects.toThrow(internalException)
         })
     })
+
+    describe('getDocContent', () => {
+        it('should get a doc content by id', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            const content = {
+                value: Math.random().toString(),
+            }
+
+            // @ts-expect-error: just a mock
+            docsService.tryGetDocById.mockImplementation(id =>
+                okAsync({
+                    id: id.toString(),
+                    name: 'test',
+                    content,
+                    type: 'JSON',
+                }),
+            )
+
+            const result =
+                await docsController.getDocContent(targetDocId)
+
+            expect(result).toStrictEqual(content)
+        })
+
+        it('should throw NotFoundException if doc not found', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            docsService.tryGetDocById.mockImplementation(() =>
+                okAsync(null),
+            )
+
+            const notFoundException = new NotFoundException(
+                'Doc not found',
+            )
+
+            await expect(
+                docsController.getDocContent(targetDocId),
+            ).rejects.toThrow(notFoundException)
+        })
+
+        it('should throw InternalServiceErrorException if doc retrieval failed', async () => {
+            expect.assertions(1)
+
+            const targetDocId =
+                new mongoose.Types.ObjectId().toString()
+
+            docsService.tryGetDocById.mockImplementation(() =>
+                errAsync(new Error('something went wrong')),
+            )
+
+            const internalException =
+                new InternalServerErrorException(
+                    'Failed to get doc: Error',
+                )
+
+            await expect(
+                docsController.getDocContent(targetDocId),
+            ).rejects.toThrow(internalException)
+        })
+    })
 })
