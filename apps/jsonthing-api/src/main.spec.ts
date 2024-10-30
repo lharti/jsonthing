@@ -40,7 +40,9 @@ describe('bootstrap', () => {
 
         expect(
             nestFactoryCreateMethod,
-        ).toHaveBeenCalledExactlyOnceWith(AppModule)
+        ).toHaveBeenCalledExactlyOnceWith(AppModule, {
+            cors: true,
+        })
     })
 
     it('should use global validation pipe', async () => {
