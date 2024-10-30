@@ -72,7 +72,9 @@ describe('docsService', () => {
 
             const createDocPayload = {
                 name: `${Math.random}-name`,
-                content: `${Math.random}-content`,
+                content: {
+                    random: `${Math.random}-content`,
+                },
             }
 
             const result = await docsService

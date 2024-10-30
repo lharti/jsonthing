@@ -18,7 +18,7 @@ describe('docSchema', () => {
             {
               "content": {
                 "required": true,
-                "type": [Function],
+                "type": {},
               },
               "name": {
                 "minlength": 1,
@@ -81,7 +81,9 @@ describe('docSchema', () => {
 
             const docPayload = {
                 name: 'test',
-                content: 'test',
+                content: {
+                    test: 'test',
+                },
                 type: DocType.JSON,
             }
 
