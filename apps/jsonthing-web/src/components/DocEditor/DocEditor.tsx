@@ -10,7 +10,7 @@ import React from 'react'
 
 export interface DocEditorProps {
     className?: string
-    initialContent?: string
+    initialContent?: object
     initialTitle: string
 
     docId: string
@@ -24,7 +24,7 @@ export const DocEditor: React.FC<DocEditorProps> = ({
     docId,
 }) => {
     const [editorContent, setEditorContent] = React.useState(
-        initialContent || '',
+        JSON.stringify(initialContent, null, 2),
     )
 
     return (
@@ -34,6 +34,7 @@ export const DocEditor: React.FC<DocEditorProps> = ({
 
                 <DocEditorActionBar
                     editorContent={editorContent}
+                    // TODO: use onChange  instead of passing setEditorContent
                     setEditorContent={setEditorContent}
                 />
             </div>

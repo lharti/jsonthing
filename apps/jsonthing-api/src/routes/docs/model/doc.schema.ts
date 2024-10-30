@@ -22,8 +22,9 @@ export class Doc {
 
     @Prop({
         required: true,
+        type: Object,
     })
-    content: string
+    content: object
 
     @Prop({
         required: true,

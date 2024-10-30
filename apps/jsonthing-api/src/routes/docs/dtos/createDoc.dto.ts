@@ -3,7 +3,7 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
 export class CreateDocDto {
     @IsString()
     @IsOptional()
-    content?: string
+    content?: object
 
     @IsString()
     @IsOptional()
