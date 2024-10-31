@@ -9,7 +9,11 @@ export async function bootstrap() {
         cors: true,
     })
 
-    app.useGlobalPipes(new ValidationPipe())
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true,
+        }),
+    )
 
     const appConfig = app.get(ConfigService<AppConfig>)
 

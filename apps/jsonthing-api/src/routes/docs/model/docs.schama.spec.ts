@@ -18,7 +18,7 @@ describe('docSchema', () => {
             {
               "content": {
                 "required": true,
-                "type": {},
+                "type": [Function],
               },
               "name": {
                 "minlength": 1,
