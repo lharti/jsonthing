@@ -1,4 +1,5 @@
 import { DatabaseError } from '@/common/errors/database.error'
+import { Json } from '@/common/types'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import mongoose from 'mongoose'
 import { ResultAsync } from 'neverthrow'
@@ -22,9 +23,9 @@ export class Doc {
 
     @Prop({
         required: true,
-        type: Object,
+        type: mongoose.Schema.Types.Mixed,
     })
-    content: object
+    content: Json
 
     @Prop({
         required: true,
