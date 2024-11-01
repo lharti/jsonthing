@@ -11,5 +11,5 @@ export class UpdateDocDto {
     @IsString()
     @IsOptional()
     @IsNotEmpty()
-    name?: string
+    title?: string
 }

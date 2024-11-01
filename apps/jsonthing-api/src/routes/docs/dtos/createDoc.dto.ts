@@ -11,5 +11,5 @@ export class CreateDocDto {
     @IsString()
     @IsOptional()
     @IsNotEmpty()
-    name?: string
+    title?: string
 }

@@ -2,8 +2,6 @@ import {
     Body,
     Controller,
     Get,
-    InternalServerErrorException,
-    NotFoundException,
     Param,
     Patch,
     Post,
@@ -18,38 +16,14 @@ export class DocsController {
 
     @Post()
     createDoc(@Body() createDocPayload?: CreateDocDto) {
-        const result = this.docsService.tryCreateDoc(createDocPayload)
-
-        return result.match(
-            doc => doc,
-
-            err => {
-                throw new InternalServerErrorException(
-                    `Failed to create doc: ${err.name}`,
-                )
-            },
-        )
+        return this.docsService.createDoc(createDocPayload)
     }
 
     @Get(':id')
     getDoc(@Param('id') docId: string) {
         const queryId = new mongoose.Types.ObjectId(docId)
 
-        const result = this.docsService.tryGetDocById(queryId)
-
-        return result.match(
-            doc => {
-                if (!doc) {
-                    throw new NotFoundException('Doc not found')
-                } else return doc
-            },
-
-            err => {
-                throw new InternalServerErrorException(
-                    `Failed to get doc: ${err.name}`,
-                )
-            },
-        )
+        return this.docsService.getDocById(queryId)
     }
 
     @Patch(':id')
@@ -59,44 +33,15 @@ export class DocsController {
     ) {
         const queryId = new mongoose.Types.ObjectId(docId)
 
-        const result = this.docsService.tryUpdateDoc(
-            queryId,
-            updateDocPayload,
-        )
-
-        return result.match(
-            doc => {
-                if (!doc) {
-                    throw new NotFoundException('Doc not found')
-                } else return doc
-            },
-
-            err => {
-                throw new InternalServerErrorException(
-                    `Failed to update doc: ${err.name}`,
-                )
-            },
-        )
+        return this.docsService.updateDoc(queryId, updateDocPayload)
     }
 
     @Get(':id/content')
     getDocContent(@Param('id') docId: string): object {
         const queryId = new mongoose.Types.ObjectId(docId)
 
-        const result = this.docsService.tryGetDocById(queryId)
-
-        return result.match(
-            doc => {
-                if (!doc) {
-                    throw new NotFoundException('Doc not found')
-                } else return doc.content
-            },
-
-            err => {
-                throw new InternalServerErrorException(
-                    `Failed to get doc: ${err.name}`,
-                )
-            },
-        )
+        return this.docsService
+            .getDocById(queryId)
+            .then(doc => doc.content)
     }
 }

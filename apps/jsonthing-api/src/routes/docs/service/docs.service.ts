@@ -1,17 +1,14 @@
-import { DatabaseError } from '@/common/errors/database.error'
 import { CreateDocDto } from '@/routes/docs/dtos'
-import { Injectable, Logger } from '@nestjs/common'
+import {
+    Injectable,
+    InternalServerErrorException,
+    Logger,
+    NotFoundException,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import mongoose from 'mongoose'
-import { ResultAsync } from 'neverthrow'
-import {
-    DEFAULT_DOC_CONTENT,
-    DEFAULT_DOC_NAME,
-    DocType,
-} from '../constants'
+import { DEFAULT_DOC_CONTENT, DEFAULT_DOC_NAME } from '../constants'
 import { Doc, DocsModel } from '../model'
-
-type SafeDatabaseResult<T> = ResultAsync<T, DatabaseError>
 
 @Injectable()
 export class DocsService {
@@ -22,48 +19,74 @@ export class DocsService {
         private Docs: DocsModel,
     ) {}
 
-    public tryCreateDoc(
-        createDocPayload?: CreateDocDto,
-    ): SafeDatabaseResult<Doc> {
+    public createDoc(createDocPayload?: CreateDocDto): Promise<Doc> {
         const docPayload = {
-            name: createDocPayload?.name || DEFAULT_DOC_NAME,
+            title: createDocPayload?.title || DEFAULT_DOC_NAME,
 
             content: createDocPayload?.content || DEFAULT_DOC_CONTENT,
-
-            type: DocType.JSON,
         }
 
-        return this.Docs.tryCreate(docPayload)
-            .mapErr(error => {
+        const result = this.Docs.create(docPayload)
+
+            .catch(error => {
                 this.logger.error(error)
 
-                return error
+                throw new InternalServerErrorException(
+                    `Failed to create doc`,
+                )
             })
-            .map(doc => doc)
+
+            .then(doc => doc.toObject())
+
+        return result
     }
 
-    public tryGetDocById(
-        docId: mongoose.Types.ObjectId,
-    ): SafeDatabaseResult<Doc | null> {
-        return this.Docs.tryFindById(docId)
-            .mapErr(error => {
+    public getDocById(docId: mongoose.Types.ObjectId): Promise<Doc> {
+        const result = this.Docs.findById(docId)
+
+            .catch(error => {
                 this.logger.error(error)
 
-                return error
+                throw new InternalServerErrorException(
+                    `Failed to get doc`,
+                )
             })
-            .map(doc => doc)
+
+            .then(doc => {
+                if (!doc) {
+                    throw new NotFoundException('Doc not found')
+                }
+
+                return doc.toObject()
+            })
+
+        return result
     }
 
-    public tryUpdateDoc(
+    public updateDoc(
         docId: mongoose.Types.ObjectId,
         updateDocPayload: Partial<Doc>,
-    ): SafeDatabaseResult<Doc | null> {
-        return this.Docs.tryFindByIdAndUpdate(docId, updateDocPayload)
-            .mapErr(error => {
+    ): Promise<Doc> {
+        const result = this.Docs.findByIdAndUpdate(
+            docId,
+            updateDocPayload,
+        )
+            .catch(error => {
                 this.logger.error(error)
 
-                return error
+                throw new InternalServerErrorException(
+                    `Failed to update doc`,
+                )
             })
-            .map(doc => doc)
+
+            .then(doc => {
+                if (!doc) {
+                    throw new NotFoundException('Doc not found')
+                }
+
+                return doc.toObject()
+            })
+
+        return result
     }
 }
