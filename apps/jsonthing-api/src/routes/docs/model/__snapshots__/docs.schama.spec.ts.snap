@@ -1,0 +1,282 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docSchema should match snapshot 1`] = `
+Schema {
+  "$globalPluginsApplied": true,
+  "$id": 1,
+  "_indexes": [],
+  "_searchIndexes": [],
+  "_userProvidedOptions": {
+    "id": true,
+    "toJSON": {
+      "transform": [Function],
+      "virtuals": true,
+    },
+    "toObject": {
+      "transform": [Function],
+      "virtuals": true,
+    },
+  },
+  "aliases": {},
+  "callQueue": [],
+  "childSchemas": [],
+  "inherits": {},
+  "mapPaths": [],
+  "methodOptions": {},
+  "methods": {},
+  "nested": {},
+  "obj": {
+    "content": {
+      "required": true,
+      "type": [Function],
+    },
+    "title": {
+      "minlength": 1,
+      "required": true,
+      "type": [Function],
+    },
+  },
+  "options": {
+    "_id": true,
+    "autoIndex": null,
+    "bufferCommands": true,
+    "capped": false,
+    "discriminatorKey": "__t",
+    "id": true,
+    "minimize": true,
+    "optimisticConcurrency": false,
+    "pluralization": true,
+    "read": null,
+    "shardKey": null,
+    "strict": true,
+    "strictQuery": false,
+    "toJSON": {
+      "transform": [Function],
+      "virtuals": true,
+    },
+    "toObject": {
+      "transform": [Function],
+      "virtuals": true,
+    },
+    "typeKey": "type",
+    "validateBeforeSave": true,
+    "validateModifiedOnly": false,
+    "versionKey": "__v",
+  },
+  "paths": {
+    "__v": SchemaNumber {
+      "_index": null,
+      "_presplitPath": [
+        "__v",
+      ],
+      "getters": [],
+      "instance": "Number",
+      "options": SchemaNumberOptions {
+        "type": [Function],
+      },
+      "path": "__v",
+      "setters": [],
+      "validators": [],
+      Symbol(mongoose#schemaType): true,
+    },
+    "_id": SchemaObjectId {
+      "_index": null,
+      "_presplitPath": [
+        "_id",
+      ],
+      "defaultValue": [Function],
+      "getters": [],
+      "instance": "ObjectId",
+      "options": SchemaObjectIdOptions {
+        "auto": true,
+        "type": "ObjectId",
+      },
+      "path": "_id",
+      "setters": [
+        [Function],
+      ],
+      "validators": [],
+      Symbol(mongoose#schemaType): true,
+    },
+    "content": SchemaMixed {
+      "_index": null,
+      "_presplitPath": [
+        "content",
+      ],
+      "getters": [],
+      "instance": "Mixed",
+      "isRequired": true,
+      "options": SchemaTypeOptions {
+        "required": true,
+        "type": [Function],
+      },
+      "originalRequiredValue": true,
+      "path": "content",
+      "requiredValidator": [Function],
+      "setters": [],
+      "validators": [
+        {
+          "message": "Path \`{PATH}\` is required.",
+          "type": "required",
+          "validator": [Function],
+        },
+      ],
+      Symbol(mongoose#schemaType): true,
+      Symbol(mongoose:schema_mixed): true,
+    },
+    "title": SchemaString {
+      "_index": null,
+      "_presplitPath": [
+        "title",
+      ],
+      "enumValues": [],
+      "getters": [],
+      "instance": "String",
+      "isRequired": true,
+      "minlengthValidator": [Function],
+      "options": SchemaStringOptions {
+        "minlength": 1,
+        "required": true,
+        "type": [Function],
+      },
+      "originalRequiredValue": true,
+      "path": "title",
+      "regExp": null,
+      "requiredValidator": [Function],
+      "setters": [],
+      "validators": [
+        {
+          "message": "Path \`{PATH}\` is required.",
+          "type": "required",
+          "validator": [Function],
+        },
+        {
+          "message": "Path \`{PATH}\` (\`{VALUE}\`) is shorter than the minimum allowed length (1).",
+          "minlength": 1,
+          "type": "minlength",
+          "validator": [Function],
+        },
+      ],
+      Symbol(mongoose#schemaType): true,
+    },
+  },
+  "plugins": [
+    {
+      "fn": [Function],
+      "opts": {
+        "deduplicate": true,
+      },
+    },
+    {
+      "fn": [Function],
+      "opts": {
+        "deduplicate": true,
+      },
+    },
+    {
+      "fn": [Function],
+      "opts": {
+        "deduplicate": true,
+      },
+    },
+    {
+      "fn": [Function],
+      "opts": {
+        "deduplicate": true,
+      },
+    },
+    {
+      "fn": [Function],
+      "opts": {
+        "deduplicate": true,
+      },
+    },
+  ],
+  "query": {},
+  "s": {
+    "hooks": Kareem {
+      "_posts": Map {
+        "save" => [
+          {
+            "fn": [Function],
+          },
+          {
+            "fn": [Function],
+          },
+          {
+            "fn": [Function],
+          },
+        ],
+        "init" => [
+          {
+            "fn": [Function],
+          },
+        ],
+      },
+      "_pres": Map {
+        "save" => [
+          {
+            "fn": [Function],
+            "isAsync": false,
+          },
+          {
+            "fn": [Function],
+            "isAsync": false,
+          },
+          {
+            "fn": [Function],
+            "isAsync": false,
+          },
+          {
+            "fn": [Function],
+            "isAsync": false,
+          },
+        ],
+        "remove" => [
+          {
+            "fn": [Function],
+            "isAsync": false,
+          },
+        ],
+      },
+    },
+  },
+  "singleNestedPaths": {},
+  "statics": {},
+  "subpaths": {},
+  "tree": {
+    "__v": [Function],
+    "_id": {
+      "auto": true,
+      "type": "ObjectId",
+    },
+    "content": {
+      "required": true,
+      "type": [Function],
+    },
+    "id": VirtualType {
+      "getters": [
+        [Function],
+      ],
+      "options": {},
+      "path": "id",
+      "setters": [],
+    },
+    "title": {
+      "minlength": 1,
+      "required": true,
+      "type": [Function],
+    },
+  },
+  "virtuals": {
+    "id": VirtualType {
+      "getters": [
+        [Function],
+      ],
+      "options": {},
+      "path": "id",
+      "setters": [],
+    },
+  },
+}
+`;

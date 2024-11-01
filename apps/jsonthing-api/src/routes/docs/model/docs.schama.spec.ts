@@ -1,7 +1,4 @@
-import { DatabaseError } from '@/common/errors/database.error'
-import { DocType } from '@/routes/docs/constants'
-import * as mongoose from 'mongoose'
-import { Doc, DocSchema, docsModel } from './doc.schema'
+import { DocSchema, docsModel } from './doc.schema'
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const mockingoose = require('mockingoose')
@@ -9,6 +6,12 @@ const mockingoose = require('mockingoose')
 describe('docSchema', () => {
     beforeEach(() => {
         mockingoose.resetAll()
+    })
+
+    it('should match snapshot', () => {
+        expect.assertions(1)
+
+        expect(DocSchema).toMatchSnapshot()
     })
 
     it('should define schema object', () => {
@@ -20,30 +23,11 @@ describe('docSchema', () => {
                 "required": true,
                 "type": [Function],
               },
-              "name": {
+              "title": {
                 "minlength": 1,
                 "required": true,
                 "type": [Function],
               },
-              "type": {
-                "enum": {
-                  "JSON": "json",
-                },
-                "required": true,
-                "type": [Function],
-              },
-            }
-        `)
-    })
-
-    it('should define static methods', () => {
-        expect.assertions(1)
-
-        expect(DocSchema.statics).toMatchInlineSnapshot(`
-            {
-              "tryCreate": [Function],
-              "tryFindById": [Function],
-              "tryFindByIdAndUpdate": [Function],
             }
         `)
     })
@@ -51,7 +35,7 @@ describe('docSchema', () => {
     it('should have the right options', () => {
         expect.assertions(1)
 
-        // @ts-expect-error - not defined in mongoose types
+        // @ts-expect-error: exists, but not defined in mongoose types
         expect(DocSchema.options).toMatchInlineSnapshot(`
             {
               "_id": true,
@@ -67,6 +51,14 @@ describe('docSchema', () => {
               "shardKey": null,
               "strict": true,
               "strictQuery": false,
+              "toJSON": {
+                "transform": [Function],
+                "virtuals": true,
+              },
+              "toObject": {
+                "transform": [Function],
+                "virtuals": true,
+              },
               "typeKey": "type",
               "validateBeforeSave": true,
               "validateModifiedOnly": false,
@@ -75,171 +67,43 @@ describe('docSchema', () => {
         `)
     })
 
-    describe('tryCreate', () => {
-        it('should create a new doc', async () => {
+    describe('toObject', () => {
+        it('should return pretty doc', async () => {
             expect.assertions(1)
 
-            const docPayload = {
-                name: 'test',
-                content: {
-                    test: 'test',
-                },
-                type: DocType.JSON,
-            }
+            const random = Math.random().toString()
 
-            const tryCreateResult = await docsModel
-                .tryCreate(docPayload)
-                .match(
-                    doc => doc,
-                    error => error,
-                )
+            const doc = await docsModel.create({
+                title: random,
+                content: { test: random },
+            })
 
-            expect(tryCreateResult).toStrictEqual(
-                expect.objectContaining({
-                    _id: expect.any(mongoose.Types.ObjectId),
-                    ...docPayload,
-                }),
-            )
-        })
+            expect(doc.toJSON()).toStrictEqual({
+                id: doc._id.toString(),
 
-        it('should return DatabaseError when save fails', async () => {
-            expect.assertions(1)
-
-            const docPayload = {
-                name: 'test',
-                type: 'NOT_A_VALID_TYPE',
-            } as unknown as Doc
-
-            const saveError = new mongoose.MongooseError(
-                'Failed to create Doc',
-            )
-            mockingoose(docsModel).toReturn(
-                saveError,
-
-                '$save',
-            )
-
-            const tryCreateResult = await docsModel
-                .tryCreate(docPayload)
-                .match(
-                    doc => doc,
-                    error => error,
-                )
-
-            expect(tryCreateResult).toStrictEqual(
-                new DatabaseError('Failed to create Doc', saveError),
-            )
-        })
-    })
-
-    describe('tryFindById', () => {
-        it('should find a doc by id', async () => {
-            expect.assertions(1)
-
-            const targetDoc = {
-                _id: new mongoose.Types.ObjectId(),
-                name: 'test',
-                content: 'test',
-                type: DocType.JSON,
-            }
-            mockingoose(docsModel).toReturn(targetDoc, 'findOne')
-
-            const queryId = new mongoose.Types.ObjectId()
-
-            const result = await docsModel.tryFindById(queryId).match(
-                doc => doc?.toJSON(),
-                error => error,
-            )
-
-            expect(result).toStrictEqual(targetDoc)
-        })
-
-        it('should return DatabaseError when findOne fails', async () => {
-            expect.assertions(1)
-
-            const queryId = new mongoose.Types.ObjectId()
-
-            const findError = new mongoose.MongooseError(
-                'Failed to find Doc',
-            )
-            mockingoose(docsModel).toReturn(findError, 'findOne')
-
-            const tryFindByIdResult = await docsModel
-                .tryFindById(queryId)
-                .match(
-                    doc => doc,
-                    error => error,
-                )
-
-            expect(tryFindByIdResult).toStrictEqual(
-                new DatabaseError('Failed to find Doc', findError),
-            )
-        })
-    })
-
-    describe('tryFindByIdAndUpdate', () => {
-        it('should update a doc by id', async () => {
-            expect.assertions(1)
-
-            const targetDoc = {
-                _id: new mongoose.Types.ObjectId(),
-                name: 'test',
-                content: 'test',
-                type: DocType.JSON,
-            }
-
-            mockingoose(docsModel).toReturn(
-                (query: { _update: object }) => {
-                    return {
-                        ...targetDoc,
-                        ...query._update,
-                    }
-                },
-
-                'findOneAndUpdate',
-            )
-
-            const updatePayload = {
-                name: 'updated',
-            }
-
-            const result = await docsModel
-                .tryFindByIdAndUpdate(targetDoc?._id, updatePayload)
-                .match(
-                    doc => doc?.toJSON(),
-                    error => error,
-                )
-
-            expect(result).toStrictEqual({
-                ...targetDoc,
-                ...updatePayload,
+                content: { test: random },
+                title: random,
             })
         })
+    })
 
-        it('should return DatabaseError when findOneAndUpdate fails', async () => {
+    describe('toJSON', () => {
+        it('should return pretty doc', async () => {
             expect.assertions(1)
 
-            mockingoose(docsModel).toReturn(
-                new Error('something wrong'),
-                'findOneAndUpdate',
-            )
+            const random = Math.random().toString()
 
-            const targetId = new mongoose.Types.ObjectId()
+            const doc = await docsModel.create({
+                title: random,
+                content: { test: random },
+            })
 
-            const tryFindByIdAndUpdateResult = await docsModel
-                .tryFindByIdAndUpdate(targetId, {})
-                .match(
-                    doc => doc,
-                    error => error,
-                )
+            expect(doc.toJSON()).toStrictEqual({
+                id: doc._id.toString(),
 
-            expect(tryFindByIdAndUpdateResult).toStrictEqual(
-                new DatabaseError(
-                    'Failed to find Doc',
-
-                    new Error('something wrong'),
-                ),
-            )
+                content: { test: random },
+                title: random,
+            })
         })
     })
 })

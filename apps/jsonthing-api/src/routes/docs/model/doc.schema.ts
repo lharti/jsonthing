@@ -1,25 +1,29 @@
-import { DatabaseError } from '@/common/errors/database.error'
 import { Json } from '@/common/types'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import mongoose from 'mongoose'
-import { ResultAsync } from 'neverthrow'
-import { DocType } from '../constants'
-import {
-    DocDocument,
-    DocsModel,
-    TryCreate,
-    TryFindById,
-    TryFindByIdAndUpdate,
-} from './doc.types'
+import mongoose, { ToObjectOptions } from 'mongoose'
+import { DocsModel } from './doc.types'
 
-@Schema()
+const toObject: ToObjectOptions = {
+    transform: function (_doc, ret) {
+        delete ret._id
+        delete ret.__v
+    },
+
+    virtuals: true,
+}
+
+@Schema({
+    toObject,
+    toJSON: toObject,
+    id: true,
+})
 export class Doc {
     @Prop({
         required: true,
         minlength: 1,
         type: String,
     })
-    name: string
+    title: string
 
     @Prop({
         required: true,
@@ -27,76 +31,9 @@ export class Doc {
     })
     content: Json
 
-    @Prop({
-        required: true,
-        enum: DocType,
-    })
-    type: DocType
+    id: string
 }
 
 export const DocSchema = SchemaFactory.createForClass(Doc)
-
-// Static methods start
-const tryCreate: TryCreate = function (docPayload: Doc) {
-    type SafeCreateParams = [docPayload: Doc]
-
-    const safeCreate = ResultAsync.fromThrowable<
-        SafeCreateParams,
-        Doc,
-        DatabaseError
-    >(() => this.create(docPayload))
-
-    return safeCreate(docPayload).mapErr(
-        (error: mongoose.Error) =>
-            new DatabaseError('Failed to create Doc', error),
-    )
-}
-
-const tryFindById: TryFindById = function (id) {
-    type SafeFindByIdParams = Parameters<TryFindById>
-
-    const safeFindById = ResultAsync.fromThrowable<
-        SafeFindByIdParams,
-        DocDocument | null,
-        DatabaseError
-    >(this.findById.bind(this))
-
-    return safeFindById(id)
-        .map(result => result)
-        .mapErr(
-            (error: mongoose.Error) =>
-                new DatabaseError('Failed to find Doc', error),
-        )
-}
-
-const tryFindByIdAndUpdate: TryFindByIdAndUpdate = function (
-    id,
-    updatePayload,
-
-    options = { new: true },
-) {
-    type SafeFindByIdAndUpdateParams =
-        Parameters<TryFindByIdAndUpdate>
-
-    const safeFindByIdAndUpdate = ResultAsync.fromThrowable<
-        SafeFindByIdAndUpdateParams,
-        DocDocument | null,
-        DatabaseError
-    >(this.findByIdAndUpdate.bind(this))
-
-    return safeFindByIdAndUpdate(id, updatePayload, options)
-        .map(result => result)
-        .mapErr(
-            (error: mongoose.Error) =>
-                new DatabaseError('Failed to find Doc', error),
-        )
-}
-
-DocSchema.static({
-    tryCreate,
-    tryFindById,
-    tryFindByIdAndUpdate,
-})
-// Static methods end
 
 export const docsModel = mongoose.model('Doc', DocSchema) as DocsModel
