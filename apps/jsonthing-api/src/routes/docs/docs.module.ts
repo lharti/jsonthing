@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
-import { DocsController } from './controllers'
+import { DocsAliasesController, DocsController } from './controllers'
 import { DocsModelModule } from './model'
 import { DocsService } from './service'
 
 @Module({
     imports: [DocsModelModule],
-    controllers: [DocsController],
+    controllers: [DocsController, DocsAliasesController],
     providers: [DocsService],
 })
 export class DocsModule {}
