@@ -1,56 +1,37 @@
-import { DatabaseError } from '@/common/errors/database.error'
 import {
     DEFAULT_DOC_CONTENT,
     DEFAULT_DOC_NAME,
-    DocType,
 } from '@/routes/docs/constants'
+import { docsModel } from '@/routes/docs/model/doc.schema'
+import {
+    InternalServerErrorException,
+    NotFoundException,
+} from '@nestjs/common'
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
 import mongoose from 'mongoose'
-import { errAsync, okAsync } from 'neverthrow'
-import { Doc, DocsModel } from '../model'
+import { Doc } from '../model'
 import { DocsService } from './docs.service'
+
+const OBJECT_ID_PATTERN = /^[a-f\d]{24}$/i
 
 const testingModuleMetadata = {
     providers: [
         DocsService,
+
         {
             provide: getModelToken(Doc.name),
-            useValue: {
-                tryCreate: jest.fn(tryCreatePayload =>
-                    okAsync({
-                        _id: new mongoose.Types.ObjectId(),
-                        ...tryCreatePayload,
-                    }),
-                ),
-
-                tryFindById: jest.fn(docId =>
-                    okAsync({
-                        _id: docId,
-                        name: 'test',
-                        content: 'test',
-                        type: DocType.JSON,
-                    }),
-                ),
-
-                tryFindByIdAndUpdate: jest.fn((id, updatePayload) =>
-                    okAsync({
-                        _id: id,
-                        name: 'test',
-                        content: 'test',
-                        type: DocType.JSON,
-                        ...updatePayload,
-                    }),
-                ),
-            },
+            useValue: docsModel,
         },
     ],
 }
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const mockingoose = require('mockingoose')
+
 describe('docsService', () => {
     let testingModule: TestingModule
     let docsService: DocsService
-    let docsModel: jest.Mocked<DocsModel>
 
     beforeAll(async () => {
         testingModule = await Test.createTestingModule(
@@ -58,170 +39,209 @@ describe('docsService', () => {
         ).compile()
 
         docsService = testingModule.get<DocsService>(DocsService)
+    })
 
-        docsModel = testingModule.get(getModelToken(Doc.name))
+    beforeEach(() => {
+        mockingoose.resetAll()
     })
 
     afterAll(async () => {
         await testingModule.close()
     })
 
-    describe('tryCreateDoc', () => {
+    describe('createDoc', () => {
         it('should create a new doc with payload data', async () => {
             expect.assertions(1)
 
+            const random = Math.random().toString()
             const createDocPayload = {
-                name: `${Math.random}-name`,
+                title: `${random}}-name`,
                 content: {
-                    random: `${Math.random}-content`,
+                    random: `${random}-content`,
                 },
             }
 
-            const result = await docsService
-                .tryCreateDoc(createDocPayload)
-                .unwrapOr(null)
+            const result =
+                await docsService.createDoc(createDocPayload)
 
-            expect(result).toStrictEqual(
-                expect.objectContaining({
-                    _id: expect.any(mongoose.Types.ObjectId),
+            expect(result).toStrictEqual({
+                id: expect.stringMatching(OBJECT_ID_PATTERN),
 
-                    ...createDocPayload,
-
-                    type: DocType.JSON,
-                }),
-            )
+                ...createDocPayload,
+            })
         })
 
         it('should create a new doc without providing payload', async () => {
             expect.assertions(1)
 
-            const result = await docsService
-                .tryCreateDoc({})
-                .unwrapOr(null)
+            const result = await docsService.createDoc()
 
             const defaultDocValues = {
-                name: DEFAULT_DOC_NAME,
+                title: DEFAULT_DOC_NAME,
                 content: DEFAULT_DOC_CONTENT,
             }
 
-            expect(result).toStrictEqual(
-                expect.objectContaining({
-                    _id: expect.any(mongoose.Types.ObjectId),
+            expect(result).toStrictEqual({
+                id: expect.stringMatching(OBJECT_ID_PATTERN),
 
-                    ...defaultDocValues,
-
-                    type: DocType.JSON,
-                }),
-            )
+                ...defaultDocValues,
+            })
         })
 
         it('should return DatabaseError if the doc creation fails', async () => {
             expect.assertions(1)
 
-            const databaseError = new DatabaseError(
-                'Failed to create Doc',
-                new mongoose.Error('something went wrong'),
+            jest.spyOn(docsModel, 'create').mockRejectedValueOnce(
+                new Error(),
             )
 
-            docsModel.tryCreate.mockImplementationOnce(() =>
-                errAsync(databaseError),
-            )
+            const result = docsService.createDoc()
 
-            const result = await docsService.tryCreateDoc().match(
-                doc => doc,
-                error => error,
+            await expect(result).rejects.toThrow(
+                new InternalServerErrorException(
+                    `Failed to create doc`,
+                ),
             )
-
-            expect(result).toStrictEqual(databaseError)
         })
     })
 
-    describe('tryGetDocById', () => {
+    describe('getDocById', () => {
         it('should return a doc by id', async () => {
             expect.assertions(1)
 
+            const doc = {
+                title: 'test',
+                content: {
+                    test: 'test',
+                },
+            }
+
+            mockingoose(docsModel).toReturn(
+                (Query: unknown) => ({
+                    ...doc,
+
+                    // @ts-expect-error: trust me
+                    _id: Query.getQuery()._id,
+                }),
+
+                'findOne',
+            )
+
             const docId = new mongoose.Types.ObjectId()
 
-            const result = await docsService
-                .tryGetDocById(docId)
-                .unwrapOr(null)
+            const result = await docsService.getDocById(docId)
 
             expect(result).toStrictEqual({
-                _id: docId,
-                name: 'test',
-                content: 'test',
-                type: DocType.JSON,
+                id: docId.toString(),
+
+                ...doc,
             })
         })
 
-        it('should return DatabaseError if the doc retrieval fails', async () => {
+        it('should throw NotFoundException if doc not found', async () => {
             expect.assertions(1)
 
-            const databaseError = new DatabaseError(
-                'Failed to find Doc',
-                new mongoose.Error('something went wrong'),
+            const result = docsService.getDocById(
+                new mongoose.Types.ObjectId(),
             )
 
-            docsModel.tryFindById.mockImplementationOnce(() =>
-                errAsync(databaseError),
+            await expect(result).rejects.toThrow(
+                new NotFoundException('Doc not found'),
+            )
+        })
+
+        it('should throw InternalServerErrorException if the doc retrieval fails', async () => {
+            expect.assertions(1)
+
+            jest.spyOn(docsModel, 'findById').mockRejectedValueOnce(
+                new Error(),
             )
 
-            const result = await docsService
-                .tryGetDocById(new mongoose.Types.ObjectId())
-                .match(
-                    doc => doc,
-                    error => error,
-                )
+            const result = docsService.getDocById(
+                new mongoose.Types.ObjectId(),
+            )
 
-            expect(result).toStrictEqual(databaseError)
+            await expect(result).rejects.toThrow(
+                new InternalServerErrorException(`Failed to get doc`),
+            )
         })
     })
 
-    describe('tryUpdateDoc', () => {
+    describe('updateDoc', () => {
         it('should update a doc by id', async () => {
             expect.assertions(1)
 
-            const targetDoc = {
-                _id: new mongoose.Types.ObjectId(),
-                name: 'test',
-                content: 'test',
-                type: DocType.JSON,
+            const doc = {
+                title: 'Old Title',
+                content: {
+                    test: 'test',
+                },
             }
 
-            const updatePayload = {
-                name: 'updated',
-            }
+            mockingoose(docsModel).toReturn(
+                (Query: unknown) => ({
+                    ...doc,
+                    // @ts-expect-error: trust me
+                    ...Query.getUpdate(),
+                    // @ts-expect-error: trust me
+                    ...Query.getQuery(),
+                }),
 
-            const result = await docsService
-                .tryUpdateDoc(targetDoc._id, updatePayload)
-                .unwrapOr(null)
+                'findOneAndUpdate',
+            )
+
+            const docId = new mongoose.Types.ObjectId()
+
+            const result = await docsService.updateDoc(
+                docId,
+
+                {
+                    title: 'New Title',
+                },
+            )
 
             expect(result).toStrictEqual({
-                ...targetDoc,
-                ...updatePayload,
+                id: docId.toString(),
+
+                ...doc,
+
+                title: 'New Title',
             })
         })
 
-        it('should return DatabaseError if the doc update fails', async () => {
+        it('should throw NotFoundException if doc not found', async () => {
             expect.assertions(1)
 
-            const databaseError = new DatabaseError(
-                'Failed to update Doc',
-                new mongoose.Error('something went wrong'),
+            const result = docsService.updateDoc(
+                new mongoose.Types.ObjectId(),
+
+                {},
             )
 
-            docsModel.tryFindByIdAndUpdate.mockImplementationOnce(
-                () => errAsync(databaseError),
+            await expect(result).rejects.toThrow(
+                new NotFoundException('Doc not found'),
+            )
+        })
+
+        it('should throw InternalServerErrorException if the doc update fails', async () => {
+            expect.assertions(1)
+
+            jest.spyOn(
+                docsModel,
+                'findByIdAndUpdate',
+            ).mockRejectedValueOnce(new Error())
+
+            const result = docsService.updateDoc(
+                new mongoose.Types.ObjectId(),
+
+                {},
             )
 
-            const result = await docsService
-                .tryUpdateDoc(new mongoose.Types.ObjectId(), {})
-                .match(
-                    doc => doc,
-                    error => error,
-                )
-
-            expect(result).toStrictEqual(databaseError)
+            await expect(result).rejects.toThrow(
+                new InternalServerErrorException(
+                    `Failed to update doc`,
+                ),
+            )
         })
     })
 })

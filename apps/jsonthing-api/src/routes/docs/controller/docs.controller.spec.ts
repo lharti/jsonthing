@@ -1,46 +1,18 @@
-import { DatabaseError } from '@/common/errors/database.error'
 import { DocsService } from '@/routes/docs/service'
-import {
-    InternalServerErrorException,
-    NotFoundException,
-} from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import mongoose from 'mongoose'
-import { errAsync, okAsync } from 'neverthrow'
 import { DocsController } from './docs.controller'
+
+jest.mock('../service')
+
+const ObjectId = mongoose.Types.ObjectId
 
 const testingModuleMetadata = {
     controllers: [DocsController],
     providers: [
         {
             provide: DocsService,
-            useValue: {
-                tryCreateDoc: jest.fn(payload =>
-                    okAsync({
-                        ...payload,
-                        _id: new mongoose.Types.ObjectId(),
-                    }),
-                ),
-
-                tryGetDocById: jest.fn(docId =>
-                    okAsync({
-                        _id: docId.toString(),
-                        name: 'test',
-                        content: 'test',
-                        type: 'JSON',
-                    }),
-                ),
-
-                tryUpdateDoc: jest.fn((id, update) =>
-                    okAsync({
-                        _id: id.toString(),
-                        name: 'test',
-                        content: 'test',
-                        type: 'JSON',
-                        ...update,
-                    }),
-                ),
-            },
+            useClass: DocsService,
         },
     ],
 }
@@ -65,11 +37,11 @@ describe('docsController', () => {
     })
 
     describe('createDoc', () => {
-        it('should create a new doc', async () => {
+        it('should use docsService.createDoc', async () => {
             expect.assertions(1)
 
             const createDocPayload = {
-                name: 'doc-name',
+                title: 'Title',
                 content: {
                     value: 'doc-content',
                 },
@@ -77,238 +49,154 @@ describe('docsController', () => {
 
             await docsController.createDoc(createDocPayload)
 
-            expect(
-                docsService.tryCreateDoc,
-            ).toHaveBeenCalledExactlyOnceWith(createDocPayload)
+            expect(docsService.createDoc).toHaveBeenCalledWith(
+                createDocPayload,
+            )
         })
 
-        it('should return the created doc', async () => {
+        it('should return docsService.createDoc result', async () => {
             expect.assertions(1)
 
             const createDocPayload = {
-                name: `doc-${Math.random()}`,
+                title: 'Title',
                 content: {
-                    value: `doc-content-${Math.random()}`,
+                    value: 'doc-content',
                 },
             }
+
+            const createDocResult = {
+                id: new ObjectId().toString(),
+
+                ...createDocPayload,
+            }
+
+            docsService.createDoc.mockResolvedValueOnce(
+                createDocResult,
+            )
 
             const result =
                 await docsController.createDoc(createDocPayload)
 
-            expect(result).toStrictEqual({
-                _id: expect.any(mongoose.Types.ObjectId),
-                ...createDocPayload,
-            })
-        })
-
-        it('should throw InternalServiceErrorException if doc creation failed', async () => {
-            expect.assertions(1)
-
-            const tryCreateError = new DatabaseError(
-                'something went wrong',
-                new Error('DatabaseError'),
-            )
-
-            docsService.tryCreateDoc.mockImplementation(() =>
-                errAsync(tryCreateError),
-            )
-
-            const internalException =
-                new InternalServerErrorException(
-                    `Failed to create doc: ${tryCreateError.name}`,
-                )
-
-            await expect(docsController.createDoc()).rejects.toThrow(
-                internalException,
-            )
+            expect(result).toStrictEqual(createDocResult)
         })
     })
 
     describe('getDoc', () => {
-        it('should get a doc by id', async () => {
-            expect.assertions(1)
+        it('should use docsService.getDocById', async () => {
+            expect.assertions(2)
 
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
+            const docId = new ObjectId()
 
-            const result = await docsController.getDoc(targetDocId)
+            const getDocByIdResult = {
+                id: docId.toString(),
+                title: 'Title',
+                content: {
+                    value: 'doc-content',
+                },
+            }
 
-            expect(result).toStrictEqual({
-                _id: targetDocId,
-                name: 'test',
-                content: 'test',
-                type: 'JSON',
-            })
-        })
-
-        it('should throw NotFoundException if doc not found', async () => {
-            expect.assertions(1)
-
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
-
-            docsService.tryGetDocById.mockImplementation(() =>
-                okAsync(null),
+            docsService.getDocById.mockResolvedValueOnce(
+                getDocByIdResult,
             )
 
-            const notFoundException = new NotFoundException(
-                'Doc not found',
+            const result = await docsController.getDoc(
+                docId.toString(),
             )
 
-            await expect(
-                docsController.getDoc(targetDocId),
-            ).rejects.toThrow(notFoundException)
-        })
+            expect(docsService.getDocById).toHaveBeenCalledWith(docId)
 
-        it('should throw InternalServiceErrorException if doc retrieval failed', async () => {
-            expect.assertions(1)
-
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
-
-            docsService.tryGetDocById.mockImplementation(() =>
-                errAsync(new Error('something went wrong')),
-            )
-
-            const internalException =
-                new InternalServerErrorException(
-                    'Failed to get doc: Error',
-                )
-
-            await expect(
-                docsController.getDoc(targetDocId),
-            ).rejects.toThrow(internalException)
+            expect(result).toStrictEqual(getDocByIdResult)
         })
     })
 
     describe('updateDoc', () => {
-        it('should update a doc by id', async () => {
+        it('should use docService.updateDoc', async () => {
             expect.assertions(1)
 
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
+            const docId = new ObjectId()
 
             const updatePayload = {
-                name: 'updated',
+                title: 'New Title',
             }
 
-            const result = await docsController.updateDoc(
-                targetDocId,
+            await docsController.updateDoc(
+                docId.toString(),
                 updatePayload,
             )
 
-            expect(result).toStrictEqual({
-                _id: targetDocId,
-                content: 'test',
-                type: 'JSON',
+            expect(docsService.updateDoc).toHaveBeenCalledWith(
+                docId,
+                updatePayload,
+            )
+        })
+
+        it('should return docsService.updateDoc result', async () => {
+            expect.assertions(1)
+
+            const updatePayload = {
+                title: 'New Title',
+            }
+
+            const docId = new ObjectId()
+
+            const updateDocResult = {
+                id: docId.toString(),
+                content: {
+                    value: 'doc-content',
+                },
+
                 ...updatePayload,
-            })
-        })
+            }
 
-        it('should throw NotFoundException if doc not found', async () => {
-            expect.assertions(1)
-
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
-
-            docsService.tryUpdateDoc.mockImplementation(() =>
-                okAsync(null),
+            docsService.updateDoc.mockResolvedValueOnce(
+                updateDocResult,
             )
 
-            const notFoundException = new NotFoundException(
-                'Doc not found',
+            const result = await docsController.updateDoc(
+                docId.toString(),
+                updatePayload,
             )
 
-            await expect(
-                docsController.updateDoc(targetDocId, {}),
-            ).rejects.toThrow(notFoundException)
-        })
-
-        it('should throw InternalServiceErrorException if doc update failed', async () => {
-            expect.assertions(1)
-
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
-
-            docsService.tryUpdateDoc.mockImplementation(() =>
-                errAsync(new Error('something went wrong')),
-            )
-
-            const internalException =
-                new InternalServerErrorException(
-                    'Failed to update doc: Error',
-                )
-
-            await expect(
-                docsController.updateDoc(targetDocId, {}),
-            ).rejects.toThrow(internalException)
+            expect(result).toStrictEqual(updateDocResult)
         })
     })
 
     describe('getDocContent', () => {
-        it('should get a doc content by id', async () => {
+        it('should use docsService.getDocById', async () => {
             expect.assertions(1)
 
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
-
-            const content = {
-                value: Math.random().toString(),
-            }
+            const docId = new ObjectId()
 
             // @ts-expect-error: just a mock
-            docsService.tryGetDocById.mockImplementation(id =>
-                okAsync({
-                    id: id.toString(),
-                    name: 'test',
-                    content,
-                    type: 'JSON',
-                }),
-            )
+            docsService.getDocById.mockResolvedValueOnce({})
 
-            const result =
-                await docsController.getDocContent(targetDocId)
+            await docsController.getDocContent(docId.toString())
 
-            expect(result).toStrictEqual(content)
+            expect(
+                docsService.getDocById,
+            ).toHaveBeenCalledExactlyOnceWith(docId)
         })
+    })
 
-        it('should throw NotFoundException if doc not found', async () => {
-            expect.assertions(1)
+    it(`should return docsService.getDocById's result.content`, async () => {
+        expect.assertions(1)
 
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
+        const docId = new ObjectId()
 
-            docsService.tryGetDocById.mockImplementation(() =>
-                okAsync(null),
-            )
+        const getDocByIdResult = {
+            id: docId.toString(),
+            title: 'Title',
+            content: {
+                value: 'doc-content',
+            },
+        }
 
-            const notFoundException = new NotFoundException(
-                'Doc not found',
-            )
+        docsService.getDocById.mockResolvedValueOnce(getDocByIdResult)
 
-            await expect(
-                docsController.getDocContent(targetDocId),
-            ).rejects.toThrow(notFoundException)
-        })
+        const result = await docsController.getDocContent(
+            docId.toString(),
+        )
 
-        it('should throw InternalServiceErrorException if doc retrieval failed', async () => {
-            expect.assertions(1)
-
-            const targetDocId =
-                new mongoose.Types.ObjectId().toString()
-
-            docsService.tryGetDocById.mockImplementation(() =>
-                errAsync(new Error('something went wrong')),
-            )
-
-            const internalException =
-                new InternalServerErrorException(
-                    'Failed to get doc: Error',
-                )
-
-            await expect(
-                docsController.getDocContent(targetDocId),
-            ).rejects.toThrow(internalException)
-        })
+        expect(result).toStrictEqual(getDocByIdResult.content)
     })
 })
