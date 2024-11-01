@@ -59,7 +59,7 @@ describe('<DocTitleEditor />', () => {
             id: 'DOC_ID',
 
             payload: {
-                name: newTitle,
+                title: newTitle,
             },
         })
     })

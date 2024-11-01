@@ -10,7 +10,7 @@ export const useUpdateDoc = () => {
             id: string
             payload: {
                 content?: string
-                name?: string
+                title?: string
             }
         }) => {
             return apiClient.patch(`/docs/${id}`, payload)

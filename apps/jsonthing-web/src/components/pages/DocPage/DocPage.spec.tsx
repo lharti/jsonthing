@@ -85,7 +85,7 @@ describe('<DocPage />', () => {
             {
                 data: {
                     content: docContent,
-                    name: 'DOC_NAME',
+                    title: 'DOC_TITLE',
                 },
             },
         )
@@ -94,7 +94,7 @@ describe('<DocPage />', () => {
 
         expect(DocEditorMock).toHaveBeenCalledExactlyOnceWith({
             initialContent: docContent,
-            initialTitle: 'DOC_NAME',
+            initialTitle: 'DOC_TITLE',
             docId: 'DOC_ID',
         })
     })

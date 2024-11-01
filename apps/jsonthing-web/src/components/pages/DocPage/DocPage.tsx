@@ -37,7 +37,7 @@ export const DocPage: React.FC<DocPageProps> = ({ id }) => {
             <main>
                 <DocEditor
                     initialContent={data?.content}
-                    initialTitle={data?.name}
+                    initialTitle={data?.title}
                     docId={id}
                 />
             </main>
