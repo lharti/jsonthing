@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { DocsModule } from '.'
-import { DocsController } from './controller'
+import { DocsController } from './controllers'
 import { DocsModelModule } from './model'
 import { DocsService } from './service'
 
-jest.mock('./controller')
+jest.mock('./controllers')
 jest.mock('./service')
 jest.mock('./model')
 
