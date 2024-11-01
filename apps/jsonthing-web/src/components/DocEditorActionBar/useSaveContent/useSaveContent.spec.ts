@@ -42,7 +42,7 @@ describe('useSaveContent', () => {
         )
     })
 
-    it('should return status saved', () => {
+    it('should return status saved by default', () => {
         expect.assertions(1)
 
         const { result } = renderHook(() =>
@@ -77,6 +77,36 @@ describe('useSaveContent', () => {
         })
 
         expect(result.current.status).toBe(SaveStatus.IDLE)
+    })
+
+    it('should return status saved when content changed back to the saved value', () => {
+        expect.assertions(1)
+
+        const savedContent = '{"a":1}'
+
+        const { result, rerender } = renderHook(
+            ({ content }) =>
+                useSaveContent({
+                    content,
+                    id: '1',
+                }),
+
+            {
+                initialProps: {
+                    content: savedContent,
+                },
+            },
+        )
+
+        rerender({
+            content: '{"a":2}',
+        })
+
+        rerender({
+            content: savedContent,
+        })
+
+        expect(result.current.status).toBe(SaveStatus.SAVED)
     })
 
     describe('save', () => {

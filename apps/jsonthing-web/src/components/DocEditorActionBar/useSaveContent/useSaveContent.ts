@@ -27,6 +27,8 @@ export const useSaveContent: UseSaveContent = (
 ) => {
     const [status, setStatus] = useState(SaveStatus.SAVED)
 
+    const savedContent = useRef(content)
+
     const { updateDoc } = useUpdateDoc()
 
     const save = () => {
@@ -45,6 +47,8 @@ export const useSaveContent: UseSaveContent = (
                 onSuccess: () => {
                     setStatus(SaveStatus.SAVED)
 
+                    savedContent.current = content
+
                     options?.onSuccess?.()
                 },
 
@@ -57,16 +61,12 @@ export const useSaveContent: UseSaveContent = (
         )
     }
 
-    const isFirstRender = useRef(true)
-
     useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false
-
-            return
+        if (savedContent.current === content) {
+            setStatus(SaveStatus.SAVED)
+        } else {
+            setStatus(SaveStatus.IDLE)
         }
-
-        setStatus(SaveStatus.IDLE)
     }, [content])
 
     return {
