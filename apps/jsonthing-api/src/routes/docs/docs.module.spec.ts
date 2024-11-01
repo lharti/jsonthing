@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { DocsModule } from '.'
-import { DocsController } from './controller'
+import { DocsAliasesController, DocsController } from './controllers'
 import { DocsModelModule } from './model'
 import { DocsService } from './service'
 
-jest.mock('./controller')
+jest.mock('./controllers')
 jest.mock('./service')
 jest.mock('./model')
 
@@ -35,6 +35,16 @@ describe('docsModule', () => {
         const docsController = docsTestingModule.get(DocsController)
 
         expect(docsController).toBeDefined()
+    })
+
+    it('should have DocsAliasesController', () => {
+        expect.assertions(1)
+
+        const docsAliasesController = docsTestingModule.get(
+            DocsAliasesController,
+        )
+
+        expect(docsAliasesController).toBeDefined()
     })
 
     it('should have DocsService', () => {
