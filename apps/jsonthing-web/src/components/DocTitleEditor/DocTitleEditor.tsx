@@ -19,7 +19,7 @@ export const DocTitleEditor: React.FC<DocTitleEditorProps> = ({
             id: docId,
 
             payload: {
-                name: newTitle,
+                title: newTitle,
             },
         })
     }

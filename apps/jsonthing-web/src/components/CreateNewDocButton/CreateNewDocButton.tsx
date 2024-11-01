@@ -19,7 +19,7 @@ export const CreateNewDocButton: React.FC<CreateNewDocButtonProps> = ({
             onClick={() => {
                 createDoc(undefined, {
                     onSuccess: ({ data }) => {
-                        router.push(`/docs/${data._id}`)
+                        router.push(`/docs/${data.id}`)
                     },
                 })
             }}

@@ -41,7 +41,7 @@ describe('<CreateNewDocButton />', () => {
 
         // Mock useCreateDoc hook
         const createDocMock = jest.fn((_undefined, { onSuccess }) =>
-            onSuccess({ data: { _id: newDocId } }),
+            onSuccess({ data: { id: newDocId } }),
         )
 
         useCreateDocMock.mockReturnValue(
