@@ -1,10 +1,10 @@
 import { ReactQueryProvider } from '@/components/ReactQueryProvider'
 import { TooltipProvider } from '@/components/ui/Tooltip'
+import HolyLoader from 'holy-loader'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import React from 'react'
 import './globals.css'
-
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
     variable: '--font-geist-sans',
@@ -32,6 +32,8 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                   ${geistMono.variable}
                 `}
             >
+                <HolyLoader height={6} />
+
                 <TooltipProvider>
                     <ReactQueryProvider>{children}</ReactQueryProvider>
                 </TooltipProvider>
