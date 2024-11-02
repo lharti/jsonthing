@@ -32,7 +32,9 @@ describe('<CreateNewDocButton />', () => {
 
         setupTestMocks()
 
-        const { container } = render(<CreateNewDocButton />)
+        const { container } = render(
+            <CreateNewDocButton>{'New Doc'}</CreateNewDocButton>,
+        )
 
         expect(container).toMatchInlineSnapshot(`
             <div>

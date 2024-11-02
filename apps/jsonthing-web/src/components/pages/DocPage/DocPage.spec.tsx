@@ -128,6 +128,7 @@ describe('<DocPage />', () => {
                 className: 'ml-auto',
                 onPending: expect.any(Function),
                 onError: expect.any(Function),
+                children: 'New Doc',
             })
         })
 

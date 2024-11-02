@@ -36,7 +36,9 @@ export const DocPage: React.FC<DocPageProps> = ({ id }) => {
                     className="ml-auto"
                     onPending={() => startHolyLoader()}
                     onError={() => stopHolyLoader()}
-                />
+                >
+                    {'New Doc'}
+                </CreateNewDocButton>
             </header>
 
             <main>

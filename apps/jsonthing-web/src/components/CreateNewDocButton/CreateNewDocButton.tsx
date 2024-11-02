@@ -38,8 +38,10 @@ export const CreateNewDocButton: React.FC<CreateNewDocButtonProps> = ({
         })
     }
     return (
-        <Button disabled={isPending} onClick={handleCreateDoc} {...buttonProps}>
-            {'New Doc'}
-        </Button>
+        <Button
+            disabled={isPending}
+            onClick={handleCreateDoc}
+            {...buttonProps}
+        />
     )
 }
