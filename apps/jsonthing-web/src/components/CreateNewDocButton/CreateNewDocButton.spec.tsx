@@ -1,21 +1,36 @@
 import { useCreateDoc } from '@/hooks/useCreateDoc'
+import { UseCreateDocMock } from '@/types/mocks.types'
 import { render, screen } from '@testing-library/react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { CreateNewDocButton } from './CreateNewDocButton'
 
 jest.mock('@/hooks/useCreateDoc')
-const useCreateDocMock = jest.mocked(useCreateDoc)
+jest.mock('next/navigation')
+
+const setupTestMocks = () => {
+    const routerMock = {
+        push: jest.fn(),
+    }
+
+    // @ts-expect-error - we don't need to mock all the properties
+    jest.mocked(useRouter).mockReturnValue(routerMock)
+
+    const useCreateDocMock = jest.mocked(useCreateDoc) as UseCreateDocMock
+
+    return {
+        useCreateDocMock,
+
+        createDocMock: useCreateDocMock.createDocMock,
+        routerMock,
+    }
+}
 
 describe('<CreateNewDocButton />', () => {
     it('should render', () => {
         expect.assertions(1)
 
-        useCreateDocMock.mockReturnValue(
-            // @ts-expect-error - we don't need to mock all the properties
-            {
-                createDoc: jest.fn(),
-            },
-        )
+        setupTestMocks()
 
         const { container } = render(<CreateNewDocButton />)
 
@@ -33,16 +48,7 @@ describe('<CreateNewDocButton />', () => {
     it('should create new doc on click', () => {
         expect.assertions(1)
 
-        const createDocMock = jest.fn((_undefined, { onSuccess }) =>
-            onSuccess({ data: { id: 'NEW_DOC_ID' } }),
-        )
-
-        useCreateDocMock.mockReturnValue(
-            // @ts-expect-error - we don't need to mock all the properties
-            {
-                createDoc: createDocMock,
-            },
-        )
+        const { createDocMock } = setupTestMocks()
 
         render(<CreateNewDocButton />)
 
@@ -53,17 +59,32 @@ describe('<CreateNewDocButton />', () => {
         expect(createDocMock).toHaveBeenCalledOnce()
     })
 
+    it('should redirect to new doc on success', () => {
+        expect.assertions(1)
+
+        const { routerMock, createDocMock } = setupTestMocks()
+
+        render(<CreateNewDocButton />)
+
+        const button = screen.getByRole('button')
+
+        createDocMock.toCreateDocWith({
+            id: 'NEW_DOC_ID',
+        })
+
+        button.click()
+
+        expect(routerMock.push).toHaveBeenCalledExactlyOnceWith(
+            '/docs/NEW_DOC_ID',
+        )
+    })
+
     it('should call props.onPending on click', () => {
         expect.assertions(1)
 
-        const onPending = jest.fn()
+        setupTestMocks()
 
-        useCreateDocMock.mockReturnValue(
-            // @ts-expect-error - we don't need to mock all the properties
-            {
-                createDoc: jest.fn(),
-            },
-        )
+        const onPending = jest.fn()
 
         render(<CreateNewDocButton onPending={onPending} />)
 
@@ -77,49 +98,39 @@ describe('<CreateNewDocButton />', () => {
     it('should call props.onSuccess on success', () => {
         expect.assertions(1)
 
+        const newDoc = {
+            id: 'NEW_DOC_ID',
+            content: 'NEW_DOC_CONTENT',
+            title: 'NEW_DOC_TITLE',
+        }
+
+        const { createDocMock } = setupTestMocks()
+
         const onSuccess = jest.fn()
-
-        // @ts-expect-error - we don't need to mock all the properties
-        useCreateDocMock.mockReturnValue({
-            createDoc: jest.fn(
-                (
-                    _undefined,
-
-                    // @ts-expect-error - just a mock
-                    { onSuccess },
-                ) => onSuccess({ data: 'NEW_DOC_DATA' }),
-            ),
-        })
 
         render(<CreateNewDocButton onSuccess={onSuccess} />)
 
         const button = screen.getByRole('button')
 
+        createDocMock.toCreateDocWith(newDoc)
+
         button.click()
 
-        expect(onSuccess).toHaveBeenCalledExactlyOnceWith('NEW_DOC_DATA')
+        expect(onSuccess).toHaveBeenCalledExactlyOnceWith(newDoc)
     })
 
     it('should call props.onError on error', () => {
         expect.assertions(1)
 
+        const { createDocMock } = setupTestMocks()
+
         const onError = jest.fn()
-
-        // @ts-expect-error - we don't need to mock all the properties
-        useCreateDocMock.mockReturnValue({
-            createDoc: jest.fn(
-                (
-                    _undefined,
-
-                    // @ts-expect-error - just a mock
-                    { onError },
-                ) => onError(),
-            ),
-        })
 
         render(<CreateNewDocButton onError={onError} />)
 
         const button = screen.getByRole('button')
+
+        createDocMock.toFail()
 
         button.click()
 
