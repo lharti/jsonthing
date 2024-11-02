@@ -2,29 +2,39 @@
 
 import { Button, ButtonProps } from '@/components/ui/Button'
 import { useCreateDoc } from '@/hooks/useCreateDoc'
-import { useRouter } from 'next/navigation'
 import React from 'react'
+import { Doc } from 'types/doc.types'
 
-type CreateNewDocButtonProps = ButtonProps
+interface CreateNewDocButtonProps extends ButtonProps {
+    onPending?: () => void
+    onSuccess?: (newDoc: Doc) => void
+    onError?: () => void
+}
 
 export const CreateNewDocButton: React.FC<CreateNewDocButtonProps> = ({
+    onPending,
+    onSuccess,
+    onError,
+
     ...buttonProps
 }) => {
-    const { createDoc } = useCreateDoc()
+    const { createDoc, isPending } = useCreateDoc()
 
-    const router = useRouter()
+    const handleCreateDoc = () => {
+        onPending?.()
 
+        createDoc(undefined, {
+            onSuccess: ({ data }) => {
+                onSuccess?.(data)
+            },
+
+            onError: () => {
+                onError?.()
+            },
+        })
+    }
     return (
-        <Button
-            onClick={() => {
-                createDoc(undefined, {
-                    onSuccess: ({ data }) => {
-                        router.push(`/docs/${data.id}`)
-                    },
-                })
-            }}
-            {...buttonProps}
-        >
+        <Button onClick={handleCreateDoc} {...buttonProps} disabled={isPending}>
             {'New Doc'}
         </Button>
     )

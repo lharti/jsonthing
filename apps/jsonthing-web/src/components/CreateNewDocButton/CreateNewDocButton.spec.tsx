@@ -1,14 +1,10 @@
 import { useCreateDoc } from '@/hooks/useCreateDoc'
 import { render, screen } from '@testing-library/react'
-import { useRouter } from 'next/navigation'
 import React from 'react'
 import { CreateNewDocButton } from './CreateNewDocButton'
 
 jest.mock('@/hooks/useCreateDoc')
 const useCreateDocMock = jest.mocked(useCreateDoc)
-
-jest.mock('next/navigation')
-const useRouterMock = jest.mocked(useRouter)
 
 describe('<CreateNewDocButton />', () => {
     it('should render', () => {
@@ -37,11 +33,8 @@ describe('<CreateNewDocButton />', () => {
     it('should create new doc on click', () => {
         expect.assertions(1)
 
-        const newDocId = Math.random()
-
-        // Mock useCreateDoc hook
         const createDocMock = jest.fn((_undefined, { onSuccess }) =>
-            onSuccess({ data: { id: newDocId } }),
+            onSuccess({ data: { id: 'NEW_DOC_ID' } }),
         )
 
         useCreateDocMock.mockReturnValue(
@@ -51,22 +44,85 @@ describe('<CreateNewDocButton />', () => {
             },
         )
 
-        // Mock router
-        const routerPush = jest.fn()
-
-        useRouterMock.mockReturnValue(
-            // @ts-expect-error - we don't need to mock all the properties
-            {
-                push: routerPush,
-            },
-        )
-
         render(<CreateNewDocButton />)
 
         const button = screen.getByRole('button')
 
         button.click()
 
-        expect(routerPush).toHaveBeenCalledExactlyOnceWith(`/docs/${newDocId}`)
+        expect(createDocMock).toHaveBeenCalledOnce()
+    })
+
+    it('should call props.onPending on click', () => {
+        expect.assertions(1)
+
+        const onPending = jest.fn()
+
+        useCreateDocMock.mockReturnValue(
+            // @ts-expect-error - we don't need to mock all the properties
+            {
+                createDoc: jest.fn(),
+            },
+        )
+
+        render(<CreateNewDocButton onPending={onPending} />)
+
+        const button = screen.getByRole('button')
+
+        button.click()
+
+        expect(onPending).toHaveBeenCalledOnce()
+    })
+
+    it('should call props.onSuccess on success', () => {
+        expect.assertions(1)
+
+        const onSuccess = jest.fn()
+
+        // @ts-expect-error - we don't need to mock all the properties
+        useCreateDocMock.mockReturnValue({
+            createDoc: jest.fn(
+                (
+                    _undefined,
+
+                    // @ts-expect-error - just a mock
+                    { onSuccess },
+                ) => onSuccess({ data: 'NEW_DOC_DATA' }),
+            ),
+        })
+
+        render(<CreateNewDocButton onSuccess={onSuccess} />)
+
+        const button = screen.getByRole('button')
+
+        button.click()
+
+        expect(onSuccess).toHaveBeenCalledExactlyOnceWith('NEW_DOC_DATA')
+    })
+
+    it('should call props.onError on error', () => {
+        expect.assertions(1)
+
+        const onError = jest.fn()
+
+        // @ts-expect-error - we don't need to mock all the properties
+        useCreateDocMock.mockReturnValue({
+            createDoc: jest.fn(
+                (
+                    _undefined,
+
+                    // @ts-expect-error - just a mock
+                    { onError },
+                ) => onError(),
+            ),
+        })
+
+        render(<CreateNewDocButton onError={onError} />)
+
+        const button = screen.getByRole('button')
+
+        button.click()
+
+        expect(onError).toHaveBeenCalledOnce()
     })
 })
