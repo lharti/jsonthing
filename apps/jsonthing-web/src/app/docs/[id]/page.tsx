@@ -1,10 +1,12 @@
 import { DocPage } from '@/components/pages/DocPage'
-import { apiClient } from '@/lib/api-client'
+import { checkDocExists } from '@/services/docs/checkDocExists'
+import { prefetchDoc } from '@/services/docs/prefetchDoc'
 import {
     dehydrate,
     HydrationBoundary,
     QueryClient,
 } from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 import React from 'react'
 
 interface DocProps {
@@ -16,16 +18,15 @@ interface DocProps {
 const Doc = async ({ params }: DocProps) => {
     const { id } = await params
 
+    const docExists = await checkDocExists(id)
+
+    if (!docExists) {
+        notFound()
+    }
+
     const queryClient = new QueryClient()
 
-    await queryClient.prefetchQuery({
-        queryKey: ['doc', id],
-
-        queryFn: () =>
-            apiClient.get(`/docs/${id}`).then(res => {
-                return res.data
-            }),
-    })
+    await prefetchDoc(id, queryClient)
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
