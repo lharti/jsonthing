@@ -5,7 +5,6 @@ import { DocEditor } from '@/components/DocEditor'
 import { DocEndpoint } from '@/components/DocEndpoint'
 import { useGetDoc } from '@/hooks/useGetDoc'
 import { startHolyLoader, stopHolyLoader } from 'holy-loader'
-import { useRouter } from 'next/navigation'
 import React from 'react'
 
 interface DocPageProps {
@@ -14,8 +13,6 @@ interface DocPageProps {
 
 export const DocPage: React.FC<DocPageProps> = ({ id }) => {
     const { data } = useGetDoc(id)
-
-    const router = useRouter()
 
     return (
         <article
@@ -39,9 +36,6 @@ export const DocPage: React.FC<DocPageProps> = ({ id }) => {
                     className="ml-auto"
                     onPending={() => startHolyLoader()}
                     onError={() => stopHolyLoader()}
-                    onSuccess={newDoc => {
-                        router.push(`/docs/${newDoc.id}`)
-                    }}
                 />
             </header>
 

@@ -2,8 +2,9 @@
 
 import { Button, ButtonProps } from '@/components/ui/Button'
 import { useCreateDoc } from '@/hooks/useCreateDoc'
+import { Doc } from '@/types/doc.types'
+import { useRouter } from 'next/navigation'
 import React from 'react'
-import { Doc } from 'types/doc.types'
 
 interface CreateNewDocButtonProps extends ButtonProps {
     onPending?: () => void
@@ -20,12 +21,15 @@ export const CreateNewDocButton: React.FC<CreateNewDocButtonProps> = ({
 }) => {
     const { createDoc, isPending } = useCreateDoc()
 
+    const router = useRouter()
     const handleCreateDoc = () => {
         onPending?.()
 
         createDoc(undefined, {
             onSuccess: ({ data }) => {
                 onSuccess?.(data)
+
+                router.push(`/docs/${data.id}`)
             },
 
             onError: () => {
@@ -34,7 +38,7 @@ export const CreateNewDocButton: React.FC<CreateNewDocButtonProps> = ({
         })
     }
     return (
-        <Button onClick={handleCreateDoc} {...buttonProps} disabled={isPending}>
+        <Button disabled={isPending} onClick={handleCreateDoc} {...buttonProps}>
             {'New Doc'}
         </Button>
     )

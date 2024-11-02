@@ -4,7 +4,6 @@ import { DocEndpoint } from '@/components/DocEndpoint'
 import { useGetDoc } from '@/hooks/useGetDoc'
 import { render } from '@testing-library/react'
 import { startHolyLoader, stopHolyLoader } from 'holy-loader'
-import { useRouter } from 'next/navigation'
 import React from 'react'
 import { DocPage } from './index'
 
@@ -19,9 +18,6 @@ const CreateNewDocButtonMock = jest.mocked(CreateNewDocButton)
 
 jest.mock('@/components/DocEndpoint')
 const DocEndpointMock = jest.mocked(DocEndpoint)
-
-jest.mock('next/navigation')
-const useRouterMock = jest.mocked(useRouter)
 
 jest.mock('holy-loader')
 
@@ -132,31 +128,7 @@ describe('<DocPage />', () => {
                 className: 'ml-auto',
                 onPending: expect.any(Function),
                 onError: expect.any(Function),
-                onSuccess: expect.any(Function),
             })
-        })
-
-        it('should navigate to new doc on success', () => {
-            expect.assertions(1)
-
-            const router = {
-                push: jest.fn(),
-            }
-
-            // @ts-expect-error - we don't need to mock all the properties
-            useRouterMock.mockReturnValue(router)
-
-            render(<DocPage id="DOC_ID" />)
-
-            const newDoc = {
-                id: 'NEW_DOC_ID',
-                title: 'Title',
-                content: ['Content'],
-            }
-
-            CreateNewDocButtonMock.mock.calls[0][0].onSuccess?.(newDoc)
-
-            expect(router.push).toHaveBeenCalledWith('/docs/NEW_DOC_ID')
         })
 
         it('should start loader on pending', () => {
