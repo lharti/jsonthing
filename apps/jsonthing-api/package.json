@@ -17,12 +17,13 @@
         "test:cov": "jest src --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest test",
-        "pre-commit": "lint-staged"
+        "pre-commit": "lint-staged",
+        "clean": "git clean -xdf node_modules dist"
     },
     "lint-staged": {
         "*.ts": [
-            "pnpm exec eslint . --fix",
-            "pnpm jest --bail --findRelatedTests --passWithNoTests"
+            "pnpm run lint",
+            "pnpm run test --findRelatedTests --passWithNoTests"
         ],
         "*.{ts,json,js,yaml,yml,md,html}": [
             "pnpm run format"

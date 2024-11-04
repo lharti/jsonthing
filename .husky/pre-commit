@@ -1,1 +1,1 @@
-pnpm --filter "*" run pre-commit
+turbo run pre-commit --ui=stream
