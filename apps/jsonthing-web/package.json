@@ -6,16 +6,17 @@
         "dev": "next dev --turbo",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
-        "lint:fix": "next lint --fix",
+        "lint": "next lint --fix",
         "format": "prettier --write .",
+        "check-types": "tsc --noEmit",
         "test": "jest",
-        "pre-commit": "lint-staged"
+        "pre-commit": "lint-staged",
+        "clean": "git clean -xdf node_modules .next"
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx}": [
-            "pnpm exec eslint . --fix",
-            "pnpm jest --bail --findRelatedTests --passWithNoTests"
+            "pnpm run lint",
+            "pnpm run test --findRelatedTests --passWithNoTests"
         ],
         "*.{js,jsx,json,ts,tsx,yaml,yml,md,html}": [
             "pnpm run format"
