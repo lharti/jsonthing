@@ -1,0 +1,15 @@
+{
+    "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+    "version": "independent",
+    "npmClient": "pnpm",
+
+    "command": {
+        "version": {
+            "conventionalCommits": true,
+            "amend": true,
+            "push": false,
+            "gitTagVersion": false,
+            "commitHooks": false
+        }
+    }
+}

@@ -12,6 +12,8 @@
     "packageManager": "pnpm@9.9.0",
     "devDependencies": {
         "husky": "^9.1.6",
+        "lerna": "^8.1.9",
         "turbo": "^2.2.3"
-    }
+    },
+    "dependencies": {}
 }
