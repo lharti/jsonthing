@@ -7,8 +7,6 @@
         "version": {
             "conventionalCommits": true,
             "amend": true,
-            "push": false,
-            "gitTagVersion": false,
             "commitHooks": false
         }
     }
