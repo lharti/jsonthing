@@ -1,0 +1,97 @@
+version: "3.8"
+
+x-base-deploy-config: &base-deploy-config
+    replicas: 2
+
+    update_config:
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+        parallelism: 1
+
+    rollback_config:
+        order: start-first
+        failure_action: pause
+        parallelism: 1
+
+services:
+    webapp:
+        image: lharti/jsonthing-web
+        restart: always
+        networks:
+            - private
+        environment:
+            - PORT=3000
+        depends_on:
+            - mongo
+        deploy:
+            <<: *base-deploy-config
+
+    api:
+        image: lharti/jsonthing-api
+        restart: always
+        networks:
+            - private
+        environment:
+            - PORT=5000
+            - DB_NAME=jsonthing
+        env_file:
+            - .env
+        depends_on:
+            - mongo
+        deploy:
+            <<: *base-deploy-config
+
+    mongo:
+        image: mongo:latest
+        restart: always
+        env_file:
+            - .env
+        networks:
+            - private
+        volumes:
+            - mongo-data:/data/db:rw
+        deploy:
+            replicas: 1
+
+            update_config:
+                order: stop-first
+                failure_action: rollback
+                parallelism: 1
+
+            rollback_config:
+                order: stop-first
+                failure_action: pause
+                parallelism: 1
+
+    nginx:
+        image: nginx:latest
+        restart: always
+        networks:
+            - public
+            - private
+        ports:
+            - "80:80"
+        configs:
+            - source: nginx.conf
+              target: /etc/nginx/nginx.conf
+        depends_on:
+            - webapp
+            - api
+        deploy:
+            <<: *base-deploy-config
+
+configs:
+    nginx.conf:
+        file: ./nginx.conf
+
+volumes:
+    mongo-data:
+
+networks:
+    public:
+        driver: overlay
+
+    private:
+        driver: overlay
+        internal: true
