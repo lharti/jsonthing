@@ -31,7 +31,7 @@ importers:
         version: 10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/mongoose':
         specifier: ^10.1.0
-        version: 10.1.0(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6)(mongoose@8.8.0(socks@2.8.3))(rxjs@7.8.1)
+        version: 10.1.0(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(mongoose@8.8.0(socks@2.8.3))(rxjs@7.8.1)
       '@nestjs/platform-express':
         specifier: ^10.4.6
         version: 10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6)
@@ -68,7 +68,7 @@ importers:
         version: 10.2.3(chokidar@3.6.0)(typescript@5.6.3)
       '@nestjs/testing':
         specifier: ^10.4.6
-        version: 10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6)(@nestjs/platform-express@10.4.6)
+        version: 10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6))
       '@stylistic/eslint-plugin':
         specifier: ^2.9.0
         version: 2.10.1(eslint@8.57.1)(typescript@5.6.3)
@@ -209,7 +209,7 @@ importers:
         version: 2.1.1
       holy-loader:
         specifier: github:lharti/holy-loader
-        version: https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021)
+        version: git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021)
       lucide-react:
         specifier: ^0.454.0
         version: 0.454.0(react@19.0.0-rc-69d4b800-20241021)
@@ -566,6 +566,9 @@ packages:
 
   '@codemirror/view@6.34.1':
     resolution: {integrity: sha512-t1zK/l9UiRqwUNPm+pdIT0qzJlzuVckbTEMVNFhfWkGiBQClstzg+78vedCvLSX0xJEZ6lwZbPpnljL7L6iwMQ==}
+
+  '@codemirror/view@6.34.2':
+    resolution: {integrity: sha512-d6n0WFvL970A9Z+l9N2dO+Hk9ev4hDYQzIx+B9tCyBP0W5wPEszi1rhuyFesNSkLZzXbQE5FPH7F/z/TMJfoPA==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -3530,8 +3533,8 @@ packages:
     resolution: {integrity: sha512-qlspKUK7IlSQv2o+5I7yhUd7TxlOG2Vr5LTa3ve2XSNVKAL/n/u/7KLvKmFNimomDIKvZFXWHv0T12mv7rT8Aw==}
     engines: {node: '>=8'}
 
-  holy-loader@https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e:
-    resolution: {tarball: https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e}
+  holy-loader@git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e:
+    resolution: {commit: d5c3c8a3404f41be97a8feba231cc7b820fcb11e, repo: git@github.com:lharti/holy-loader.git, type: git}
     version: 2.3.8
     peerDependencies:
       react: '>= 16.0.0'
@@ -6593,6 +6596,13 @@ snapshots:
       '@codemirror/view': 6.34.1
       '@lezer/common': 1.2.3
 
+  '@codemirror/autocomplete@6.18.2(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.34.2)(@lezer/common@1.2.3)':
+    dependencies:
+      '@codemirror/language': 6.10.3
+      '@codemirror/state': 6.4.1
+      '@codemirror/view': 6.34.2
+      '@lezer/common': 1.2.3
+
   '@codemirror/commands@6.7.1':
     dependencies:
       '@codemirror/language': 6.10.3
@@ -6623,7 +6633,7 @@ snapshots:
   '@codemirror/search@6.5.7':
     dependencies:
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.34.1
+      '@codemirror/view': 6.34.2
       crelt: 1.0.6
 
   '@codemirror/state@6.4.1': {}
@@ -6632,10 +6642,16 @@ snapshots:
     dependencies:
       '@codemirror/language': 6.10.3
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.34.1
+      '@codemirror/view': 6.34.2
       '@lezer/highlight': 1.2.1
 
   '@codemirror/view@6.34.1':
+    dependencies:
+      '@codemirror/state': 6.4.1
+      style-mod: 4.1.2
+      w3c-keyname: 2.2.8
+
+  '@codemirror/view@6.34.2':
     dependencies:
       '@codemirror/state': 6.4.1
       style-mod: 4.1.2
@@ -7182,7 +7198,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@nestjs/mongoose@10.1.0(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6)(mongoose@8.8.0(socks@2.8.3))(rxjs@7.8.1)':
+  '@nestjs/mongoose@10.1.0(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(mongoose@8.8.0(socks@2.8.3))(rxjs@7.8.1)':
     dependencies:
       '@nestjs/common': 10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/core': 10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1)
@@ -7223,7 +7239,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@nestjs/testing@10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6)(@nestjs/platform-express@10.4.6)':
+  '@nestjs/testing@10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.6))':
     dependencies:
       '@nestjs/common': 10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/core': 10.4.6(@nestjs/common@10.4.6(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.6)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1)
@@ -8841,13 +8857,13 @@ snapshots:
 
   codemirror@6.0.1(@lezer/common@1.2.3):
     dependencies:
-      '@codemirror/autocomplete': 6.18.2(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.34.1)(@lezer/common@1.2.3)
+      '@codemirror/autocomplete': 6.18.2(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.34.2)(@lezer/common@1.2.3)
       '@codemirror/commands': 6.7.1
       '@codemirror/language': 6.10.3
       '@codemirror/lint': 6.8.2
       '@codemirror/search': 6.5.7
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.34.1
+      '@codemirror/view': 6.34.2
     transitivePeerDependencies:
       - '@lezer/common'
 
@@ -9439,7 +9455,7 @@ snapshots:
       debug: 4.3.7
       enhanced-resolve: 5.17.1
       eslint: 8.57.1
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1)
       fast-glob: 3.3.2
       get-tsconfig: 4.8.1
       is-bun-module: 1.2.1
@@ -9452,7 +9468,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -9489,7 +9505,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.12.2(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3
@@ -10178,7 +10194,7 @@ snapshots:
 
   hexoid@2.0.0: {}
 
-  holy-loader@https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021):
+  holy-loader@git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021):
     dependencies:
       react: 19.0.0-rc-69d4b800-20241021
 
