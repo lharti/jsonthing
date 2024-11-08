@@ -5,7 +5,7 @@ on:
         branches:
             - main
         paths:
-            - "docker/webapp.Dockerfile"
+            - "apps/jsonthing-web/Dockerfile"
             - "apps/jsonthing-web/**"
     workflow_dispatch:
 
@@ -86,7 +86,7 @@ jobs:
               uses: docker/build-push-action@v6
               with:
                   context: .
-                  file: docker/webapp.Dockerfile
+                  file: apps/jsonthing-web/Dockerfile
                   push: true
                   tags: |
                       lharti/jsonthing-web:latest
