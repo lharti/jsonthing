@@ -1,0 +1,35 @@
+name: Deploy stack
+
+on:
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up .env file
+              run: echo "$JSOMTHING_ENV" > ./docker/stack/.env
+
+            - name: Copy stack file main node
+              uses: appleboy/scp-action@v0.1.7
+              with:
+                  host: ${{ secrets.MAIN_NODE_HOST }}
+                  username: ${{ secrets.MAIN_NODE_USER }}
+                  key: ${{ secrets.MAIN_NODE_SSH_KEY }}
+                  source: "./docker/stack"
+                  target: "/server"
+
+            - name: Deploy and verify stack
+              uses: appleboy/ssh-action@v1.1.0
+              with:
+                  host: ${{ secrets.MAIN_NODE_HOST }}
+                  username: ${{ secrets.MAIN_NODE_USER }}
+                  key: ${{ secrets.MAIN_NODE_SSH_KEY }}
+                  script: |
+                      docker stack deploy -c /server/stack/stack.compose.yml jsonthing
+                      docker stack services jsonthing
+                      docker stack ps jsonthing
