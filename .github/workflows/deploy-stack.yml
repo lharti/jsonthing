@@ -1,0 +1,48 @@
+name: Deploy stack
+
+on:
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up .env file
+              run: echo "${{ secrets.JSONTHING_ENV }}" | base64 --decode > ./docker/stack/.env
+
+            - name: Copy stack config to main node
+              uses: appleboy/scp-action@v0.1.7
+              with:
+                  host: ${{ secrets.MAIN_NODE_HOST }}
+                  username: ${{ secrets.MAIN_NODE_USER }}
+                  key: ${{ secrets.MAIN_NODE_SSH_KEY }}
+                  source: "./docker/stack"
+                  target: "/server"
+
+            - name: Deploy and verify stack
+              uses: appleboy/ssh-action@v1.1.0
+              with:
+                  host: ${{ secrets.MAIN_NODE_HOST }}
+                  username: ${{ secrets.MAIN_NODE_USER }}
+                  key: ${{ secrets.MAIN_NODE_SSH_KEY }}
+                  script: |
+                      set -e
+                      docker stack deploy -d -c /server/docker/stack/stack.compose.yml jsonthing
+                      sleep 20
+
+                      docker stack services jsonthing > /server/stack-services-output.txt
+                      docker stack ps jsonthing > /server/stack-ps-output.txt
+                      docker container ps > /server/container-ps-output.txt
+
+                      echo "Stack Services Output:"
+                      cat /server/stack-services-output.txt
+
+                      echo "Stack PS Output:"
+                      cat /server/stack-ps-output.txt
+
+                      echo "Container PS Output:"
+                      cat /server/container-ps-output.txt
