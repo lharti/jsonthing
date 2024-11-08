@@ -15,6 +15,15 @@ git push --no-verify -u origin "$(git branch --show-current)"
 
 git fetch --tags --force
 
+
+if [ "$(pnpm lerna diff | wc -l)" -le 0 ]; then
+    echo "No changes detected by lerna diff."
+    exit 0
+fi
+
+
+echo -e "\033[1;34mRunning lerna version...\033[0m"
+
 pnpm lerna version --yes
 
 if [ "$isStashed" = true ]; then
