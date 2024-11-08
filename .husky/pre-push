@@ -1,20 +1,25 @@
-# bump versions
-
-if ! git diff-index --quiet HEAD --; then
-    echo "\033[1;31mYou have uncommitted changes. Please commit or stash them before pushing.\033[0m"
-    exit 1
-fi
-
 if [ "$(git rev-parse @)" = "$(git rev-parse @{u})" ]; then
     echo "No changes to push."
     exit 0
 fi
 
-git fetch --all --force
+isStashed=false
 
-echo "\033[1;33mIgnore the error about failing to push some refs!\033[0m"
+if ! git diff-index --quiet HEAD --; then
+    git stash push
+
+    isStashed=true
+fi
+
+git push --no-verify -u origin "$(git branch --show-current)"
+
+git fetch --tags --force
 
 pnpm lerna version --yes
 
-git push --no-verify -u origin "${git branch --show-current}"
+if [ "$isStashed" = true ]; then
+    git stash pop
+fi
+
+git push -f --no-verify
 

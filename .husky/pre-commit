@@ -1,1 +1,15 @@
-turbo run pre-commit --ui=stream
+if git diff-index --cached --quiet HEAD --; then
+    echo "\033[1;31m No staged changes to commit \033[0m"
+    exit 1
+fi
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "main" ]; then
+    echo "\033[1;31m You cannot commit directly to the main branch. \033[0m"
+    exit 1
+fi
+
+ turbo run pre-commit --ui=stream
+
+echo "\033[1;32m Pre-commit checks passed. \033[0m"
