@@ -34,8 +34,8 @@ jobs:
                   script: |
                       set -e
 
-                      docker service update --image jsonthing-web:${{ env.JSONTHING_WEB_VERSION }} jsonthing_webapp
-                      docker service update --image jsonthing-api:${{ env.JSONTHING_API_VERSION }} jsonthing_api
+                      docker service update --image lharti/jsonthing-web:${{ env.JSONTHING_WEB_VERSION }} jsonthing_webapp
+                      docker service update --image lharti/jsonthing-api:${{ env.JSONTHING_API_VERSION }} jsonthing_api
 
                       docker stack services jsonthing > /server/stack-services-output.txt
                       docker stack ps jsonthing > /server/stack-ps-output.txt
