@@ -6,15 +6,18 @@ fi
 isStashed=false
 
 if ! git diff-index --quiet HEAD --; then
-    git stash push
+    git stash push --include-untracked
 
     isStashed=true
 fi
 
-git push --no-verify -u origin "$(git branch --show-current)"
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+git push --no-verify -u origin $current_branch
 
+git fetch origin/main
 git fetch --tags --force
 
+git rebase origin/main
 
 if [ "$(pnpm lerna diff | wc -l)" -le 0 ]; then
     echo "No changes detected by lerna diff."
@@ -29,6 +32,7 @@ pnpm lerna version --yes
 if [ "$isStashed" = true ]; then
     git stash pop
 fi
+
 
 git push -f --no-verify
 
