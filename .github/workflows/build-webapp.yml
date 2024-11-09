@@ -25,7 +25,7 @@ jobs:
                   NEW_VERSION=$(jq -r '.version' apps/jsonthing-web/package.json)
                   git config --global user.name 'github-actions'
                   git config --global user.email 'github-actions@github.com'
-                  git tag "jsonthing-web@${NEW_VERSION}"
+                  git tag "jsonthing-web@${NEW_VERSION}" -m "jsonthing-web@${NEW_VERSION}"
                   git push --tags
 
     unit-tests:
