@@ -1,0 +1,51 @@
+name: Deploy services
+
+on:
+    release:
+        types:
+            - published
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Install jq
+              run: sudo apt-get install -y jq
+
+            - name: Get services versions
+              run: |
+                  JSONTHING_WEB_VERSION=$(jq -r .version ./apps/jsonthing-web/package.json)
+                  JSONTHING_API_VERSION=$(jq -r .version ./apps/jsonthing-api/package.json)
+
+                  echo "JSONTHING_WEB_VERSION=$JSONTHING_WEB_VERSION" >> $GITHUB_ENV
+                  echo "JSONTHING_API_VERSION=$JSONTHING_API_VERSION" >> $GITHUB_ENV
+
+            - name: Deploy new versions
+              uses: appleboy/ssh-action@v1.1.0
+              with:
+                  host: ${{ secrets.MAIN_NODE_HOST }}
+                  username: ${{ secrets.MAIN_NODE_USER }}
+                  key: ${{ secrets.MAIN_NODE_SSH_KEY }}
+                  script: |
+                      set -e
+
+                      docker service update --image jsonthing-web:${{ env.JSONTHING_WEB_VERSION }} jsonthing_webapp
+                      docker service update --image jsonthing-api:${{ env.JSONTHING_API_VERSION }} jsonthing_api
+
+                      docker stack services jsonthing > /server/stack-services-output.txt
+                      docker stack ps jsonthing > /server/stack-ps-output.txt
+                      docker container ps > /server/container-ps-output.txt
+
+                      echo "Stack Services Output:"
+                      cat /server/stack-services-output.txt
+
+                      echo "Stack PS Output:"
+                      cat /server/stack-ps-output.txt
+
+                      echo "Container PS Output:"
+                      cat /server/container-ps-output.txt
