@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.2.5...jsonthing-web@0.2.6) (2024-11-09)
+
+
+### Bug Fixes
+
+* **web:** doc endpoint url format ([1423daf](https://github.com/lharti/jsonthing/commit/1423daf1edce7fc39e9d75371382926e4dd84a12))
+
+
+
+
+
 ## [0.2.5](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.2.4...jsonthing-web@0.2.5) (2024-11-09)
 
 
