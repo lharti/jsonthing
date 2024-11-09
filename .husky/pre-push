@@ -14,7 +14,7 @@ fi
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 git push --no-verify -u origin $current_branch
 
-git fetch origin/main
+git fetch origin main
 git fetch --tags --force
 
 git rebase origin/main
@@ -40,4 +40,3 @@ fi
 
 
 git push -f --no-verify
-
