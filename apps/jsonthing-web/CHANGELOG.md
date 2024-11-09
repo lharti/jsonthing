@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.2.3...jsonthing-web@0.2.4) (2024-11-09)
+
+
+### Bug Fixes
+
+* **web:** server side calls to api ([6cf1166](https://github.com/lharti/jsonthing/commit/6cf1166c555c148d039a758bf02c9c342d7b76e7))
+
+
+
+
+
 ## [0.2.3](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.2.2...jsonthing-web@0.2.3) (2024-11-09)
 
 **Note:** Version bump only for package jsonthing-web
