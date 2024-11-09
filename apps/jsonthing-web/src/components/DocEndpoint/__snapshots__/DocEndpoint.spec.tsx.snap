@@ -39,10 +39,10 @@ exports[`<DocEndpoint /> should render 1`] = `
                   mr-3 overflow-hidden text-ellipsis text-sm font-bold
                   text-gray-400
                 "
-      href="API_URL/docs/DOC_ID"
+      href="API_URL/dc/DOC_ID"
       target="_blank"
     >
-      API_URL/docs/DOC_ID
+      API_URL/dc/DOC_ID
     </a>
     <button
       aria-label="Copy endpoint URL"

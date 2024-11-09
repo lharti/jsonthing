@@ -36,6 +36,6 @@ describe('<DocEndpoint />', () => {
 
         const clipboardContent = await navigator.clipboard.readText()
 
-        expect(clipboardContent).toMatchInlineSnapshot(`"API_URL/docs/DOC_ID"`)
+        expect(clipboardContent).toMatchInlineSnapshot(`"API_URL/dc/DOC_ID"`)
     })
 })

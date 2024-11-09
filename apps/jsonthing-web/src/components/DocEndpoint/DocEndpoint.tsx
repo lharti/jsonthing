@@ -18,7 +18,7 @@ export const DocEndpoint: React.FC<DocEndpointProps> = ({
     docId,
     className,
 }) => {
-    const docEndpointUrl = `${process.env.NEXT_PUBLIC_API_URL}/docs/${docId}`
+    const docEndpointUrl = `${process.env.NEXT_PUBLIC_API_URL}/dc/${docId}`
 
     return (
         <div className={cn('flex items-center', className)}>
