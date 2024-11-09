@@ -48,12 +48,15 @@ describe('prefetchDoc', () => {
     it('should prefetch doc', async () => {
         expect.assertions(2)
 
+        process.env.NEXT_PUBLIC_INT_API_URL = 'INT_API_URL'
         const { queryClient, queryResult, apiClientMock } = setupTestMocks()
 
         // @ts-expect-error - just a mock
         await prefetchDoc('DOC_ID', queryClient)
 
-        expect(apiClientMock.get).toHaveBeenCalledWith('/docs/DOC_ID')
+        expect(apiClientMock.get).toHaveBeenCalledWith('/docs/DOC_ID', {
+            baseURL: 'INT_API_URL',
+        })
 
         expect(queryResult.current).toBe('DOC_DATA')
     })
