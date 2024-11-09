@@ -1,7 +1,7 @@
 import { checkDocExists } from './index'
 
 const setupTestMocks = () => {
-    process.env.NEXT_PUBLIC_INT_API_URL = 'INT_API_URL'
+    process.env.INT_API_URL = 'INT_API_URL'
 
     // eslint-disable-next-line jest/prefer-spy-on
     global.fetch = jest.fn()

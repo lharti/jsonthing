@@ -48,7 +48,7 @@ describe('prefetchDoc', () => {
     it('should prefetch doc', async () => {
         expect.assertions(2)
 
-        process.env.NEXT_PUBLIC_INT_API_URL = 'INT_API_URL'
+        process.env.INT_API_URL = 'INT_API_URL'
         const { queryClient, queryResult, apiClientMock } = setupTestMocks()
 
         // @ts-expect-error - just a mock

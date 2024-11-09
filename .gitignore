@@ -3,3 +3,5 @@ node_modules
 .worktree
 
 **/.turbo
+
+docker/stack/.env
