@@ -21,6 +21,11 @@ git rebase origin/main
 
 if [ "$(pnpm lerna diff | wc -l)" -le 0 ]; then
     echo "No changes detected by lerna diff."
+
+    if [ "$isStashed" = true ]; then
+        git stash pop
+    fi
+
     exit 0
 fi
 
