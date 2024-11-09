@@ -16,12 +16,13 @@ x-base-deploy-config: &base-deploy-config
 
 services:
     webapp:
-        image: lharti/jsonthing-web
+        image: lharti/jsonthing-web:tmp
         restart: always
         networks:
             - private
         environment:
             - PORT=3000
+            - INT_API_URL=http://api:5000
         depends_on:
             - mongo
         deploy:
