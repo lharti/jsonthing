@@ -1,7 +1,7 @@
 import { checkDocExists } from './index'
 
 const setupTestMocks = () => {
-    process.env.NEXT_PUBLIC_API_URL = 'API_URL'
+    process.env.NEXT_PUBLIC_INT_API_URL = 'INT_API_URL'
 
     // eslint-disable-next-line jest/prefer-spy-on
     global.fetch = jest.fn()
@@ -36,7 +36,7 @@ describe('checkDocExists', () => {
         await checkDocExists('DOC_ID')
 
         expect(fetchMock).toHaveBeenCalledExactlyOnceWith(
-            'API_URL/docs/DOC_ID',
+            'INT_API_URL/docs/DOC_ID',
 
             {
                 method: 'HEAD',
