@@ -13,38 +13,35 @@ import { DocEditorActionBar } from './DocEditorActionBar'
 import { useSaveContent } from './useSaveContent'
 
 jest.mock('./ActionBarBtn')
-const DocEditorActionBarBtnMock = jest.mocked(DocEditorActionBarBtn)
-
-const mockActionBarBtn = () => {
-    return DocEditorActionBarBtnMock.mockImplementation(
-        ({ onClick, label }) => (
-            <Button role="button" aria-label={label} onClick={onClick} />
-        ),
-    )
-}
-
-// eslint-disable-next-line jest/no-untyped-mock-factory
-jest.mock('next/navigation', () => ({
-    useParams: jest.fn(() => ({ id: 'DOC_ID' })),
-}))
-
 jest.mock('./useSaveContent')
 
-const useSaveContentMock = jest.mocked(useSaveContent).mockReturnValue({
-    save: jest.fn(),
-    status: SaveStatus.SAVED,
-})
+const setupMocks = () => {
+    const ActionBarBtnMock = jest
+        .mocked(DocEditorActionBarBtn)
+
+        .mockImplementation(({ onClick, label }) => (
+            <Button role="button" aria-label={label} onClick={onClick} />
+        ))
+
+    const useSaveContentMock = jest.mocked(useSaveContent).mockReturnValue({
+        save: jest.fn(),
+        status: SaveStatus.SAVED,
+    })
+
+    return { ActionBarBtnMock, useSaveContentMock }
+}
 
 describe('<DocEditorActionBar />', () => {
     it('should render', () => {
         expect.assertions(1)
 
-        mockActionBarBtn()
+        setupMocks()
 
         const { container } = render(
             <DocEditorActionBar
-                editorContent="{}"
-                setEditorContent={jest.fn()}
+                docId="DOC_ID"
+                value="{}"
+                onChange={jest.fn()}
             />,
         )
 
@@ -54,10 +51,13 @@ describe('<DocEditorActionBar />', () => {
     it('should setup useSaveContent', () => {
         expect.assertions(1)
 
+        const { useSaveContentMock } = setupMocks()
+
         render(
             <DocEditorActionBar
-                editorContent="{}"
-                setEditorContent={jest.fn()}
+                docId="DOC_ID"
+                value="{}"
+                onChange={jest.fn()}
             />,
         )
 
@@ -77,16 +77,17 @@ describe('<DocEditorActionBar />', () => {
         it('should be setup correctly', () => {
             expect.assertions(1)
 
-            const ActionBtnMock = mockActionBarBtn()
+            const { ActionBarBtnMock } = setupMocks()
 
             render(
                 <DocEditorActionBar
-                    editorContent="{}"
-                    setEditorContent={jest.fn()}
+                    docId="DOC_ID"
+                    value="{}"
+                    onChange={jest.fn()}
                 />,
             )
 
-            expect(ActionBtnMock).toHaveBeenCalledWith(
+            expect(ActionBarBtnMock).toHaveBeenCalledWith(
                 {
                     iconOnly: true,
                     label: 'Prettify',
@@ -101,18 +102,19 @@ describe('<DocEditorActionBar />', () => {
         it('should prettify editor content when clicked', () => {
             expect.assertions(1)
 
-            mockActionBarBtn()
+            setupMocks()
 
             const uglyJson = `
             {"a":1,"b":2,
             "c": 3}`
 
-            const setEditorContent = jest.fn(value => value)
+            const onChange = jest.fn(value => value)
 
             render(
                 <DocEditorActionBar
-                    editorContent={uglyJson}
-                    setEditorContent={setEditorContent}
+                    docId="DOC_ID"
+                    value={uglyJson}
+                    onChange={onChange}
                 />,
             )
 
@@ -122,7 +124,7 @@ describe('<DocEditorActionBar />', () => {
 
             prettifyBtn.click()
 
-            const newEditorContent = setEditorContent.mock.results[0].value
+            const newEditorContent = onChange.mock.results[0].value
 
             expect(newEditorContent).toMatchInlineSnapshot(`
                             "{
@@ -138,16 +140,17 @@ describe('<DocEditorActionBar />', () => {
         it('should be setup correctly', () => {
             expect.assertions(1)
 
-            const ActionBtnMock = mockActionBarBtn()
+            const { ActionBarBtnMock } = setupMocks()
 
             render(
                 <DocEditorActionBar
-                    editorContent="{}"
-                    setEditorContent={jest.fn()}
+                    docId="DOC_ID"
+                    value="{}"
+                    onChange={jest.fn()}
                 />,
             )
 
-            expect(ActionBtnMock).toHaveBeenCalledWith(
+            expect(ActionBarBtnMock).toHaveBeenCalledWith(
                 {
                     iconOnly: true,
                     label: 'Copy',
@@ -164,14 +167,15 @@ describe('<DocEditorActionBar />', () => {
 
             userEvent.setup()
 
-            mockActionBarBtn()
+            setupMocks()
 
             const editorContent = `{"random": ${Math.random()}`
 
             render(
                 <DocEditorActionBar
-                    editorContent={editorContent}
-                    setEditorContent={jest.fn()}
+                    docId="DOC_ID"
+                    value={editorContent}
+                    onChange={jest.fn()}
                 />,
             )
 
@@ -191,16 +195,17 @@ describe('<DocEditorActionBar />', () => {
         it('should be setup correctly', () => {
             expect.assertions(1)
 
-            const ActionBtnMock = mockActionBarBtn()
+            const { ActionBarBtnMock } = setupMocks()
 
             render(
                 <DocEditorActionBar
-                    editorContent="{}"
-                    setEditorContent={jest.fn()}
+                    docId="DOC_ID"
+                    value="{}"
+                    onChange={jest.fn()}
                 />,
             )
 
-            expect(ActionBtnMock).toHaveBeenCalledWith(
+            expect(ActionBarBtnMock).toHaveBeenCalledWith(
                 {
                     variant: 'outline',
                     label: 'Saved',
@@ -219,6 +224,8 @@ describe('<DocEditorActionBar />', () => {
         it('should save content onClick', () => {
             expect.assertions(1)
 
+            const { useSaveContentMock } = setupMocks()
+
             const saveMock = jest.fn()
 
             useSaveContentMock.mockReturnValue({
@@ -230,8 +237,9 @@ describe('<DocEditorActionBar />', () => {
 
             render(
                 <DocEditorActionBar
-                    editorContent={editorContent}
-                    setEditorContent={jest.fn()}
+                    docId="DOC_ID"
+                    value={editorContent}
+                    onChange={jest.fn()}
                 />,
             )
 

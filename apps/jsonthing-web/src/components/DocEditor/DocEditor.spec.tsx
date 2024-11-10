@@ -114,8 +114,9 @@ describe('<DocEditor />', () => {
         render(<DocEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
 
         expect(DocEditorActionBarMock).toHaveBeenCalledExactlyOnceWith({
-            editorContent,
-            setEditorContent,
+            docId: 'DOC_ID',
+            value: editorContent,
+            onChange: expect.any(Function),
         })
     })
 

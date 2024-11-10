@@ -33,9 +33,9 @@ export const DocEditor: React.FC<DocEditorProps> = ({
                 <DocTitleEditor initialTitle={initialTitle} docId={docId} />
 
                 <DocEditorActionBar
-                    editorContent={editorContent}
-                    // TODO: use onChange  instead of passing setEditorContent
-                    setEditorContent={setEditorContent}
+                    value={editorContent}
+                    docId={docId}
+                    onChange={newValue => setEditorContent(newValue)}
                 />
             </div>
 
