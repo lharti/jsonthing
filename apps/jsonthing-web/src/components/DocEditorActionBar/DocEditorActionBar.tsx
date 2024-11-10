@@ -5,7 +5,6 @@ import {
     IconDeviceFloppy,
     IconWand,
 } from '@tabler/icons-react'
-import { useParams } from 'next/navigation'
 import React from 'react'
 import { DocEditorActionBarBtn } from './ActionBarBtn'
 import { SAVE_BTN_LABELS, SaveStatus } from './constants'
@@ -14,30 +13,34 @@ import { useSaveContent } from './useSaveContent'
 export interface DocEditorActionBarProps {
     className?: string
 
-    editorContent: string
-    setEditorContent: React.Dispatch<React.SetStateAction<string>>
+    value: string
+    docId: string
+
+    onChange: (newContentValue: string) => void
 }
 
 export const DocEditorActionBar: React.FC<DocEditorActionBarProps> = ({
     className,
 
-    editorContent,
-    setEditorContent,
+    value,
+    docId,
+
+    onChange,
 }) => {
     const prettifyContent = () => {
-        setEditorContent(prettifyJson(editorContent))
+        const newContentValue = prettifyJson(value)
+
+        onChange(newContentValue)
     }
 
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(editorContent)
+        navigator.clipboard.writeText(value)
     }
-
-    const { id } = useParams()
 
     const { save, status: saveStatus } = useSaveContent(
         {
-            content: editorContent,
-            id: id as string,
+            content: value,
+            id: docId,
         },
 
         {
