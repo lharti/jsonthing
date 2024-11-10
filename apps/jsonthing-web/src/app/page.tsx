@@ -1,7 +1,8 @@
+import { LandingPage } from '@/components/pages/LandingPage'
 import React from 'react'
 
 const Home: React.FC = () => {
-    return <h1>{'WIP'}</h1>
+    return <LandingPage />
 }
 
 export default Home

@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LandingPage /> should render: <LandingPage /> 1`] = `
+<div>
+  <div
+    class="mx-auto max-w-screen-xl px-8 pt-32"
+  >
+    <main
+      class="
+                  flex flex-col items-center gap-8
+
+                  lg:flex-row lg:items-start lg:justify-between
+                "
+    >
+      <div
+        class="
+                      max-w-96 space-y-6 text-center
+
+                      lg:text-start
+                    "
+      >
+        <div
+          aria-label="logo"
+          class="
+                          inline rounded-md bg-gradient-to-r from-green-400
+                          to-blue-500 px-3 text-3xl text-white
+                        "
+        >
+          jsonthing
+        </div>
+        <h1
+          aria-label=""
+          class="
+                          text-4xl font-bold
+
+                          md:text-5xl
+                        "
+        >
+          JSON storage that speaks API.
+        </h1>
+        <p
+          class="text-xl text-gray-600"
+        >
+          Edit,
+                        and access your JSON documents with automatically generated API endpoints.
+        </p>
+      </div>
+      <div>
+        <img
+          alt="jsonthing.com"
+          class="rounded-md"
+          data-nimg="1"
+          decoding="async"
+          height="500"
+          loading="lazy"
+          src="/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fjsonthing-assets%2Fhero.jpeg&w=1200&q=75"
+          srcset="/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fjsonthing-assets%2Fhero.jpeg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fjsonthing-assets%2Fhero.jpeg&w=1200&q=75 2x"
+          style="color: transparent;"
+          width="600"
+        />
+      </div>
+    </main>
+  </div>
+</div>
+`;
