@@ -1,6 +1,6 @@
 {
     "name": "jsonthing-web",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "private": true,
     "scripts": {
         "dev": "next dev --turbo",
@@ -15,11 +15,11 @@
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx}": [
-            "pnpm run lint",
-            "pnpm run test --findRelatedTests --passWithNoTests"
+            "pnpm eslint --fix",
+            "pnpm jest --findRelatedTests --passWithNoTests"
         ],
         "*.{js,jsx,json,ts,tsx,yaml,yml,md,html}": [
-            "pnpm run format"
+            "pnpm prettier --write"
         ]
     },
     "dependencies": {
