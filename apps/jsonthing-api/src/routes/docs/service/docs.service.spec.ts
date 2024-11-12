@@ -4,7 +4,7 @@ import {
 } from '@/common/helpers/fixtures'
 import {
     DEFAULT_DOC_CONTENT,
-    DEFAULT_DOC_NAME,
+    DEFAULT_DOC_TITLE_CANDIDATES,
 } from '@/routes/docs/constants'
 import { docsModel } from '@/routes/docs/model/doc.schema'
 import {
@@ -72,21 +72,18 @@ describe('docsService', () => {
 
             const result = await docsService.createDoc()
 
-            const defaultDocValues = {
-                title: DEFAULT_DOC_NAME,
-                content: DEFAULT_DOC_CONTENT,
-            }
-
             expect(result).toStrictEqual({
                 id: expect.stringMatching(OBJECT_ID_PATTERN),
 
+                title: expect.toBeOneOf(DEFAULT_DOC_TITLE_CANDIDATES),
+
+                content: DEFAULT_DOC_CONTENT,
+
                 contentText: JSON.stringify(
-                    defaultDocValues.content,
+                    DEFAULT_DOC_CONTENT,
                     null,
                     2,
                 ),
-
-                ...defaultDocValues,
             })
         })
 

@@ -7,7 +7,10 @@ import {
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import mongoose from 'mongoose'
-import { DEFAULT_DOC_CONTENT, DEFAULT_DOC_NAME } from '../constants'
+import {
+    DEFAULT_DOC_CONTENT,
+    getRandomDefaultTitle,
+} from '../constants'
 import { Doc, DocsModel } from '../model'
 
 @Injectable()
@@ -21,7 +24,7 @@ export class DocsService {
 
     public createDoc(createDocPayload?: CreateDocDto): Promise<Doc> {
         const docPayload = {
-            title: createDocPayload?.title || DEFAULT_DOC_NAME,
+            title: createDocPayload?.title || getRandomDefaultTitle(),
 
             content: createDocPayload?.content || DEFAULT_DOC_CONTENT,
         }
