@@ -1,3 +1,7 @@
+import {
+    createDocPayloadFixture,
+    docFixture,
+} from '@/common/helpers/fixtures/doc.fixtures'
 import { DocSchema, docsModel } from './doc.schema'
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -71,18 +75,14 @@ describe('docSchema', () => {
         it('should return pretty doc', async () => {
             expect.assertions(1)
 
-            const random = Math.random().toString()
-
-            const doc = await docsModel.create({
-                title: random,
-                content: { test: random },
-            })
+            const doc = await docsModel.create(
+                createDocPayloadFixture,
+            )
 
             expect(doc.toJSON()).toStrictEqual({
-                id: doc._id.toString(),
+                ...docFixture,
 
-                content: { test: random },
-                title: random,
+                id: doc._id.toString(),
             })
         })
     })
@@ -91,18 +91,13 @@ describe('docSchema', () => {
         it('should return pretty doc', async () => {
             expect.assertions(1)
 
-            const random = Math.random().toString()
-
-            const doc = await docsModel.create({
-                title: random,
-                content: { test: random },
-            })
+            const doc = await docsModel.create(
+                createDocPayloadFixture,
+            )
 
             expect(doc.toJSON()).toStrictEqual({
+                ...docFixture,
                 id: doc._id.toString(),
-
-                content: { test: random },
-                title: random,
             })
         })
     })

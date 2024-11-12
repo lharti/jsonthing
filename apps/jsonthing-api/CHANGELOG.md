@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/lharti/jsonthing/compare/jsonthing-api@0.1.3...jsonthing-api@0.2.0) (2024-11-12)
+
+
+### Features
+
+* **api/docs:** add contentText to docs schema ([39fe10b](https://github.com/lharti/jsonthing/commit/39fe10b8ee4682d7eea6b347df5c7ad5bbab5145))
+
+
+
+
+
 ## [0.1.3](https://github.com/lharti/jsonthing/compare/jsonthing-api@0.1.2...jsonthing-api@0.1.3) (2024-11-09)
 
 **Note:** Version bump only for package jsonthing-api

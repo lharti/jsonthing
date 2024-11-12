@@ -254,6 +254,14 @@ Schema {
       "required": true,
       "type": [Function],
     },
+    "contentText": VirtualType {
+      "getters": [
+        [Function],
+      ],
+      "options": {},
+      "path": "contentText",
+      "setters": [],
+    },
     "id": VirtualType {
       "getters": [
         [Function],
@@ -269,6 +277,14 @@ Schema {
     },
   },
   "virtuals": {
+    "contentText": VirtualType {
+      "getters": [
+        [Function],
+      ],
+      "options": {},
+      "path": "contentText",
+      "setters": [],
+    },
     "id": VirtualType {
       "getters": [
         [Function],

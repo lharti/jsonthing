@@ -1,5 +1,10 @@
 import { Json } from '@/common/types'
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import {
+    Prop,
+    Schema,
+    SchemaFactory,
+    Virtual,
+} from '@nestjs/mongoose'
 import mongoose, { ToObjectOptions } from 'mongoose'
 import { DocsModel } from './doc.types'
 
@@ -30,6 +35,13 @@ export class Doc {
         type: mongoose.Schema.Types.Mixed,
     })
     content: Json
+
+    @Virtual({
+        get: function () {
+            return JSON.stringify(this.content, null, 2)
+        },
+    })
+    contentText: string
 
     id: string
 }
