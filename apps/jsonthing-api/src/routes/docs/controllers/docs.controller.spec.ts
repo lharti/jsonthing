@@ -1,3 +1,7 @@
+import {
+    createDocPayloadFixture,
+    docFixture,
+} from '@/common/helpers/fixtures'
 import { DocsService } from '@/routes/docs/service'
 import { Test, TestingModule } from '@nestjs/testing'
 import mongoose from 'mongoose'
@@ -40,42 +44,25 @@ describe('docsController', () => {
         it('should use docsService.createDoc', async () => {
             expect.assertions(1)
 
-            const createDocPayload = {
-                title: 'Title',
-                content: {
-                    value: 'doc-content',
-                },
-            }
-
-            await docsController.createDoc(createDocPayload)
+            await docsController.createDoc(createDocPayloadFixture)
 
             expect(docsService.createDoc).toHaveBeenCalledWith(
-                createDocPayload,
+                createDocPayloadFixture,
             )
         })
 
         it('should return docsService.createDoc result', async () => {
             expect.assertions(1)
 
-            const createDocPayload = {
-                title: 'Title',
-                content: {
-                    value: 'doc-content',
-                },
-            }
-
-            const createDocResult = {
-                id: new ObjectId().toString(),
-
-                ...createDocPayload,
-            }
+            const createDocResult = docFixture
 
             docsService.createDoc.mockResolvedValueOnce(
                 createDocResult,
             )
 
-            const result =
-                await docsController.createDoc(createDocPayload)
+            const result = await docsController.createDoc(
+                createDocPayloadFixture,
+            )
 
             expect(result).toStrictEqual(createDocResult)
         })
@@ -83,17 +70,21 @@ describe('docsController', () => {
 
     describe('getDoc', () => {
         it('should use docsService.getDocById', async () => {
-            expect.assertions(2)
+            expect.assertions(1)
 
             const docId = new ObjectId()
 
-            const getDocByIdResult = {
-                id: docId.toString(),
-                title: 'Title',
-                content: {
-                    value: 'doc-content',
-                },
-            }
+            await docsController.getDoc(docId.toString())
+
+            expect(docsService.getDocById).toHaveBeenCalledWith(docId)
+        })
+
+        it('should return docsService.getDocById result', async () => {
+            expect.assertions(1)
+
+            const docId = new ObjectId()
+
+            const getDocByIdResult = docFixture
 
             docsService.getDocById.mockResolvedValueOnce(
                 getDocByIdResult,
@@ -103,9 +94,7 @@ describe('docsController', () => {
                 docId.toString(),
             )
 
-            expect(docsService.getDocById).toHaveBeenCalledWith(docId)
-
-            expect(result).toStrictEqual(getDocByIdResult)
+            expect(result).toStrictEqual(docFixture)
         })
     })
 
@@ -137,20 +126,13 @@ describe('docsController', () => {
                 title: 'New Title',
             }
 
-            const docId = new ObjectId()
-
-            const updateDocResult = {
-                id: docId.toString(),
-                content: {
-                    value: 'doc-content',
-                },
-
-                ...updatePayload,
-            }
+            const updateDocResult = docFixture
 
             docsService.updateDoc.mockResolvedValueOnce(
                 updateDocResult,
             )
+
+            const docId = new ObjectId()
 
             const result = await docsController.updateDoc(
                 docId.toString(),
@@ -183,13 +165,7 @@ describe('docsController', () => {
 
         const docId = new ObjectId()
 
-        const getDocByIdResult = {
-            id: docId.toString(),
-            title: 'Title',
-            content: {
-                value: 'doc-content',
-            },
-        }
+        const getDocByIdResult = docFixture
 
         docsService.getDocById.mockResolvedValueOnce(getDocByIdResult)
 
