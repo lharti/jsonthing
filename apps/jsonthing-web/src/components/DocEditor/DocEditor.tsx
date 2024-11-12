@@ -2,15 +2,16 @@
 
 import { DocEditorActionBar } from '@/components/DocEditorActionBar'
 import { DocTitleEditor } from '@/components/DocTitleEditor'
+import { Alert } from '@/components/ui/Alert'
 import { initCodeMirrorExtensions } from '@/lib/codemirror/extensions'
 import { lightTheme } from '@/lib/codemirror/themes'
 import { cn } from '@/lib/utils'
 import CodeMirror from '@uiw/react-codemirror'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export interface DocEditorProps {
     className?: string
-    initialContent?: object
+    initialContent: string
     initialTitle: string
 
     docId: string
@@ -23,20 +24,44 @@ export const DocEditor: React.FC<DocEditorProps> = ({
 
     docId,
 }) => {
-    const [editorContent, setEditorContent] = React.useState(
-        JSON.stringify(initialContent, null, 2),
-    )
+    const [editorContent, setEditorContent] = React.useState(initialContent)
+
+    const [lintError, setLintError] = React.useState<string | null>(null)
+
+    // check if the content is valid JSON
+    useEffect(() => {
+        try {
+            JSON.parse(editorContent)
+
+            setLintError(null)
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : String(err)
+
+            setLintError(errorMsg.replace(/^JSON.parse: /, ''))
+        }
+    }, [editorContent])
 
     return (
         <div className={cn(`flex flex-col`, className)}>
             <div className="mb-2 flex items-end justify-between">
-                <DocTitleEditor initialTitle={initialTitle} docId={docId} />
+                {lintError ? (
+                    <Alert variant="destructive" className="animate-fadeIn">
+                        {lintError}
+                    </Alert>
+                ) : (
+                    <>
+                        <DocTitleEditor
+                            initialTitle={initialTitle}
+                            docId={docId}
+                        />
 
-                <DocEditorActionBar
-                    value={editorContent}
-                    docId={docId}
-                    onChange={newValue => setEditorContent(newValue)}
-                />
+                        <DocEditorActionBar
+                            value={editorContent}
+                            docId={docId}
+                            onChange={newValue => setEditorContent(newValue)}
+                        />
+                    </>
+                )}
             </div>
 
             <CodeMirror
