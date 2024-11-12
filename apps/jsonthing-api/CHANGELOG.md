@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/lharti/jsonthing/compare/jsonthing-api@0.2.0...jsonthing-api@0.3.0) (2024-11-12)
+
+
+### Features
+
+* **api/docs:** add multiple doc title candidates ([7e1e760](https://github.com/lharti/jsonthing/commit/7e1e76023ed7544d2cde94e805e61ca2a658adea))
+
+
+
+
+
 # [0.2.0](https://github.com/lharti/jsonthing/compare/jsonthing-api@0.1.3...jsonthing-api@0.2.0) (2024-11-12)
 
 
