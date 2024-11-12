@@ -45,7 +45,7 @@ export const DocEditor: React.FC<DocEditorProps> = ({
         <div className={cn(`flex flex-col`, className)}>
             <div className="mb-2 flex items-end justify-between">
                 {lintError ? (
-                    <Alert variant="destructive" className="animate-fadeIn">
+                    <Alert variant="destructive" className="animate-fade-in">
                         {lintError}
                     </Alert>
                 ) : (

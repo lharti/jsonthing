@@ -24,14 +24,15 @@ const config: Config = {
             },
 
             keyframes: {
-                fadeIn: {
+                'fade-in': {
                     '0%': { opacity: '0' },
                     '100%': { opacity: '1' },
                 },
             },
 
             animation: {
-                fadeIn: 'fadeIn 1s ease-in-out',
+                'fade-in': 'fade-in 0.5s ease-in-out',
+                'fade-in-quick': 'fade-in 0.1s ease-in-out',
             },
         },
     },
