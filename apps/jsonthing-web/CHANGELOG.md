@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.0...jsonthing-web@0.5.1) (2024-11-12)
+
+**Note:** Version bump only for package jsonthing-web
+
+
+
+
+
 # [0.5.0](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.4.1...jsonthing-web@0.5.0) (2024-11-12)
 
 
