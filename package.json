@@ -6,10 +6,10 @@
         "clean": "turbo run clean && git clean -xdf node_modules"
     },
     "engines": {
-        "node": "20.x",
+        "node": "22.x",
         "pnpm": "9.x"
     },
-    "packageManager": "pnpm@9.9.0",
+    "packageManager": "pnpm@9.12.3",
     "devDependencies": {
         "husky": "^9.1.6",
         "lerna": "^8.1.9",
