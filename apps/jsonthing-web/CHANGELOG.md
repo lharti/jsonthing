@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.1...jsonthing-web@0.5.2) (2024-11-12)
+
+
+### Bug Fixes
+
+* **web:** landing page hero image not found ([9e6b878](https://github.com/lharti/jsonthing/commit/9e6b878f5e3d1ad1d120a3e9fe6e201a63d4cbed))
+
+
+
+
+
 ## [0.5.1](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.0...jsonthing-web@0.5.1) (2024-11-12)
 
 **Note:** Version bump only for package jsonthing-web

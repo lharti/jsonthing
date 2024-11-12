@@ -47,16 +47,14 @@ exports[`<LandingPage /> should render: <LandingPage /> 1`] = `
       </div>
       <div>
         <img
-          alt="jsonthing.com"
-          class="rounded-md"
+          alt="jsonthing hero"
           data-nimg="1"
           decoding="async"
-          height="500"
+          height="600"
           loading="lazy"
-          src="/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fjsonthing-assets%2Fhero.jpeg&w=1200&q=75"
-          srcset="/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fjsonthing-assets%2Fhero.jpeg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fjsonthing-assets%2Fhero.jpeg&w=1200&q=75 2x"
+          src="https://storage.googleapis.com/jsonthing-assets/hero.png"
           style="color: transparent;"
-          width="600"
+          width="700"
         />
       </div>
     </main>

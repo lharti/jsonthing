@@ -52,11 +52,11 @@ export const LandingPage: React.FC = ({}) => {
 
                 <div>
                     <Image
-                        className="rounded-md"
-                        src="https://storage.googleapis.com/jsonthing-assets/hero.jpeg"
-                        alt="jsonthing.com"
-                        width={600}
-                        height={500}
+                        unoptimized
+                        src="https://storage.googleapis.com/jsonthing-assets/hero.png"
+                        alt="jsonthing hero"
+                        width={700}
+                        height={600}
                     />
                 </div>
             </main>
