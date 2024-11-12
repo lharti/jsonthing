@@ -1,4 +1,8 @@
 import {
+    createDocPayloadFixture,
+    docFixture,
+} from '@/common/helpers/fixtures'
+import {
     DEFAULT_DOC_CONTENT,
     DEFAULT_DOC_NAME,
 } from '@/routes/docs/constants'
@@ -53,21 +57,13 @@ describe('docsService', () => {
         it('should create a new doc with payload data', async () => {
             expect.assertions(1)
 
-            const random = Math.random().toString()
-            const createDocPayload = {
-                title: `${random}}-name`,
-                content: {
-                    random: `${random}-content`,
-                },
-            }
-
-            const result =
-                await docsService.createDoc(createDocPayload)
+            const result = await docsService.createDoc(
+                createDocPayloadFixture,
+            )
 
             expect(result).toStrictEqual({
+                ...docFixture,
                 id: expect.stringMatching(OBJECT_ID_PATTERN),
-
-                ...createDocPayload,
             })
         })
 
@@ -83,6 +79,12 @@ describe('docsService', () => {
 
             expect(result).toStrictEqual({
                 id: expect.stringMatching(OBJECT_ID_PATTERN),
+
+                contentText: JSON.stringify(
+                    defaultDocValues.content,
+                    null,
+                    2,
+                ),
 
                 ...defaultDocValues,
             })
@@ -109,16 +111,9 @@ describe('docsService', () => {
         it('should return a doc by id', async () => {
             expect.assertions(1)
 
-            const doc = {
-                title: 'test',
-                content: {
-                    test: 'test',
-                },
-            }
-
             mockingoose(docsModel).toReturn(
                 (Query: unknown) => ({
-                    ...doc,
+                    ...docFixture,
 
                     // @ts-expect-error: trust me
                     _id: Query.getQuery()._id,
@@ -132,9 +127,8 @@ describe('docsService', () => {
             const result = await docsService.getDocById(docId)
 
             expect(result).toStrictEqual({
+                ...docFixture,
                 id: docId.toString(),
-
-                ...doc,
             })
         })
 
@@ -171,19 +165,11 @@ describe('docsService', () => {
         it('should update a doc by id', async () => {
             expect.assertions(1)
 
-            const doc = {
-                title: 'Old Title',
-                content: {
-                    test: 'test',
-                },
-            }
-
             mockingoose(docsModel).toReturn(
-                (Query: unknown) => ({
-                    ...doc,
-                    // @ts-expect-error: trust me
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (Query: any) => ({
+                    ...docFixture,
                     ...Query.getUpdate(),
-                    // @ts-expect-error: trust me
                     ...Query.getQuery(),
                 }),
 
@@ -201,9 +187,8 @@ describe('docsService', () => {
             )
 
             expect(result).toStrictEqual({
+                ...docFixture,
                 id: docId.toString(),
-
-                ...doc,
 
                 title: 'New Title',
             })

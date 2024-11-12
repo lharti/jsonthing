@@ -1,3 +1,4 @@
+import { docFixture } from '@/common/helpers/fixtures'
 import { DocsAliasesController } from '@/routes/docs/controllers/docs-aliases.controller'
 import { DocsService } from '@/routes/docs/service'
 import { Test, TestingModule } from '@nestjs/testing'
@@ -62,13 +63,7 @@ describe('docsAliasesController', () => {
 
         const docId = new ObjectId()
 
-        const getDocByIdResult = {
-            id: docId.toString(),
-            title: 'Title',
-            content: {
-                value: 'doc-content',
-            },
-        }
+        const getDocByIdResult = docFixture
 
         docsService.getDocById.mockResolvedValueOnce(getDocByIdResult)
 
