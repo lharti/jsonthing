@@ -17,7 +17,7 @@ export const DocPage: React.FC<DocPageProps> = ({ id }) => {
     return (
         <article
             className={`
-              mx-auto max-w-screen-md px-4
+              mx-auto max-w-screen-md animate-fade-in-quick px-4
 
               md:px-2
             `}

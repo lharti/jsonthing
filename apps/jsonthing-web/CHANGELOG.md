@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.4.1...jsonthing-web@0.5.0) (2024-11-12)
+
+
+### Features
+
+* **web/doc:** add fade-in animation ([fb931a5](https://github.com/lharti/jsonthing/commit/fb931a5092ff3fe9cb25cd039dc0112faddb8d23))
+
+
+
+
+
 ## [0.4.1](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.4.0...jsonthing-web@0.4.1) (2024-11-12)
 
 **Note:** Version bump only for package jsonthing-web
