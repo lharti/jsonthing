@@ -87,7 +87,7 @@ describe('<DocPage />', () => {
             // @ts-expect-error - we don't need to mock all the properties
             {
                 data: {
-                    content: docContent,
+                    contentText: docContent,
                     title: 'DOC_TITLE',
                 },
             },
