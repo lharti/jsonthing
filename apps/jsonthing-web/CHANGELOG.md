@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.3.2...jsonthing-web@0.4.0) (2024-11-12)
+
+
+### Bug Fixes
+
+* **web/doc:** prevent saving invalid json ([e255218](https://github.com/lharti/jsonthing/commit/e2552188489cc3f023d5cfe02a8689d8b3c40218))
+
+
+### Features
+
+* **web/doc:** use `contentText` instead of `content` ([6fe0cbe](https://github.com/lharti/jsonthing/commit/6fe0cbe4f6575edb3018d78da549ae0fe5a20bd6))
+* **web/ui:** add `Alert` component ([2589e93](https://github.com/lharti/jsonthing/commit/2589e93682fd0eb04aa5a65332cfe3e2c2e2a1ae))
+
+
+
+
+
 ## [0.3.2](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.3.1...jsonthing-web@0.3.2) (2024-11-10)
 
 **Note:** Version bump only for package jsonthing-web
