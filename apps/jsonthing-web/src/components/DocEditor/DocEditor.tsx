@@ -44,25 +44,21 @@ export const DocEditor: React.FC<DocEditorProps> = ({
     return (
         <div className={cn(`flex flex-col`, className)}>
             <div className="mb-2 flex items-end justify-between">
-                {lintError ? (
-                    <Alert variant="destructive" className="animate-fade-in">
-                        {lintError}
-                    </Alert>
-                ) : (
-                    <>
-                        <DocTitleEditor
-                            initialTitle={initialTitle}
-                            docId={docId}
-                        />
+                <DocTitleEditor initialTitle={initialTitle} docId={docId} />
 
-                        <DocEditorActionBar
-                            value={editorContent}
-                            docId={docId}
-                            onChange={newValue => setEditorContent(newValue)}
-                        />
-                    </>
-                )}
+                <DocEditorActionBar
+                    value={editorContent}
+                    docId={docId}
+                    disabled={!!lintError}
+                    onChange={newValue => setEditorContent(newValue)}
+                />
             </div>
+
+            {lintError && (
+                <Alert variant="destructive" className="animate-fade-in">
+                    {lintError}
+                </Alert>
+            )}
 
             <CodeMirror
                 autoFocus

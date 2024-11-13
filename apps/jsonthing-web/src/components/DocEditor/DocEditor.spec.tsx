@@ -99,12 +99,20 @@ describe('<DocEditor />', () => {
                 <div
                   class="mb-2 flex items-end justify-between"
                 >
-                  <div
-                    class="relative w-full rounded-lg border px-4 py-3 text-sm [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg+div]:translate-y-[-3px] [&>svg~*]:pl-7 border-red-500/50 text-red-500 [&>svg]:text-red-500 dark:border-red-900/50 dark:dark:border-red-900 dark:text-red-900 dark:[&>svg]:text-red-900 animate-fade-in"
-                    role="alert"
+                  <h1>
+                    INITIAL_TITLE
+                  </h1>
+                  <p
+                    id="action-bar"
                   >
-                    Expected property name or '}' in JSON at position 1 (line 1 column 2)
-                  </div>
+                    {
+                  </p>
+                </div>
+                <div
+                  class="relative w-full rounded-lg border px-4 py-3 text-sm [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg+div]:translate-y-[-3px] [&>svg~*]:pl-7 border-red-500/50 text-red-500 [&>svg]:text-red-500 dark:border-red-900/50 dark:dark:border-red-900 dark:text-red-900 dark:[&>svg]:text-red-900 animate-fade-in"
+                  role="alert"
+                >
+                  Expected property name or '}' in JSON at position 1 (line 1 column 2)
                 </div>
                 <p
                   id="code-mirror"
@@ -240,6 +248,7 @@ describe('<DocEditor />', () => {
             docId: 'DOC_ID',
             value: 'true',
             onChange: expect.any(Function),
+            disabled: false,
         })
     })
 
