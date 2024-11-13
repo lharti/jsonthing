@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.4](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.3...jsonthing-web@0.5.4) (2024-11-13)
+
+
+### Bug Fixes
+
+* **web/doc:** document editor top bar layout on small screns ([3aab0c5](https://github.com/lharti/jsonthing/commit/3aab0c583e77781747d0799c76b450d135ba982c))
+
+
+
+
+
 ## [0.5.3](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.2...jsonthing-web@0.5.3) (2024-11-13)
 
 
