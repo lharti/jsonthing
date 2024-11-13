@@ -53,7 +53,7 @@ export const EditableHeading: React.FC<EditableHeadingProps> = ({
     const isEditMode = uiMode === UIMode.EDIT
 
     return (
-        <>
+        <div className="inline-flex">
             <h1
                 contentEditable
                 suppressContentEditableWarning
@@ -87,6 +87,6 @@ export const EditableHeading: React.FC<EditableHeadingProps> = ({
             >
                 {isEditMode ? <IconCheck /> : <IconPencil />}
             </Button>
-        </>
+        </div>
     )
 }

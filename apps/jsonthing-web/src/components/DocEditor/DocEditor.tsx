@@ -42,14 +42,15 @@ export const DocEditor: React.FC<DocEditorProps> = ({
     }, [editorContent])
 
     return (
-        <div className={cn(`flex flex-col`, className)}>
-            <div className="mb-2 flex items-end justify-between">
+        <div className={cn(`flex flex-col space-y-2`, className)}>
+            <div className="flex flex-wrap items-end justify-between">
                 <DocTitleEditor initialTitle={initialTitle} docId={docId} />
 
                 <DocEditorActionBar
                     value={editorContent}
                     docId={docId}
                     disabled={!!lintError}
+                    className="ml-auto"
                     onChange={newValue => setEditorContent(newValue)}
                 />
             </div>

@@ -2,83 +2,91 @@
 
 exports[`<EditableHeading /> should render edit ui mode: EditableHeading - Edit mode 1`] = `
 <div>
-  <h1
-    class="
+  <div
+    class="inline-flex"
+  >
+    <h1
+      class="
                   cursor-pointer text-3xl font-bold outline outline-2
                   outline-transparent
 
                   focus:cursor-auto focus:rounded-sm focus:outline-blue-300
                 "
-    contenteditable="true"
-    role="input"
-    spellcheck="false"
-  >
-    TEXT_VALUE
-  </h1>
-  <button
-    aria-label="edit title"
-    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 hover:bg-gray-100 hover:text-gray-900 h-9 ml-2 p-1"
-    role="button"
-  >
-    <svg
-      class="tabler-icon tabler-icon-check "
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
+      contenteditable="true"
+      role="input"
+      spellcheck="false"
     >
-      <path
-        d="M5 12l5 5l10 -10"
-      />
-    </svg>
-  </button>
+      TEXT_VALUE
+    </h1>
+    <button
+      aria-label="edit title"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 hover:bg-gray-100 hover:text-gray-900 h-9 ml-2 p-1"
+      role="button"
+    >
+      <svg
+        class="tabler-icon tabler-icon-check "
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 12l5 5l10 -10"
+        />
+      </svg>
+    </button>
+  </div>
 </div>
 `;
 
 exports[`<EditableHeading /> should render with view ui mode by default: EditableHeading - View mode 1`] = `
 <div>
-  <h1
-    class="
+  <div
+    class="inline-flex"
+  >
+    <h1
+      class="
                   cursor-pointer text-3xl font-bold outline outline-2
                   outline-transparent
 
                   focus:cursor-auto focus:rounded-sm focus:outline-blue-300
                 "
-    contenteditable="true"
-    role="heading"
-    spellcheck="false"
-  >
-    TEXT_VALUE
-  </h1>
-  <button
-    aria-label="edit title"
-    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 hover:bg-gray-100 hover:text-gray-900 h-9 ml-2 p-1"
-    role="button"
-  >
-    <svg
-      class="tabler-icon tabler-icon-pencil "
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
+      contenteditable="true"
+      role="heading"
+      spellcheck="false"
     >
-      <path
-        d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"
-      />
-      <path
-        d="M13.5 6.5l4 4"
-      />
-    </svg>
-  </button>
+      TEXT_VALUE
+    </h1>
+    <button
+      aria-label="edit title"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 hover:bg-gray-100 hover:text-gray-900 h-9 ml-2 p-1"
+      role="button"
+    >
+      <svg
+        class="tabler-icon tabler-icon-pencil "
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"
+        />
+        <path
+          d="M13.5 6.5l4 4"
+        />
+      </svg>
+    </button>
+  </div>
 </div>
 `;
