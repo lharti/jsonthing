@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.3](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.2...jsonthing-web@0.5.3) (2024-11-13)
+
+
+### Bug Fixes
+
+* **web/doc:** save button broken state after lint error ([6f30184](https://github.com/lharti/jsonthing/commit/6f301843b8d475f1604b8adb6c5e40dcbf24a4e2))
+
+
+
+
+
 ## [0.5.2](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.1...jsonthing-web@0.5.2) (2024-11-12)
 
 

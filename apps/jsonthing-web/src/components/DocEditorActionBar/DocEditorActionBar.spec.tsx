@@ -19,8 +19,15 @@ const setupMocks = () => {
     const ActionBarBtnMock = jest
         .mocked(DocEditorActionBarBtn)
 
-        .mockImplementation(({ onClick, label }) => (
-            <Button role="button" aria-label={label} onClick={onClick} />
+        .mockImplementation(({ onClick, label, disabled }) => (
+            <Button
+                role="button"
+                aria-label={label}
+                disabled={disabled}
+                onClick={onClick}
+            >
+                {label}
+            </Button>
         ))
 
     const useSaveContentMock = jest.mocked(useSaveContent).mockReturnValue({
@@ -46,6 +53,23 @@ describe('<DocEditorActionBar />', () => {
         )
 
         expect(container).toMatchSnapshot('<DocEditorActionBar />')
+    })
+
+    it('should render with disabled prop', () => {
+        expect.assertions(1)
+
+        setupMocks()
+
+        const { container } = render(
+            <DocEditorActionBar
+                disabled
+                docId="DOC_ID"
+                value="{}"
+                onChange={jest.fn()}
+            />,
+        )
+
+        expect(container).toMatchSnapshot('<DocEditorActionBar disabled/>')
     })
 
     it('should setup useSaveContent', () => {
@@ -93,6 +117,7 @@ describe('<DocEditorActionBar />', () => {
                     label: 'Prettify',
                     Icon: IconWand,
                     onClick: expect.any(Function),
+                    disabled: false,
                 },
 
                 undefined,
@@ -156,6 +181,7 @@ describe('<DocEditorActionBar />', () => {
                     label: 'Copy',
                     Icon: IconClipboardCopy,
                     onClick: expect.any(Function),
+                    disabled: false,
                 },
 
                 undefined,

@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<DocEditorActionBar /> should render with disabled prop: <DocEditorActionBar disabled/> 1`] = `
+<div>
+  <div
+    class="flex"
+  >
+    <button
+      aria-label="Prettify"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 bg-gray-900 text-gray-50 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 hover:bg-gray-900/90 h-9 px-4 py-2"
+      disabled=""
+      role="button"
+    >
+      Prettify
+    </button>
+    <button
+      aria-label="Copy"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 bg-gray-900 text-gray-50 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 hover:bg-gray-900/90 h-9 px-4 py-2"
+      disabled=""
+      role="button"
+    >
+      Copy
+    </button>
+    <button
+      aria-label="Cannot save"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 bg-gray-900 text-gray-50 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 hover:bg-gray-900/90 h-9 px-4 py-2"
+      disabled=""
+      role="button"
+    >
+      Cannot save
+    </button>
+  </div>
+</div>
+`;
+
 exports[`<DocEditorActionBar /> should render: <DocEditorActionBar /> 1`] = `
 <div>
   <div
@@ -9,17 +42,24 @@ exports[`<DocEditorActionBar /> should render: <DocEditorActionBar /> 1`] = `
       aria-label="Prettify"
       class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 bg-gray-900 text-gray-50 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 hover:bg-gray-900/90 h-9 px-4 py-2"
       role="button"
-    />
+    >
+      Prettify
+    </button>
     <button
       aria-label="Copy"
       class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 bg-gray-900 text-gray-50 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 hover:bg-gray-900/90 h-9 px-4 py-2"
       role="button"
-    />
+    >
+      Copy
+    </button>
     <button
       aria-label="Saved"
       class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors dark:focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 bg-gray-900 text-gray-50 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 hover:bg-gray-900/90 h-9 px-4 py-2"
+      disabled=""
       role="button"
-    />
+    >
+      Saved
+    </button>
   </div>
 </div>
 `;

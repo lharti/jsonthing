@@ -17,6 +17,8 @@ export interface DocEditorActionBarProps {
     docId: string
 
     onChange: (newContentValue: string) => void
+
+    disabled?: boolean
 }
 
 export const DocEditorActionBar: React.FC<DocEditorActionBarProps> = ({
@@ -26,6 +28,8 @@ export const DocEditorActionBar: React.FC<DocEditorActionBarProps> = ({
     docId,
 
     onChange,
+
+    disabled: actionBarDisabled = false,
 }) => {
     const prettifyContent = () => {
         const newContentValue = prettifyJson(value)
@@ -50,12 +54,17 @@ export const DocEditorActionBar: React.FC<DocEditorActionBarProps> = ({
         },
     )
 
+    const saveButtonLabel = actionBarDisabled
+        ? SAVE_BTN_LABELS[SaveStatus.NOT_ALLOWED]
+        : SAVE_BTN_LABELS[saveStatus]
+
     return (
         <div className={cn('flex', className)}>
             <DocEditorActionBarBtn
                 iconOnly
                 label="Prettify"
                 Icon={IconWand}
+                disabled={actionBarDisabled}
                 onClick={() => prettifyContent()}
             />
 
@@ -63,15 +72,16 @@ export const DocEditorActionBar: React.FC<DocEditorActionBarProps> = ({
                 iconOnly
                 label="Copy"
                 Icon={IconClipboardCopy}
+                disabled={actionBarDisabled}
                 onClick={() => copyToClipboard()}
             />
 
             <DocEditorActionBarBtn
                 variant="outline"
-                label={SAVE_BTN_LABELS[saveStatus]}
                 Icon={IconDeviceFloppy}
                 isLoading={saveStatus === SaveStatus.PENDING}
-                disabled={saveStatus !== SaveStatus.IDLE}
+                disabled={saveStatus !== SaveStatus.IDLE || actionBarDisabled}
+                label={saveButtonLabel}
                 onClick={() => save()}
             />
         </div>
