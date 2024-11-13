@@ -54,10 +54,10 @@ describe('<DocEditor />', () => {
         expect(container).toMatchInlineSnapshot(`
             <div>
               <div
-                class="flex flex-col"
+                class="flex flex-col space-y-2"
               >
                 <div
-                  class="mb-2 flex items-end justify-between"
+                  class="flex flex-wrap items-end justify-between"
                 >
                   <h1>
                     INITIAL_TITLE
@@ -94,10 +94,10 @@ describe('<DocEditor />', () => {
         expect(container).toMatchInlineSnapshot(`
             <div>
               <div
-                class="flex flex-col"
+                class="flex flex-col space-y-2"
               >
                 <div
-                  class="mb-2 flex items-end justify-between"
+                  class="flex flex-wrap items-end justify-between"
                 >
                   <h1>
                     INITIAL_TITLE
@@ -249,6 +249,8 @@ describe('<DocEditor />', () => {
             value: 'true',
             onChange: expect.any(Function),
             disabled: false,
+
+            className: 'ml-auto',
         })
     })
 

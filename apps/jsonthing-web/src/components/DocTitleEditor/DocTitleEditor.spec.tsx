@@ -33,13 +33,9 @@ describe('<DocTitleEditor />', () => {
         expect(container).toMatchInlineSnapshot(`
             <div>
               <div
-                class="flex items-center"
+                id="EditableHeading"
               >
-                <div
-                  id="EditableHeading"
-                >
-                  INITIAL_TITLE
-                </div>
+                INITIAL_TITLE
               </div>
             </div>
         `)

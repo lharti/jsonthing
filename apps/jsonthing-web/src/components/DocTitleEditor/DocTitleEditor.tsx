@@ -25,11 +25,9 @@ export const DocTitleEditor: React.FC<DocTitleEditorProps> = ({
     }
 
     return (
-        <div className="flex items-center">
-            <EditableHeading
-                initialValue={initialTitle}
-                onChange={newValue => updateTitle(newValue)}
-            />
-        </div>
+        <EditableHeading
+            initialValue={initialTitle}
+            onChange={newValue => updateTitle(newValue)}
+        />
     )
 }
