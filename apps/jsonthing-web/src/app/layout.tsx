@@ -24,7 +24,7 @@ export const metadata: Metadata = generateMetadata({
 
     url: 'https://jsonthing.com',
 
-    imageUrl: 'https://assets.jsonthing.com/og-image.png',
+    imageUrl: 'https://assets.jsonthing.com/og-image-v1.png',
 
     imageAlt:
         'Store, edit, and access your JSON documents seamlessly with jsonthing.',
