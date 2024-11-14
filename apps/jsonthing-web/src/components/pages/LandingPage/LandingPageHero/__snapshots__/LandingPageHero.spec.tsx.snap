@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LandingPageHero /> should render: <LandingPageHero /> 1`] = `
+<div>
+  <section
+    class="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-between"
+  >
+    <div
+      class="space-y-6 max-w-96 text-center lg:text-start"
+    >
+      <a
+        aria-label="jsonthing logo"
+        class="inline-block rounded-md bg-gradient-to-r from-green-400 to-blue-500 px-3 py-1 text-2xl font-semibold text-white shadow-lg"
+        href="/"
+      >
+        jsonthing
+      </a>
+      <h1
+        aria-label=""
+        class="
+                  text-4xl font-bold
+
+                  md:text-5xl
+                "
+      >
+        JSON storage that speaks API.
+      </h1>
+      <p
+        class="text-xl text-gray-600"
+      >
+        Edit, and access your JSON documents with automatically generated API endpoints.
+      </p>
+      <button>
+        Create new JSON doc
+      </button>
+    </div>
+    <img
+      alt="jsonthing hero"
+      class="
+                  mt-0
+
+                  lg:mt-12
+                "
+      data-nimg="1"
+      decoding="async"
+      height="600"
+      loading="lazy"
+      src="https://storage.googleapis.com/jsonthing-assets/hero.png"
+      style="color: transparent;"
+      width="700"
+    />
+  </section>
+</div>
+`;
