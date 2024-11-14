@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.7](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.6...jsonthing-web@0.5.7) (2024-11-14)
+
+
+### Bug Fixes
+
+* **web:** missing meta tags ([ae6d1e3](https://github.com/lharti/jsonthing/commit/ae6d1e35af124576f1875ce4770fa909c2f0bb89))
+
+
+
+
+
 ## [0.5.6](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.5...jsonthing-web@0.5.6) (2024-11-14)
 
 
