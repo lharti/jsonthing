@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.6](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.5...jsonthing-web@0.5.6) (2024-11-14)
+
+
+### Bug Fixes
+
+* **web:** ui style when system prefers dark color shceme ([eb3423c](https://github.com/lharti/jsonthing/commit/eb3423c6ae8d5aa60b4fb05b7c6b6fbf86a45c0c))
+
+
+
+
+
 ## [0.5.5](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.4...jsonthing-web@0.5.5) (2024-11-14)
 
 
