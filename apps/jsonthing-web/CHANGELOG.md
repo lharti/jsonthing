@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.5](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.4...jsonthing-web@0.5.5) (2024-11-14)
+
+
+### Bug Fixes
+
+* **web:** landing page style ([eaf8bca](https://github.com/lharti/jsonthing/commit/eaf8bca1705f5451c3647fd728f5890e7013475a))
+
+
+
+
+
 ## [0.5.4](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.3...jsonthing-web@0.5.4) (2024-11-13)
 
 
