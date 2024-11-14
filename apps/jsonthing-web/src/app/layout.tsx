@@ -1,10 +1,12 @@
 import { ReactQueryProvider } from '@/components/ReactQueryProvider'
 import { TooltipProvider } from '@/components/ui/Tooltip'
+import { generateMetadata } from '@/utils/metadata'
 import HolyLoader from 'holy-loader'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import React from 'react'
 import './globals.css'
+
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
     variable: '--font-geist-sans',
@@ -14,10 +16,21 @@ const geistMono = localFont({
     variable: '--font-geist-mono',
 })
 
-export const metadata: Metadata = {
-    title: 'Json thing',
-    description: '🚀 in progress JSON thing',
-}
+export const metadata: Metadata = generateMetadata({
+    title: 'Jsonthing - JSON Storage with API Access 🚀',
+
+    description:
+        'Store, edit, and access your JSON documents seamlessly with jsonthing.',
+
+    url: 'https://jsonthing.com',
+
+    imageUrl: 'https://assets.jsonthing.com/og-image.png',
+
+    imageAlt:
+        'Store, edit, and access your JSON documents seamlessly with jsonthing.',
+
+    siteName: 'Jsonthing',
+})
 
 interface RootLayoutProps {
     children: React.ReactNode
