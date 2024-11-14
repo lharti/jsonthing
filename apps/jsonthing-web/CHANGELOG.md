@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.8](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.7...jsonthing-web@0.5.8) (2024-11-14)
+
+
+### Bug Fixes
+
+* **web:** open grapgh image ([158872d](https://github.com/lharti/jsonthing/commit/158872d0b7202bf4662a8c93d387ac46c6d3f40c))
+
+
+
+
+
 ## [0.5.7](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.6...jsonthing-web@0.5.7) (2024-11-14)
 
 
