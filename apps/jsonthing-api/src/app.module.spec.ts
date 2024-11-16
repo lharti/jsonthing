@@ -1,6 +1,7 @@
 import { AppModule } from '@/app.module'
 import { DatabaseModule } from '@/database.module'
 import { DocsModule } from '@/routes/docs'
+import { HealthzModule } from '@/routes/healthz'
 import { ConfigModule } from '@nestjs/config'
 import { Test, TestingModule } from '@nestjs/testing'
 
@@ -67,5 +68,13 @@ describe('appModule', () => {
         const docsModule = appModule.get<DocsModule>(DocsModule)
 
         expect(docsModule).toBeInstanceOf(DocsModule)
+    })
+
+    it('should import HealthzModule', () => {
+        expect.assertions(1)
+
+        const healthzModule = appModule.get(HealthzModule)
+
+        expect(healthzModule).toBeInstanceOf(HealthzModule)
     })
 })
