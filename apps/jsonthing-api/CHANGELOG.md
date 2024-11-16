@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/lharti/jsonthing/compare/jsonthing-api@0.4.0...jsonthing-api@0.4.1) (2024-11-16)
+
+
+### Bug Fixes
+
+* **ci:** missing curl in conatienr for healthcheck ([3b9e320](https://github.com/lharti/jsonthing/commit/3b9e320e90aac0121252605278ee722d404b8bbe))
+
+
+
+
+
 # [0.4.0](https://github.com/lharti/jsonthing/compare/jsonthing-api@0.3.0...jsonthing-api@0.4.0) (2024-11-16)
 
 
