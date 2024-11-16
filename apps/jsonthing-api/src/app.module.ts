@@ -1,9 +1,9 @@
 import { appConfigValidationSchema } from '@/config/app.config'
 import { DatabaseModule } from '@/database.module'
 import { DocsModule } from '@/routes/docs'
+import { HealthzModule } from '@/routes/healthz'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -17,6 +17,7 @@ import { ConfigModule } from '@nestjs/config'
 
         // API ROUTES
         DocsModule,
+        HealthzModule,
     ],
 })
 export class AppModule {}
