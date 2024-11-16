@@ -1,18 +1,41 @@
 import { DocPage } from '@/components/pages/DocPage'
 import { checkDocExists } from '@/services/docs/checkDocExists'
+import { fetchDoc } from '@/services/docs/fetchDoc'
 import { prefetchDoc } from '@/services/docs/prefetchDoc'
 import {
     dehydrate,
     HydrationBoundary,
     QueryClient,
 } from '@tanstack/react-query'
+import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import React from 'react'
 
+type Params = Promise<{
+    id: string
+}>
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Params
+}): Promise<Metadata> {
+    const { id } = await params
+
+    /**
+     * Nextjs will run one fetch for the metadata
+     * and for the prefetching of the doc in the page component
+     * so no need for me to optimize this fetch
+     */
+    const doc = await fetchDoc(id)
+
+    return {
+        title: `${doc.title} | Jsonthing`,
+    }
+}
+
 interface DocProps {
-    params: Promise<{
-        id: string
-    }>
+    params: Params
 }
 
 const Doc = async ({ params }: DocProps) => {

@@ -1,14 +1,12 @@
-import { apiClient } from '@/lib/api-client'
+import { fetchDoc } from '../fetchDoc'
 import { prefetchDoc } from './index'
 
-jest.mock('@/lib/api-client')
+jest.mock('../fetchDoc')
 
 const setupTestMocks = () => {
-    const apiClientMock = jest.mocked(apiClient)
+    const fetchDocMock = jest.mocked(fetchDoc)
 
-    apiClientMock.get.mockResolvedValueOnce({
-        data: 'DOC_DATA',
-    })
+    fetchDocMock.mockResolvedValueOnce('{DOC_DATA}')
 
     const queryResult = {
         current: null,
@@ -25,7 +23,7 @@ const setupTestMocks = () => {
         queryClient,
         queryResult,
 
-        apiClientMock,
+        fetchDocMock,
     }
 }
 
@@ -49,15 +47,13 @@ describe('prefetchDoc', () => {
         expect.assertions(2)
 
         process.env.INT_API_URL = 'INT_API_URL'
-        const { queryClient, queryResult, apiClientMock } = setupTestMocks()
+        const { queryClient, queryResult, fetchDocMock } = setupTestMocks()
 
         // @ts-expect-error - just a mock
         await prefetchDoc('DOC_ID', queryClient)
 
-        expect(apiClientMock.get).toHaveBeenCalledWith('/docs/DOC_ID', {
-            baseURL: 'INT_API_URL',
-        })
+        expect(fetchDocMock).toHaveBeenCalledWith('DOC_ID')
 
-        expect(queryResult.current).toBe('DOC_DATA')
+        expect(queryResult.current).toBe('{DOC_DATA}')
     })
 })
