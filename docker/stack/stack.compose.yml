@@ -16,8 +16,7 @@ x-base-deploy-config: &base-deploy-config
 
 services:
     webapp:
-        image: lharti/jsonthing-web:tmp
-        restart: always
+        image: lharti/jsonthing-web:0.5.8
         networks:
             - private
         environment:
@@ -25,29 +24,38 @@ services:
             - INT_API_URL=http://api:5000
         depends_on:
             - mongo
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
+            interval: 10s
+            timeout: 5s
+            retries: 3
         deploy:
             <<: *base-deploy-config
 
     api:
         image: lharti/jsonthing-api
-        restart: always
         networks:
             - private
         environment:
             - PORT=5000
             - DB_NAME=jsonthing
-        env_file:
-            - .env
+            - DB_URI=${DB_URI}
         depends_on:
             - mongo
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:5000/healthz"]
+            interval: 10s
+            timeout: 5s
+            retries: 3
         deploy:
             <<: *base-deploy-config
 
     mongo:
         image: mongo:latest
-        restart: always
-        env_file:
-            - .env
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+            - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
         networks:
             - private
         volumes:
@@ -67,24 +75,29 @@ services:
 
     nginx:
         image: nginx:latest
-        restart: always
         networks:
             - public
             - private
         ports:
             - "80:80"
         configs:
-            - source: nginx.conf
+            - source: nginx
               target: /etc/nginx/nginx.conf
         depends_on:
             - webapp
             - api
+
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost/healthz"]
+            interval: 10s
+            timeout: 5s
+            retries: 3
         deploy:
             <<: *base-deploy-config
 
 configs:
-    nginx.conf:
-        file: ./nginx.conf
+    nginx:
+        external: true
 
 volumes:
     mongo-data:

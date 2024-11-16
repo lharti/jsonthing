@@ -3,7 +3,13 @@
     "ignorePaths": [],
     "dictionaryDefinitions": [],
     "dictionaries": [],
-    "words": ["jsonthing"],
+    "words": [
+        "healthcheck",
+        "Healthz",
+        "INITDB",
+        "jsonthing",
+        "lharti"
+    ],
     "ignoreWords": [],
     "import": []
 }
