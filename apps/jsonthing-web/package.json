@@ -1,6 +1,6 @@
 {
     "name": "jsonthing-web",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "private": true,
     "scripts": {
         "dev": "next dev --turbo",
@@ -34,6 +34,7 @@
         "@uiw/codemirror-themes": "^4.23.6",
         "@uiw/react-codemirror": "^4.23.6",
         "axios": "^1.7.7",
+        "babel-plugin-react-compiler": "19.0.0-beta-a7bf2bd-20241110",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "holy-loader": "github:lharti/holy-loader",
