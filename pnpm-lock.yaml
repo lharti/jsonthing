@@ -212,7 +212,7 @@ importers:
         version: 2.1.1
       holy-loader:
         specifier: github:lharti/holy-loader
-        version: https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021)
+        version: git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021)
       lucide-react:
         specifier: ^0.454.0
         version: 0.454.0(react@19.0.0-rc-69d4b800-20241021)
@@ -569,6 +569,9 @@ packages:
 
   '@codemirror/view@6.34.1':
     resolution: {integrity: sha512-t1zK/l9UiRqwUNPm+pdIT0qzJlzuVckbTEMVNFhfWkGiBQClstzg+78vedCvLSX0xJEZ6lwZbPpnljL7L6iwMQ==}
+
+  '@codemirror/view@6.34.3':
+    resolution: {integrity: sha512-Ph5d+u8DxIeSgssXEakaakImkzBV4+slwIbcxl9oc9evexJhImeu/G8TK7+zp+IFK9KuJ0BdSn6kTBJeH2CHvA==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -3596,8 +3599,8 @@ packages:
     resolution: {integrity: sha512-qlspKUK7IlSQv2o+5I7yhUd7TxlOG2Vr5LTa3ve2XSNVKAL/n/u/7KLvKmFNimomDIKvZFXWHv0T12mv7rT8Aw==}
     engines: {node: '>=8'}
 
-  holy-loader@https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e:
-    resolution: {tarball: https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e}
+  holy-loader@git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e:
+    resolution: {commit: d5c3c8a3404f41be97a8feba231cc7b820fcb11e, repo: git@github.com:lharti/holy-loader.git, type: git}
     version: 2.3.8
     peerDependencies:
       react: '>= 16.0.0'
@@ -6663,6 +6666,13 @@ snapshots:
       '@codemirror/view': 6.34.1
       '@lezer/common': 1.2.3
 
+  '@codemirror/autocomplete@6.18.2(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.34.3)(@lezer/common@1.2.3)':
+    dependencies:
+      '@codemirror/language': 6.10.3
+      '@codemirror/state': 6.4.1
+      '@codemirror/view': 6.34.3
+      '@lezer/common': 1.2.3
+
   '@codemirror/commands@6.7.1':
     dependencies:
       '@codemirror/language': 6.10.3
@@ -6693,7 +6703,7 @@ snapshots:
   '@codemirror/search@6.5.7':
     dependencies:
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.34.1
+      '@codemirror/view': 6.34.3
       crelt: 1.0.6
 
   '@codemirror/state@6.4.1': {}
@@ -6702,10 +6712,16 @@ snapshots:
     dependencies:
       '@codemirror/language': 6.10.3
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.34.1
+      '@codemirror/view': 6.34.3
       '@lezer/highlight': 1.2.1
 
   '@codemirror/view@6.34.1':
+    dependencies:
+      '@codemirror/state': 6.4.1
+      style-mod: 4.1.2
+      w3c-keyname: 2.2.8
+
+  '@codemirror/view@6.34.3':
     dependencies:
       '@codemirror/state': 6.4.1
       style-mod: 4.1.2
@@ -8942,13 +8958,13 @@ snapshots:
 
   codemirror@6.0.1(@lezer/common@1.2.3):
     dependencies:
-      '@codemirror/autocomplete': 6.18.2(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.34.1)(@lezer/common@1.2.3)
+      '@codemirror/autocomplete': 6.18.2(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.34.3)(@lezer/common@1.2.3)
       '@codemirror/commands': 6.7.1
       '@codemirror/language': 6.10.3
       '@codemirror/lint': 6.8.2
       '@codemirror/search': 6.5.7
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.34.1
+      '@codemirror/view': 6.34.3
     transitivePeerDependencies:
       - '@lezer/common'
 
@@ -10279,7 +10295,7 @@ snapshots:
 
   hexoid@2.0.0: {}
 
-  holy-loader@https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021):
+  holy-loader@git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021):
     dependencies:
       react: 19.0.0-rc-69d4b800-20241021
 
