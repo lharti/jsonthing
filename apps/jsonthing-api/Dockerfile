@@ -45,6 +45,8 @@ RUN pnpm i --prod --ignore-scripts
 
 FROM base AS runner
 
+RUN apk --no-cache add curl
+
 ARG PACKAGE_NAME
 
 WORKDIR /app

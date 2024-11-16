@@ -39,6 +39,8 @@ RUN pnpm turbo build --filter ${PACKAGE_NAME} --ui=stream
 
 FROM base AS runner
 
+RUN apk --no-cache add curl
+
 ARG PACKAGE_NAME
 
 WORKDIR /app
