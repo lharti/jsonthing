@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.8...jsonthing-web@0.6.0) (2024-11-16)
+
+
+### Features
+
+* **web:** add `/healthz` endpoint ([16dbded](https://github.com/lharti/jsonthing/commit/16dbdedeebd1e79dd64566e8cfd2ec6f44651ea7))
+
+
+
+
+
 ## [0.5.8](https://github.com/lharti/jsonthing/compare/jsonthing-web@0.5.7...jsonthing-web@0.5.8) (2024-11-14)
 
 
