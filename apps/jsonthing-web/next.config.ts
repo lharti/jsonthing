@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
     output: 'standalone',
     reactStrictMode: true,
 
+    experimental: {
+        reactCompiler: true,
+    },
+
     images: {
         remotePatterns: [
             {
