@@ -15,13 +15,21 @@ export const DocTitleEditor: React.FC<DocTitleEditorProps> = ({
     const { updateDoc } = useUpdateDoc()
 
     const updateTitle = (newTitle: string) => {
-        updateDoc({
-            id: docId,
+        updateDoc(
+            {
+                id: docId,
 
-            payload: {
-                title: newTitle,
+                payload: {
+                    title: newTitle,
+                },
             },
-        })
+
+            {
+                onSuccess: () => {
+                    document.title = `${newTitle} - Jsonthing`
+                },
+            },
+        )
     }
 
     return (

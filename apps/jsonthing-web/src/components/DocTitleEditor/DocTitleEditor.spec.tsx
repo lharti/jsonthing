@@ -5,26 +5,39 @@ import React from 'react'
 import { DocTitleEditor } from './index'
 
 jest.mock('@/components/ui/EditableHeading')
-const EditableHeadingMock = jest.mocked(EditableHeading)
-
 jest.mock('@/hooks/useUpdateDoc')
 
-const updateDocMock = jest.fn()
+function setupMocks() {
+    const updateDocMock = jest.fn((_vars, options) => options?.onSuccess?.())
 
-jest.mocked(useUpdateDoc).mockReturnValue(
-    // @ts-expect-error just mock it
-    {
-        updateDoc: updateDocMock,
-    },
-)
+    jest.mocked(useUpdateDoc).mockReturnValue(
+        // @ts-expect-error just mock it
+        {
+            updateDoc: updateDocMock,
+        },
+    )
+
+    const EditableHeadingMock = jest.mocked(EditableHeading)
+
+    EditableHeadingMock.mockImplementation(({ initialValue: value }) => (
+        <div id="EditableHeading">{value}</div>
+    ))
+
+    const mockChange = (newTitle: string) =>
+        // @ts-expect-error trust me bro
+        EditableHeadingMock.mock.calls[0][0].onChange(newTitle)
+
+    return {
+        updateDocMock,
+        mockChange,
+    }
+}
 
 describe('<DocTitleEditor />', () => {
     it('should render', () => {
         expect.assertions(1)
 
-        EditableHeadingMock.mockImplementation(({ initialValue: value }) => (
-            <div id="EditableHeading">{value}</div>
-        ))
+        setupMocks()
 
         const { container } = render(
             <DocTitleEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />,
@@ -42,21 +55,30 @@ describe('<DocTitleEditor />', () => {
     })
 
     it('should update title', () => {
-        expect.assertions(1)
+        expect.assertions(2)
+
+        const { updateDocMock, mockChange } = setupMocks()
 
         render(<DocTitleEditor initialTitle="INITIAL_TITLE" docId="DOC_ID" />)
 
-        const newTitle = Math.random()
+        const newTitle = 'New Title'
 
-        // @ts-expect-error trust me bro
-        EditableHeadingMock.mock.calls[0][0].onChange(newTitle)
+        mockChange(newTitle)
 
-        expect(updateDocMock).toHaveBeenCalledWith({
-            id: 'DOC_ID',
+        expect(updateDocMock).toHaveBeenCalledWith(
+            {
+                id: 'DOC_ID',
 
-            payload: {
-                title: newTitle,
+                payload: {
+                    title: newTitle,
+                },
             },
-        })
+
+            {
+                onSuccess: expect.any(Function),
+            },
+        )
+
+        expect(document.title).toMatchInlineSnapshot(`"New Title - Jsonthing"`)
     })
 })
