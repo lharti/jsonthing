@@ -215,7 +215,7 @@ importers:
         version: 2.1.1
       holy-loader:
         specifier: github:lharti/holy-loader
-        version: https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021)
+        version: git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021)
       lucide-react:
         specifier: ^0.454.0
         version: 0.454.0(react@19.0.0-rc-69d4b800-20241021)
@@ -3602,8 +3602,8 @@ packages:
     resolution: {integrity: sha512-qlspKUK7IlSQv2o+5I7yhUd7TxlOG2Vr5LTa3ve2XSNVKAL/n/u/7KLvKmFNimomDIKvZFXWHv0T12mv7rT8Aw==}
     engines: {node: '>=8'}
 
-  holy-loader@https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e:
-    resolution: {tarball: https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e}
+  holy-loader@git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e:
+    resolution: {commit: d5c3c8a3404f41be97a8feba231cc7b820fcb11e, repo: git@github.com:lharti/holy-loader.git, type: git}
     version: 2.3.8
     peerDependencies:
       react: '>= 16.0.0'
@@ -10289,7 +10289,7 @@ snapshots:
 
   hexoid@2.0.0: {}
 
-  holy-loader@https://codeload.github.com/lharti/holy-loader/tar.gz/d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021):
+  holy-loader@git+https://git@github.com:lharti/holy-loader.git#d5c3c8a3404f41be97a8feba231cc7b820fcb11e(react@19.0.0-rc-69d4b800-20241021):
     dependencies:
       react: 19.0.0-rc-69d4b800-20241021
 
